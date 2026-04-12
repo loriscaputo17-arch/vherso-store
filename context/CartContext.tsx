@@ -1,0 +1,82 @@
+'use client'
+
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { shopifyFetch } from '@/lib/shopify'
+import { CREATE_CART, ADD_TO_CART } from '@/lib/queries'
+
+interface CartLine {
+  id: string
+  quantity: number
+  merchandise: {
+    id: string
+    title: string
+    price: { amount: string; currencyCode: string }
+    product: {
+      title: string
+      images: { edges: { node: { url: string } }[] }
+    }
+  }
+}
+
+interface Cart {
+  id: string
+  checkoutUrl: string
+  lines: { edges: { node: CartLine }[] }
+  cost: { totalAmount: { amount: string; currencyCode: string } }
+}
+
+interface CartContextType {
+  cart: Cart | null
+  cartCount: number
+  isOpen: boolean
+  openCart: () => void
+  closeCart: () => void
+  addToCart: (variantId: string, quantity?: number) => Promise<void>
+}
+
+const CartContext = createContext<CartContextType | null>(null)
+
+export function CartProvider({ children }: { children: ReactNode }) {
+  const [cart, setCart] = useState<Cart | null>(null)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const cartCount = cart?.lines.edges.reduce(
+    (acc, { node }) => acc + node.quantity, 0
+  ) ?? 0
+
+  const addToCart = async (variantId: string, quantity = 1) => {
+    const lines = [{ merchandiseId: variantId, quantity }]
+
+    if (!cart) {
+      const data = await shopifyFetch(CREATE_CART, { lines })
+      setCart(data.cartCreate.cart)
+    } else {
+      const data = await shopifyFetch(ADD_TO_CART, {
+        cartId: cart.id,
+        lines,
+      })
+      setCart(data.cartLinesAdd.cart)
+    }
+
+    setIsOpen(true)
+  }
+
+  return (
+    <CartContext.Provider value={{
+      cart,
+      cartCount,
+      isOpen,
+      openCart: () => setIsOpen(true),
+      closeCart: () => setIsOpen(false),
+      addToCart,
+    }}>
+      {children}
+    </CartContext.Provider>
+  )
+}
+
+export function useCart() {
+  const ctx = useContext(CartContext)
+  if (!ctx) throw new Error('useCart must be used within CartProvider')
+  return ctx
+}

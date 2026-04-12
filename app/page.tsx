@@ -278,7 +278,11 @@ export default async function HomePage() {
         }}>
           SHOP BY CATEGORY
         </h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '2px' }}>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+          gap: '2px',
+        }}>
           {[
             { label: 'HOODIES', sub: '14 styles', href: '/collections/hoodie' },
             { label: 'TEES', sub: '8 styles', href: '/collections/tees' },
@@ -288,19 +292,21 @@ export default async function HomePage() {
           ].map(({ label, sub, href }, i) => (
             <Link key={label} href={href} style={{
               background: i % 2 === 0 ? '#e8e8e8' : '#ebebeb',
-              padding: '2.5rem 1.5rem',
+              padding: '2rem 1.2rem',
               display: 'flex', flexDirection: 'column',
-              justifyContent: 'flex-end', minHeight: '200px',
+              justifyContent: 'flex-end', minHeight: '180px',
             }}>
               <p style={{
                 fontFamily: "'CenturyGothic', sans-serif",
-                fontSize: '2rem', letterSpacing: '0.04em',
+                fontSize: 'clamp(1.2rem, 2vw, 2rem)',
+                letterSpacing: '0.04em',
                 color: '#080808', lineHeight: 1,
+                wordBreak: 'break-word',
               }}>
                 {label}
               </p>
               <p style={{
-                fontSize: '0.62rem', letterSpacing: '0.15em',
+                fontSize: '0.58rem', letterSpacing: '0.15em',
                 textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)',
                 marginTop: '0.4rem',
               }}>

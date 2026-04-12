@@ -184,7 +184,7 @@ export default function NewsletterPopup() {
           </div>
 
           {/* RIGHT — form */}
-          <div style={{ padding: '3rem 2.5rem' }}>
+          <div style={{ padding: '2rem 2.5rem' }}>
             <button className="close-btn" onClick={close}>✕</button>
 
             {!submitted ? (

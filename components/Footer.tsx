@@ -48,7 +48,7 @@ export default function Footer() {
         <div style={{ borderBottom: '1px solid rgba(255,255,255,0.04)', overflow: 'hidden', height: '48px', display: 'flex', alignItems: 'center' }}>
           <div style={{ display: 'flex', animation: 'fticker 20s linear infinite', whiteSpace: 'nowrap' }}>
             {Array(8).fill('VHERSO — CLUB LIFESTYLE — SS26 — FREE SHIPPING +€200 — ').map((t, i) => (
-              <span key={i} style={{ fontFamily: "'CenturyGothic',sans-serif", fontSize: '0.58rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.08)', paddingRight: '2rem' }}>
+              <span key={i} style={{ fontFamily: "'CenturyGothic',sans-serif", fontSize: '0.58rem', letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255, 255, 255, 0.59)', paddingRight: '2rem' }}>
                 {t}
               </span>
             ))}
@@ -61,7 +61,7 @@ export default function Footer() {
           {/* BRAND */}
           <div className="footer-brand">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', marginBottom: '1.2rem' }}>
-              <img src="/logo.png" alt="VHERSO" style={{ height: '32px', width: 'auto', filter: 'invert(1)', opacity: 0.9 }} />
+              <img src="/logo.png" alt="VHERSO" style={{ height: '48px', width: 'auto', opacity: 0.9 }} />
               <span style={{ fontFamily: "'CenturyGothic',sans-serif", fontSize: '0.9rem', fontWeight: 700, color: '#f5f5f5', letterSpacing: '0.22em', textTransform: 'uppercase' }}>
                 VHERSO
               </span>

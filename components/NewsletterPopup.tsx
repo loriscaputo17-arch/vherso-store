@@ -36,250 +36,271 @@ export default function NewsletterPopup() {
   return (
     <>
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        @keyframes nlFadeIn { from{opacity:0} to{opacity:1} }
+        @keyframes nlFadeOut { from{opacity:1} to{opacity:0} }
+        @keyframes nlSlideUp { from{opacity:0;transform:translateY(32px) scale(0.98)} to{opacity:1;transform:translateY(0) scale(1)} }
+        @keyframes nlSlideDown { from{opacity:1;transform:translateY(0) scale(1)} to{opacity:0;transform:translateY(32px) scale(0.98)} }
+
+        .nl-overlay {
+          animation: ${closing ? 'nlFadeOut' : 'nlFadeIn'} 0.4s ease forwards;
         }
-        @keyframes slideUp {
-          from { opacity: 0; transform: translateY(40px) scale(0.97); }
-          to { opacity: 1; transform: translateY(0) scale(1); }
+        .nl-box {
+          animation: ${closing ? 'nlSlideDown' : 'nlSlideUp'} 0.4s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
         }
-        @keyframes fadeOut {
-          from { opacity: 1; }
-          to { opacity: 0; }
-        }
-        @keyframes slideDown {
-          from { opacity: 1; transform: translateY(0) scale(1); }
-          to { opacity: 0; transform: translateY(40px) scale(0.97); }
-        }
-        .popup-overlay {
-          animation: ${closing ? 'fadeOut' : 'fadeIn'} 0.4s ease forwards;
-        }
-        .popup-box {
-          animation: ${closing ? 'slideDown' : 'slideUp'} 0.4s cubic-bezier(0.25,0.46,0.45,0.94) forwards;
-        }
+
         .nl-input {
           width: 100%;
           background: transparent;
           border: none;
-          border-bottom: 1px solid rgba(255,255,255,0.2);
+          border-bottom: 1px solid rgba(255,255,255,0.15);
           color: #fff;
           font-size: 0.82rem;
           letter-spacing: 0.06em;
-          padding: 0.8rem 0;
+          padding: 0.9rem 0;
           outline: none;
           font-family: 'CenturyGothic', sans-serif;
           transition: border-color 0.2s;
         }
-        .nl-input::placeholder { color: rgba(255,255,255,0.25); }
-        .nl-input:focus { border-bottom-color: rgba(255,255,255,0.6); }
-        .nl-btn {
+        .nl-input::placeholder { color: rgba(255,255,255,0.2); }
+        .nl-input:focus { border-bottom-color: rgba(255,255,255,0.5); }
+
+        .nl-submit {
           width: 100%;
-          background: #fff;
-          color: #000;
+          background: #f5f5f5;
+          color: #080808;
           border: none;
           padding: 1rem;
-          font-size: 0.72rem;
+          font-size: 0.65rem;
           letter-spacing: 0.2em;
           text-transform: uppercase;
-          font-weight: 500;
+          font-weight: 700;
           cursor: pointer;
           font-family: 'CenturyGothic', sans-serif;
-          transition: background 0.2s;
-          margin-top: 1.5rem;
+          transition: background 0.2s, letter-spacing 0.3s;
+          margin-top: 1.2rem;
         }
-        .nl-btn:hover { background: rgba(255,255,255,0.88); }
-        .close-btn {
+        .nl-submit:hover { background: #fff; letter-spacing: 0.26em; }
+
+        .nl-close {
           position: absolute;
-          top: 1.2rem;
-          right: 1.2rem;
-          background: none;
-          border: none;
-          color: rgba(255,255,255,0.35);
-          cursor: pointer;
-          font-size: 1.1rem;
-          line-height: 1;
-          padding: 0.3rem;
+          top: 1rem; right: 1rem;
+          background: none; border: none;
+          color: rgba(255,255,255,0.3);
+          cursor: pointer; font-size: 0.9rem;
+          width: 28px; height: 28px;
+          display: flex; align-items: center; justify-content: center;
           transition: color 0.15s;
           font-family: 'CenturyGothic', sans-serif;
         }
-        .close-btn:hover { color: #fff; }
+        .nl-close:hover { color: #fff; }
 
-        @media (max-width: 480px) {
-          .popup-box {
-            margin: 1rem !important;
-            max-width: calc(100vw - 2rem) !important;
-            padding: 2rem 1.5rem !important;
+        /* DESKTOP */
+        .nl-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .nl-left {
+          background: #111;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 3rem 2rem;
+          border-right: 1px solid rgba(255,255,255,0.06);
+          position: relative;
+          overflow: hidden;
+        }
+
+        .nl-right {
+          padding: 2.5rem 2rem;
+          position: relative;
+        }
+
+        /* MOBILE */
+        @media (max-width: 600px) {
+          .nl-grid {
+            grid-template-columns: 1fr;
           }
-          .popup-left {
-            display: none !important;
+          .nl-left {
+            display: none;
+          }
+          .nl-right {
+            padding: 2.5rem 1.5rem 2rem;
+          }
+          .nl-box {
+            margin: 0 !important;
+            max-width: 100% !important;
+            border-radius: 0 !important;
+            border-left: none !important;
+            border-right: none !important;
+          }
+          .nl-overlay {
+            align-items: flex-end !important;
+            padding: 0 !important;
           }
         }
       `}</style>
 
-      {/* OVERLAY */}
       <div
-        className="popup-overlay"
+        className="nl-overlay"
         onClick={close}
         style={{
           position: 'fixed', inset: 0, zIndex: 999,
-          background: 'rgba(0,0,0,0.7)',
+          background: 'rgba(0,0,0,0.65)',
+          backdropFilter: 'blur(4px)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           padding: '1rem',
         }}
       >
-        {/* BOX */}
         <div
-          className="popup-box"
+          className="nl-box"
           onClick={e => e.stopPropagation()}
           style={{
             position: 'relative',
             background: '#0d0d0d',
             border: '1px solid rgba(255,255,255,0.08)',
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            maxWidth: '780px',
+            maxWidth: '760px',
             width: '100%',
             overflow: 'hidden',
           }}
         >
-          {/* LEFT — visual */}
-          <div
-            className="popup-left"
-            style={{
-              background: '#111',
-              display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center',
-              padding: '3rem 2rem',
-              borderRight: '1px solid rgba(255,255,255,0.06)',
-              position: 'relative', overflow: 'hidden',
-            }}
-          >
-            {/* BG text */}
-            <div style={{
-              position: 'absolute',
-              fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: '10rem', color: 'rgba(255,255,255,0.03)',
-              lineHeight: 1, userSelect: 'none',
-              letterSpacing: '0.05em',
-            }}>
-              VHS
-            </div>
-            <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
-              <p style={{
-                fontFamily: "'CenturyGothic', sans-serif",
-                fontSize: '3.5rem', color: '#fff',
-                lineHeight: 0.9, letterSpacing: '0.04em',
-                marginBottom: '1rem',
-              }}>
-                JOIN<br />THE<br />CLUB
-              </p>
-              <p style={{
-                fontSize: '0.62rem', letterSpacing: '0.18em',
-                textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)',
-              }}>
-                EST. 2024
-              </p>
-            </div>
-          </div>
+          <div className="nl-grid">
 
-          {/* RIGHT — form */}
-          <div style={{ padding: '2rem 2.5rem' }}>
-            <button className="close-btn" onClick={close}>✕</button>
-
-            {!submitted ? (
-              <>
-                <p style={{
-                  fontSize: '0.6rem', letterSpacing: '0.22em',
-                  textTransform: 'uppercase', color: 'rgba(255,255,255,0.35)',
-                  marginBottom: '1rem',
-                }}>
-                  VHERSO Newsletter
-                </p>
-                <h2 style={{
-                  fontFamily: "'CenturyGothic', sans-serif",
-                  fontSize: '2.8rem', color: '#fff',
-                  lineHeight: 0.9, letterSpacing: '0.03em',
-                  marginBottom: '1rem',
-                }}>
-                  GET EARLY<br />ACCESS
-                </h2>
-                <p style={{
-                  fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)',
-                  lineHeight: 1.7, marginBottom: '2rem',
-                  letterSpacing: '0.03em',
-                }}>
-                  Drop alerts, exclusive offers e accesso anticipato alle nuove collezioni.
-                </p>
-
-                <form onSubmit={handleSubmit}>
-                  <input
-                    className="nl-input"
-                    type="email"
-                    placeholder="La tua email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    required
-                  />
-                  <button type="submit" className="nl-btn">
-                    SUBSCRIBE →
-                  </button>
-                </form>
-
-                <p style={{
-                  fontSize: '0.58rem', letterSpacing: '0.1em',
-                  color: 'rgba(255,255,255,0.2)',
-                  marginTop: '1rem', textAlign: 'center',
-                }}>
-                  No spam. Unsubscribe anytime.
-                </p>
-
-                <button
-                  onClick={close}
-                  style={{
-                    display: 'block', margin: '0.8rem auto 0',
-                    background: 'none', border: 'none',
-                    fontSize: '0.62rem', letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.2)',
-                    cursor: 'pointer', fontFamily: 'CenturyGothic, sans-serif',
-                    textDecoration: 'underline',
-                    textUnderlineOffset: '3px',
-                  }}
-                >
-                  No thanks
-                </button>
-              </>
-            ) : (
+            {/* LEFT */}
+            <div className="nl-left">
               <div style={{
-                display: 'flex', flexDirection: 'column',
-                alignItems: 'center', justifyContent: 'center',
-                height: '100%', textAlign: 'center', gap: '1rem',
+                position: 'absolute', inset: 0,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontFamily: "'CenturyGothic',sans-serif",
+                fontSize: '9rem', color: 'rgba(255,255,255,0.03)',
+                fontWeight: 900, userSelect: 'none', letterSpacing: '0.05em',
               }}>
-                <div style={{
-                  width: '48px', height: '48px',
-                  border: '1px solid rgba(255,255,255,0.2)',
-                  borderRadius: '50%', display: 'flex',
-                  alignItems: 'center', justifyContent: 'center',
-                  fontSize: '1.2rem', marginBottom: '0.5rem',
-                }}>
-                  ✓
-                </div>
-                <h3 style={{
-                  fontFamily: "'CenturyGothic', sans-serif",
-                  fontSize: '2.5rem', color: '#fff',
-                  letterSpacing: '0.04em', lineHeight: 1,
-                }}>
-                  YOU'RE IN
-                </h3>
+                V
+              </div>
+              <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
+                <img
+                  src="/logo.png"
+                  alt="VHERSO"
+                  style={{ height: '40px', width: 'auto', filter: 'invert(1)', opacity: 0.7, margin: '0 auto 1.5rem' }}
+                />
                 <p style={{
-                  fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)',
-                  letterSpacing: '0.06em', lineHeight: 1.6,
+                  fontFamily: "'CenturyGothic',sans-serif",
+                  fontSize: '2.8rem', fontWeight: 900,
+                  color: '#fff', lineHeight: 0.9,
+                  letterSpacing: '-0.01em', marginBottom: '1rem',
                 }}>
-                  Welcome to the club.<br />Check your inbox.
+                  JOIN<br />THE<br />CLUB
+                </p>
+                <p style={{
+                  fontSize: '0.58rem', letterSpacing: '0.22em',
+                  textTransform: 'uppercase', color: 'rgba(255,255,255,0.25)',
+                }}>
+                  Est. 2024 — Italy
                 </p>
               </div>
-            )}
+            </div>
+
+            {/* RIGHT */}
+            <div className="nl-right">
+              <button className="nl-close" onClick={close}>✕</button>
+
+              {!submitted ? (
+                <>
+                  <p style={{
+                    fontSize: '0.55rem', letterSpacing: '0.25em',
+                    textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)',
+                    marginBottom: '0.8rem', marginTop: '0.5rem',
+                  }}>
+                    VHERSO Newsletter
+                  </p>
+                  <h2 style={{
+                    fontFamily: "'CenturyGothic',sans-serif",
+                    fontSize: 'clamp(1.8rem, 5vw, 2.6rem)',
+                    fontWeight: 900, color: '#fff',
+                    lineHeight: 0.92, letterSpacing: '-0.01em',
+                    marginBottom: '1rem',
+                  }}>
+                    GET EARLY<br />ACCESS
+                  </h2>
+                  <p style={{
+                    fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)',
+                    lineHeight: 1.75, marginBottom: '1.8rem',
+                    letterSpacing: '0.02em', fontFamily: "'CenturyGothic',sans-serif",
+                  }}>
+                    Drop alerts, exclusive offers e accesso anticipato alle nuove collezioni.
+                  </p>
+
+                  <form onSubmit={handleSubmit}>
+                    <input
+                      className="nl-input"
+                      type="email"
+                      placeholder="La tua email"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      required
+                    />
+                    <button type="submit" className="nl-submit">
+                      SUBSCRIBE →
+                    </button>
+                  </form>
+
+                  <p style={{
+                    fontSize: '0.55rem', letterSpacing: '0.1em',
+                    color: 'rgba(255,255,255,0.15)',
+                    marginTop: '1rem', textAlign: 'center',
+                    fontFamily: "'CenturyGothic',sans-serif",
+                  }}>
+                    No spam. Unsubscribe anytime.
+                  </p>
+
+                  <button
+                    onClick={close}
+                    style={{
+                      display: 'block', margin: '0.6rem auto 0',
+                      background: 'none', border: 'none',
+                      fontSize: '0.58rem', letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(255,255,255,0.15)',
+                      cursor: 'pointer', fontFamily: "'CenturyGothic',sans-serif",
+                      textDecoration: 'underline', textUnderlineOffset: '3px',
+                    }}
+                  >
+                    No thanks
+                  </button>
+                </>
+              ) : (
+                <div style={{
+                  display: 'flex', flexDirection: 'column',
+                  alignItems: 'center', justifyContent: 'center',
+                  minHeight: '260px', textAlign: 'center', gap: '1rem',
+                }}>
+                  <div style={{
+                    width: '48px', height: '48px',
+                    border: '1px solid rgba(255,255,255,0.2)',
+                    borderRadius: '50%', display: 'flex',
+                    alignItems: 'center', justifyContent: 'center',
+                    fontSize: '1.1rem', color: '#fff',
+                  }}>
+                    ✓
+                  </div>
+                  <h3 style={{
+                    fontFamily: "'CenturyGothic',sans-serif",
+                    fontSize: '2rem', fontWeight: 900,
+                    color: '#fff', letterSpacing: '-0.01em', lineHeight: 1,
+                  }}>
+                    YOU'RE IN
+                  </h3>
+                  <p style={{
+                    fontSize: '0.72rem', color: 'rgba(255,255,255,0.3)',
+                    letterSpacing: '0.04em', lineHeight: 1.7,
+                    fontFamily: "'CenturyGothic',sans-serif",
+                  }}>
+                    Welcome to the club.<br />Check your inbox.
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

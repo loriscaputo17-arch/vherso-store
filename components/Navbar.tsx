@@ -127,8 +127,8 @@ export default function Navbar() {
             />
             <span style={{
               fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: '0.95rem',
-              color: '#080808', fontWeight: 700,
+              fontSize: '0.95rem', letterSpacing: '0.22em',
+              color: '#080808', fontWeight: 600,
               textTransform: 'uppercase',
             }}>
               VHERSO
@@ -224,8 +224,8 @@ export default function Navbar() {
             />
             <span style={{
               fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: '0.85rem',
-              color: '#080808', fontWeight: 700,
+              fontSize: '0.85rem', letterSpacing: '0.22em',
+              color: '#080808', fontWeight: 600,
               textTransform: 'uppercase',
             }}>
               VHERSO
@@ -299,8 +299,8 @@ export default function Navbar() {
           <img src="/logo.png" alt="VHERSO" style={{ height: '32px', width: 'auto' }} />
           <span style={{
             fontFamily: "'CenturyGothic', sans-serif",
-            fontSize: '0.9rem', letterSpacing: '0.3em',
-            color: '#080808', fontWeight: 700,
+            fontSize: '0.9rem', letterSpacing: '0.22em',
+            color: '#080808', fontWeight: 600,
           }}>
             VHERSO
           </span>

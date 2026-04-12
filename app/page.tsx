@@ -352,74 +352,106 @@ export default async function HomePage() {
 
       {/* ABOUT */}
       <section style={{
-        padding: '6rem 2rem',
         borderTop: '1px solid rgba(0,0,0,0.06)',
-        display: 'grid', gridTemplateColumns: '1fr 1fr',
-        gap: '4rem', alignItems: 'center',
       }}>
-        <div>
-          <p style={{
-            fontSize: '0.62rem', letterSpacing: '0.22em',
-            textTransform: 'uppercase', color: 'rgba(0,0,0,0.3)',
-            marginBottom: '1.5rem',
-          }}>
-            EST. 2024 — ITALY
-          </p>
-          <h2 style={{
-            fontFamily: "'CenturyGothic', sans-serif",
-            fontSize: 'clamp(3rem, 6vw, 7rem)',
-            fontWeight: 400, lineHeight: 0.9,
-            letterSpacing: '0.02em', marginBottom: '2rem', color: '#080808',
-          }}>
-            BUILT FOR<br />THE CULTURE
-          </h2>
-          <p style={{
-            fontSize: '0.82rem', lineHeight: 1.85,
-            color: 'rgba(0,0,0,0.45)',
-            maxWidth: '380px', marginBottom: '2.5rem',
-          }}>
-            VHERSO nasce dalla strada, dai rifugi ski, dai rooftop — pezzi che si portano con intenzione, non per caso.
-          </p>
-          <div style={{ display: 'flex', gap: '3rem', marginBottom: '2.5rem' }}>
-            {[['40+', 'STYLES'], ['60+', 'COUNTRIES'], ['100%', 'INDEPENDENT']].map(([num, label]) => (
-              <div key={label}>
-                <p style={{
-                  fontFamily: "'CenturyGothic', sans-serif",
-                  fontSize: '2.5rem', color: '#080808', lineHeight: 1,
-                }}>
-                  {num}
-                </p>
-                <p style={{
-                  fontSize: '0.58rem', letterSpacing: '0.18em',
-                  color: 'rgba(0,0,0,0.3)', marginTop: '0.3rem',
-                }}>
-                  {label}
-                </p>
-              </div>
-            ))}
-          </div>
-          <Link href="/about" style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.8rem',
-            border: '1px solid rgba(0,0,0,0.2)',
-            color: '#080808', padding: '0.9rem 2rem',
-            fontSize: '0.68rem', letterSpacing: '0.18em',
-            textTransform: 'uppercase',
-          }}>
-            OUR STORY →
-          </Link>
-        </div>
         <div style={{
-          aspectRatio: '4/5', background: '#e8e8e8',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          minHeight: '80vh',
         }}>
-          <span style={{
-            fontFamily: "'CenturyGothic', sans-serif",
-            fontSize: '8rem', color: 'rgba(0,0,0,0.04)',
-            letterSpacing: '0.1em',
-          }}>V</span>
+          {/* VISUAL */}
+          <div style={{
+            background: '#e8e8e8', position: 'relative',
+            minHeight: '400px',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            overflow: 'hidden',
+          }}>
+            <span style={{
+              fontFamily: "'CenturyGothic', sans-serif",
+              fontSize: 'clamp(6rem, 18vw, 16rem)',
+              color: 'rgba(0,0,0,0.04)',
+              letterSpacing: '0.1em', fontWeight: 900,
+              userSelect: 'none',
+            }}>V</span>
+            <div style={{
+              position: 'absolute', bottom: '2rem', left: '2rem',
+              fontSize: '0.55rem', letterSpacing: '0.22em',
+              textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)',
+            }}>
+              EST. 2024 — MILAN
+            </div>
+          </div>
+
+          {/* TEXT */}
+          <div style={{
+            padding: 'clamp(3rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem)',
+            display: 'flex', flexDirection: 'column', justifyContent: 'center',
+            background: '#f5f5f5',
+          }}>
+            <p style={{
+              fontSize: '0.58rem', letterSpacing: '0.25em',
+              textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)',
+              marginBottom: '1.5rem',
+            }}>
+              The Brand
+            </p>
+            <h2 style={{
+              fontFamily: "'CenturyGothic', sans-serif",
+              fontSize: 'clamp(2.5rem, 5vw, 5.5rem)',
+              fontWeight: 900, lineHeight: 0.92,
+              letterSpacing: '-0.01em', marginBottom: '2rem', color: '#080808',
+            }}>
+              BUILT FOR<br />THE<br />CULTURE
+            </h2>
+            <p style={{
+              fontSize: '0.8rem', lineHeight: 1.9,
+              color: 'rgba(0,0,0,0.45)',
+              maxWidth: '360px', marginBottom: '3rem',
+            }}>
+              VHERSO nasce dalla strada, dai rifugi ski, dai rooftop — pezzi che si portano con intenzione, non per caso.
+            </p>
+
+            {/* STATS */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
+              gap: '1.5rem', marginBottom: '3rem',
+              paddingBottom: '3rem',
+              borderBottom: '1px solid rgba(0,0,0,0.06)',
+            }}>
+              {[['40+', 'Styles'], ['60+', 'Countries'], ['100%', 'Independent']].map(([num, label]) => (
+                <div key={label}>
+                  <p style={{
+                    fontFamily: "'CenturyGothic', sans-serif",
+                    fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
+                    fontWeight: 900, color: '#080808', lineHeight: 1,
+                    marginBottom: '0.4rem',
+                  }}>
+                    {num}
+                  </p>
+                  <p style={{
+                    fontSize: '0.58rem', letterSpacing: '0.18em',
+                    textTransform: 'uppercase', color: 'rgba(0,0,0,0.3)',
+                  }}>
+                    {label}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <Link href="/about" style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.8rem',
+              background: '#080808', color: '#f5f5f5',
+              padding: '1rem 2rem', alignSelf: 'flex-start',
+              fontSize: '0.62rem', letterSpacing: '0.2em',
+              textTransform: 'uppercase', fontWeight: 400,
+              fontFamily: "'CenturyGothic', sans-serif",
+              transition: 'background 0.2s',
+            }}>
+              OUR STORY →
+            </Link>
+          </div>
         </div>
       </section>
-      
 
       <style>{`
         @keyframes ticker {

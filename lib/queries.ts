@@ -254,6 +254,34 @@ export const ADD_TO_CART = `
   }
 `
 
+export const SEARCH_PRODUCTS = `
+  query SearchProducts($query: String!, $first: Int!) {
+    products(first: $first, query: $query) {
+      edges {
+        node {
+          id
+          title
+          handle
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          images(first: 1) {
+            edges {
+              node {
+                url
+                altText
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`
+
 export const TEST_QUERY = `
 {
   shop {

@@ -25,7 +25,7 @@ export default async function ProductPage({
         alignItems: 'center', justifyContent: 'center', gap: '1rem',
       }}>
         <span style={{
-          fontFamily: "'Bebas Neue', sans-serif",
+          fontFamily: "'CenturyGothic', sans-serif",
           fontSize: '5rem', color: 'rgba(0,0,0,0.06)',
         }}>404</span>
         <p style={{

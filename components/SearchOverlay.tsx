@@ -1,0 +1,260 @@
+'use client'
+
+import { useState, useEffect, useRef, useCallback } from 'react'
+import Link from 'next/link'
+import { shopifyFetch } from '@/lib/shopify'
+import { SEARCH_PRODUCTS } from '@/lib/queries'
+
+interface Product {
+  id: string
+  title: string
+  handle: string
+  priceRange: {
+    minVariantPrice: { amount: string; currencyCode: string }
+  }
+  images: { edges: { node: { url: string; altText: string | null } }[] }
+}
+
+export default function SearchOverlay({
+  isOpen,
+  onClose,
+}: {
+  isOpen: boolean
+  onClose: () => void
+}) {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<Product[]>([])
+  const [loading, setLoading] = useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  // Focus input when opened; reset state when closed
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 50)
+    } else {
+      setQuery('')
+      setResults([])
+      setLoading(false)
+    }
+  }, [isOpen])
+
+  // Close on ESC
+  const handleKey = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose()
+    },
+    [onClose]
+  )
+  useEffect(() => {
+    window.addEventListener('keydown', handleKey)
+    return () => window.removeEventListener('keydown', handleKey)
+  }, [handleKey])
+
+  // Debounced search
+  useEffect(() => {
+    if (!query.trim()) {
+      setResults([])
+      setLoading(false)
+      return
+    }
+    setLoading(true)
+    const timer = setTimeout(async () => {
+      try {
+        const data = await shopifyFetch(SEARCH_PRODUCTS, {
+          query: query.trim(),
+          first: 8,
+        })
+        setResults(data.products.edges.map((e: { node: Product }) => e.node))
+      } catch {
+        setResults([])
+      } finally {
+        setLoading(false)
+      }
+    }, 350)
+    return () => clearTimeout(timer)
+  }, [query])
+
+  if (!isOpen) return null
+
+  return (
+    <>
+      {/* Backdrop */}
+      <div
+        onClick={onClose}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 200,
+          background: 'rgba(0,0,0,0.35)',
+          backdropFilter: 'blur(4px)',
+        }}
+      />
+
+      {/* Panel */}
+      <div
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 201,
+          background: '#f5f5f5',
+          padding: '1.5rem 2rem 2rem',
+          boxShadow: '0 4px 40px rgba(0,0,0,0.1)',
+        }}
+      >
+        {/* Input row */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            borderBottom: '1px solid rgba(0,0,0,0.1)',
+            paddingBottom: '1rem',
+          }}
+        >
+          <input
+            ref={inputRef}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search products..."
+            style={{
+              flex: 1,
+              background: 'none',
+              border: 'none',
+              outline: 'none',
+              fontFamily: "'CenturyGothic', sans-serif",
+              fontSize: '1.4rem',
+              fontWeight: 300,
+              letterSpacing: '0.04em',
+              color: '#080808',
+            }}
+          />
+          <button
+            onClick={onClose}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              fontFamily: "'CenturyGothic', sans-serif",
+              fontSize: '0.62rem',
+              letterSpacing: '0.18em',
+              textTransform: 'uppercase',
+              color: 'rgba(0,0,0,0.4)',
+              padding: '0.5rem 0.8rem',
+              transition: 'color 0.15s',
+            }}
+            onMouseEnter={(e) =>
+              ((e.target as HTMLButtonElement).style.color = '#080808')
+            }
+            onMouseLeave={(e) =>
+              ((e.target as HTMLButtonElement).style.color =
+                'rgba(0,0,0,0.4)')
+            }
+          >
+            CLOSE
+          </button>
+        </div>
+
+        {/* Status / Results */}
+        {loading && (
+          <p
+            style={{
+              padding: '1.5rem 0',
+              fontFamily: "'CenturyGothic', sans-serif",
+              fontSize: '0.72rem',
+              letterSpacing: '0.1em',
+              color: 'rgba(0,0,0,0.35)',
+            }}
+          >
+            Searching...
+          </p>
+        )}
+
+        {!loading && query.trim() !== '' && results.length === 0 && (
+          <p
+            style={{
+              padding: '1.5rem 0',
+              fontFamily: "'CenturyGothic', sans-serif",
+              fontSize: '0.72rem',
+              letterSpacing: '0.04em',
+              color: 'rgba(0,0,0,0.35)',
+            }}
+          >
+            No results for &ldquo;{query}&rdquo;
+          </p>
+        )}
+
+        {results.length > 0 && (
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(130px, 1fr))',
+              gap: '1rem',
+              paddingTop: '1.5rem',
+              maxHeight: '60vh',
+              overflowY: 'auto',
+            }}
+          >
+            {results.map((p) => {
+              const img = p.images.edges[0]?.node.url
+              const price = parseFloat(
+                p.priceRange.minVariantPrice.amount
+              ).toFixed(0)
+              return (
+                <Link
+                  key={p.id}
+                  href={`/products/${p.handle}`}
+                  onClick={onClose}
+                  style={{ textDecoration: 'none', color: 'inherit' }}
+                >
+                  {img && (
+                    <div
+                      style={{
+                        aspectRatio: '3/4',
+                        background: '#e8e8e8',
+                        overflow: 'hidden',
+                        marginBottom: '0.6rem',
+                      }}
+                    >
+                      <img
+                        src={img}
+                        alt={p.title}
+                        style={{
+                          width: '100%',
+                          height: '100%',
+                          objectFit: 'cover',
+                          display: 'block',
+                        }}
+                      />
+                    </div>
+                  )}
+                  <p
+                    style={{
+                      fontFamily: "'CenturyGothic', sans-serif",
+                      fontSize: '0.72rem',
+                      letterSpacing: '0.04em',
+                      color: '#080808',
+                      marginBottom: '0.2rem',
+                    }}
+                  >
+                    {p.title}
+                  </p>
+                  <p
+                    style={{
+                      fontFamily: "'CenturyGothic', sans-serif",
+                      fontSize: '0.68rem',
+                      color: 'rgba(0,0,0,0.4)',
+                    }}
+                  >
+                    €{price}
+                  </p>
+                </Link>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </>
+  )
+}

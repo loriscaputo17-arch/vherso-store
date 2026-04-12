@@ -50,7 +50,7 @@ export default function ShopPage() {
           background: #f5f5f5;
           min-height: 100vh;
           color: #080808;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
         }
 
         .shop-header {
@@ -65,7 +65,7 @@ export default function ShopPage() {
           position: absolute;
           top: 50%; left: 50%;
           transform: translate(-50%, -50%);
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(120px, 22vw, 300px);
           color: rgba(0,0,0,0.03);
           white-space: nowrap;
@@ -84,7 +84,7 @@ export default function ShopPage() {
         }
 
         .shop-title {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(4rem, 10vw, 10rem);
           font-weight: 400;
           line-height: 0.88;
@@ -129,7 +129,7 @@ export default function ShopPage() {
           text-transform: uppercase;
           padding: 1.2rem 1rem;
           cursor: pointer;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           border-bottom: 2px solid transparent;
           transition: all 0.2s;
           white-space: nowrap;
@@ -150,7 +150,7 @@ export default function ShopPage() {
           letter-spacing: 0.15em;
           text-transform: uppercase;
           cursor: pointer;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           outline: none;
           padding: 0.5rem 0;
           flex-shrink: 0;
@@ -204,7 +204,7 @@ export default function ShopPage() {
         }
 
         .shop-empty h3 {
-          font-family: 'Bebas Neue', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: 3rem;
           color: rgba(0,0,0,0.1);
           letter-spacing: 0.1em;
@@ -292,7 +292,7 @@ export default function ShopPage() {
                 background: 'none', border: 'none',
                 color: 'rgba(0,0,0,0.35)', cursor: 'pointer',
                 fontSize: '0.58rem', letterSpacing: '0.15em',
-                textTransform: 'uppercase', fontFamily: 'DM Sans, sans-serif',
+                textTransform: 'uppercase', fontFamily: 'CenturyGothic, sans-serif',
                 textDecoration: 'underline', textUnderlineOffset: '3px',
               }}
             >

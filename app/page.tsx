@@ -31,7 +31,7 @@ export default async function HomePage() {
         <div style={{
           position: 'absolute', top: '50%', left: '50%',
           transform: 'translate(-50%, -50%)',
-          fontFamily: "'Bebas Neue', sans-serif",
+          fontFamily: "'CenturyGothic', sans-serif",
           fontSize: 'clamp(160px, 28vw, 400px)',
           fontWeight: 400, lineHeight: 0.85,
           color: 'rgba(0,0,0,0.04)',
@@ -64,9 +64,9 @@ export default async function HomePage() {
         }}>
           <div>
             <h1 style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'CenturyGothic', sans-serif",
               fontSize: 'clamp(5rem, 14vw, 14rem)',
-              fontWeight: 400, lineHeight: 0.88,
+              fontWeight: 700, lineHeight: 0.88,
               letterSpacing: '0.01em', color: '#080808',
             }}>
               AMOUR<br />CLUB
@@ -142,7 +142,7 @@ export default async function HomePage() {
             <span key={i} style={{
               fontSize: '0.58rem', letterSpacing: '0.2em',
               padding: '0 1.5rem', fontWeight: 500,
-              fontFamily: "'DM Sans', sans-serif",
+              fontFamily: "'CenturyGothic', sans-serif",
             }}>
               {text}
             </span>
@@ -158,7 +158,7 @@ export default async function HomePage() {
             alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
           }}>
             <h2 style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'CenturyGothic', sans-serif",
               fontSize: 'clamp(2.5rem, 5vw, 5rem)',
               fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
             }}>
@@ -193,7 +193,7 @@ export default async function HomePage() {
                 }} />
                 <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1.5rem' }}>
                   <p style={{
-                    fontFamily: "'Bebas Neue', sans-serif",
+                    fontFamily: "'CenturyGothic', sans-serif",
                     fontSize: i === 0 ? '3rem' : '2rem',
                     color: '#fff', lineHeight: 1, letterSpacing: '0.03em',
                   }}>
@@ -225,7 +225,7 @@ export default async function HomePage() {
         }}>
           {Array(6).fill('VHERSO — CLUB LIFESTYLE — SS26 — ').map((t, i) => (
             <span key={i} style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'CenturyGothic', sans-serif",
               fontSize: '4rem', letterSpacing: '0.05em',
               color: 'rgba(0,0,0,0.05)', paddingRight: '2rem',
             }}>
@@ -242,7 +242,7 @@ export default async function HomePage() {
           alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
         }}>
           <h2 style={{
-            fontFamily: "'Bebas Neue', sans-serif",
+            fontFamily: "'CenturyGothic', sans-serif",
             fontSize: 'clamp(2.5rem, 5vw, 5rem)',
             fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
           }}>
@@ -271,7 +271,7 @@ export default async function HomePage() {
         borderTop: '1px solid rgba(0,0,0,0.06)',
       }}>
         <h2 style={{
-          fontFamily: "'Bebas Neue', sans-serif",
+          fontFamily: "'CenturyGothic', sans-serif",
           fontSize: 'clamp(2.5rem, 5vw, 5rem)',
           fontWeight: 400, letterSpacing: '0.02em',
           marginBottom: '2rem', color: '#080808',
@@ -293,7 +293,7 @@ export default async function HomePage() {
               justifyContent: 'flex-end', minHeight: '200px',
             }}>
               <p style={{
-                fontFamily: "'Bebas Neue', sans-serif",
+                fontFamily: "'CenturyGothic', sans-serif",
                 fontSize: '2rem', letterSpacing: '0.04em',
                 color: '#080808', lineHeight: 1,
               }}>
@@ -321,7 +321,7 @@ export default async function HomePage() {
           alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
         }}>
           <h2 style={{
-            fontFamily: "'Bebas Neue', sans-serif",
+            fontFamily: "'CenturyGothic', sans-serif",
             fontSize: 'clamp(2.5rem, 5vw, 5rem)',
             fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
           }}>
@@ -360,7 +360,7 @@ export default async function HomePage() {
             EST. 2024 — ITALY
           </p>
           <h2 style={{
-            fontFamily: "'Bebas Neue', sans-serif",
+            fontFamily: "'CenturyGothic', sans-serif",
             fontSize: 'clamp(3rem, 6vw, 7rem)',
             fontWeight: 400, lineHeight: 0.9,
             letterSpacing: '0.02em', marginBottom: '2rem', color: '#080808',
@@ -378,7 +378,7 @@ export default async function HomePage() {
             {[['40+', 'STYLES'], ['60+', 'COUNTRIES'], ['100%', 'INDEPENDENT']].map(([num, label]) => (
               <div key={label}>
                 <p style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontFamily: "'CenturyGothic', sans-serif",
                   fontSize: '2.5rem', color: '#080808', lineHeight: 1,
                 }}>
                   {num}
@@ -407,7 +407,7 @@ export default async function HomePage() {
           display: 'flex', alignItems: 'center', justifyContent: 'center',
         }}>
           <span style={{
-            fontFamily: "'Bebas Neue', sans-serif",
+            fontFamily: "'CenturyGothic', sans-serif",
             fontSize: '8rem', color: 'rgba(0,0,0,0.04)',
             letterSpacing: '0.1em',
           }}>V</span>

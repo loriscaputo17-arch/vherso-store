@@ -68,7 +68,7 @@ export default function NewsletterPopup() {
           letter-spacing: 0.06em;
           padding: 0.8rem 0;
           outline: none;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           transition: border-color 0.2s;
         }
         .nl-input::placeholder { color: rgba(255,255,255,0.25); }
@@ -84,7 +84,7 @@ export default function NewsletterPopup() {
           text-transform: uppercase;
           font-weight: 500;
           cursor: pointer;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           transition: background 0.2s;
           margin-top: 1.5rem;
         }
@@ -101,7 +101,7 @@ export default function NewsletterPopup() {
           line-height: 1;
           padding: 0.3rem;
           transition: color 0.15s;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
         }
         .close-btn:hover { color: #fff; }
 
@@ -158,7 +158,7 @@ export default function NewsletterPopup() {
             {/* BG text */}
             <div style={{
               position: 'absolute',
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'CenturyGothic', sans-serif",
               fontSize: '10rem', color: 'rgba(255,255,255,0.03)',
               lineHeight: 1, userSelect: 'none',
               letterSpacing: '0.05em',
@@ -167,7 +167,7 @@ export default function NewsletterPopup() {
             </div>
             <div style={{ position: 'relative', zIndex: 1, textAlign: 'center' }}>
               <p style={{
-                fontFamily: "'Bebas Neue', sans-serif",
+                fontFamily: "'CenturyGothic', sans-serif",
                 fontSize: '3.5rem', color: '#fff',
                 lineHeight: 0.9, letterSpacing: '0.04em',
                 marginBottom: '1rem',
@@ -197,7 +197,7 @@ export default function NewsletterPopup() {
                   VHERSO Newsletter
                 </p>
                 <h2 style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontFamily: "'CenturyGothic', sans-serif",
                   fontSize: '2.8rem', color: '#fff',
                   lineHeight: 0.9, letterSpacing: '0.03em',
                   marginBottom: '1rem',
@@ -242,7 +242,7 @@ export default function NewsletterPopup() {
                     fontSize: '0.62rem', letterSpacing: '0.12em',
                     textTransform: 'uppercase',
                     color: 'rgba(255,255,255,0.2)',
-                    cursor: 'pointer', fontFamily: 'DM Sans, sans-serif',
+                    cursor: 'pointer', fontFamily: 'CenturyGothic, sans-serif',
                     textDecoration: 'underline',
                     textUnderlineOffset: '3px',
                   }}
@@ -266,7 +266,7 @@ export default function NewsletterPopup() {
                   ✓
                 </div>
                 <h3 style={{
-                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontFamily: "'CenturyGothic', sans-serif",
                   fontSize: '2.5rem', color: '#fff',
                   letterSpacing: '0.04em', lineHeight: 1,
                 }}>

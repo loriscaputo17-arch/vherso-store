@@ -22,7 +22,7 @@ export default function RootLayout({
         margin: 0,
         background: '#0a0a0a',
         color: '#fafafa',
-        fontFamily: "'Inter', sans-serif",
+        fontFamily: "'CenturyGothic', sans-serif",
         fontWeight: 300,
       }}>
         <CartProvider>

@@ -15,7 +15,7 @@ export default function ProductClient({ product }: { product: any }) {
   const isAvailable = selectedVariant?.availableForSale ?? false
 
   return (
-    <div style={{ background: '#f5f5f5', minHeight: '100vh', fontFamily: "'DM Sans', sans-serif" }}>
+    <div style={{ background: '#f5f5f5', minHeight: '100vh', fontFamily: "'CenturyGothic', sans-serif" }}>
       <div style={{
         display: 'grid', gridTemplateColumns: '1fr 1fr',
         minHeight: '100vh',
@@ -100,7 +100,7 @@ export default function ProductClient({ product }: { product: any }) {
 
           {/* TITLE */}
           <h1 style={{
-            fontFamily: "'Bebas Neue', sans-serif",
+            fontFamily: "'CenturyGothic', sans-serif",
             fontSize: 'clamp(2.5rem, 4vw, 4.5rem)',
             fontWeight: 400, lineHeight: 0.92,
             letterSpacing: '0.02em', color: '#080808',
@@ -116,7 +116,7 @@ export default function ProductClient({ product }: { product: any }) {
             borderBottom: '1px solid rgba(0,0,0,0.06)',
           }}>
             <span style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'CenturyGothic', sans-serif",
               fontSize: '2.5rem', color: '#080808', letterSpacing: '0.04em',
             }}>€{price}</span>
             <span style={{
@@ -157,7 +157,7 @@ export default function ProductClient({ product }: { product: any }) {
                       fontSize: '0.65rem', letterSpacing: '0.1em',
                       textTransform: 'uppercase',
                       cursor: v.availableForSale ? 'pointer' : 'not-allowed',
-                      fontFamily: "'DM Sans', sans-serif",
+                      fontFamily: "'CenturyGothic', sans-serif",
                       transition: 'all 0.15s',
                       textDecoration: v.availableForSale ? 'none' : 'line-through',
                       background: selectedVariant?.id === v.id

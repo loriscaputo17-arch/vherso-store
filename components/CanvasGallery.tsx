@@ -49,7 +49,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
           background: #f5f0e8;
           min-height: 100vh;
           color: #1a1a1a;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
         }
 
         .custom-cursor {
@@ -77,7 +77,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(120px, 22vw, 320px);
           color: rgba(255,255,255,0.025);
           white-space: nowrap;
@@ -96,7 +96,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .canvas-hero h1 {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(4rem, 10vw, 10rem);
           font-weight: 400;
           line-height: 0.88;
@@ -130,7 +130,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .canvas-intro h2 {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(2.5rem, 5vw, 5rem);
           font-weight: 400;
           line-height: 1.05;
@@ -208,7 +208,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .gallery-number {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: 6rem;
           color: rgba(0,0,0,0.05);
           line-height: 1;
@@ -225,7 +225,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .gallery-title {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(2rem, 4vw, 3.5rem);
           font-weight: 400;
           line-height: 1.05;
@@ -248,7 +248,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .gallery-price {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: 2rem;
           color: #1a1a1a;
           margin-bottom: 2rem;
@@ -270,7 +270,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
           letter-spacing: 0.2em;
           text-transform: uppercase;
           cursor: pointer;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           transition: background 0.2s;
           text-decoration: none;
           display: inline-block;
@@ -287,7 +287,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
           letter-spacing: 0.2em;
           text-transform: uppercase;
           cursor: pointer;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           transition: all 0.2s;
           text-decoration: none;
           display: inline-block;
@@ -316,7 +316,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .feature-full-text h3 {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(3rem, 7vw, 7rem);
           font-weight: 400;
           color: #f5f0e8;
@@ -333,7 +333,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .canvas-grid-section h2 {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(2rem, 4vw, 4rem);
           font-style: italic;
           color: #1a1a1a;
@@ -398,7 +398,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         .masonry-item:hover .masonry-label { opacity: 1; }
 
         .masonry-label p {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: 1.3rem;
           font-style: italic;
         }
@@ -426,7 +426,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .philosophy blockquote {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(2rem, 5vw, 5rem);
           color: #f5f0e8;
           font-style: italic;
@@ -454,7 +454,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
         }
 
         .canvas-footer-cta h3 {
-          font-family: 'DM Serif Display', serif;
+          font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(2rem, 4vw, 4rem);
           font-style: italic;
           color: #1a1a1a;
@@ -587,7 +587,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
                 ) : (
                   <div className="gallery-image-placeholder">
                     <span style={{
-                      fontFamily: "'DM Serif Display', serif",
+                      fontFamily: "'CenturyGothic', sans-serif",
                       fontSize: '8rem', color: 'rgba(0,0,0,0.06)',
                       fontStyle: 'italic',
                     }}>
@@ -640,7 +640,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
             zIndex: 0,
           }}>
             <span style={{
-              fontFamily: "'DM Serif Display', serif",
+              fontFamily: "'CenturyGothic', sans-serif",
               fontSize: 'clamp(8rem, 20vw, 25rem)',
               color: 'rgba(255,255,255,0.03)',
               fontStyle: 'italic',
@@ -689,7 +689,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
                       background: i === 0 ? '#ddd5c5' : i === 1 ? '#c8bfaf' : '#d5ccbc',
                     }}>
                       <span style={{
-                        fontFamily: "'DM Serif Display', serif",
+                        fontFamily: "'CenturyGothic', sans-serif",
                         fontSize: '5rem', color: 'rgba(0,0,0,0.06)',
                         fontStyle: 'italic',
                       }}>

@@ -77,7 +77,7 @@ export default function ProductCard({ product }: { product: Product }) {
             cursor: 'pointer',
             fontSize: '0.62rem', letterSpacing: '0.18em',
             textTransform: 'uppercase',
-            fontFamily: "'DM Sans', sans-serif",
+            fontFamily: "'CenturyGothic', sans-serif",
             opacity: hovered ? 1 : 0,
             transform: hovered ? 'translateY(0)' : 'translateY(8px)',
             transition: 'opacity 0.25s, transform 0.25s',
@@ -99,7 +99,7 @@ export default function ProductCard({ product }: { product: Product }) {
           letterSpacing: '0.04em',
           marginBottom: '0.3rem',
           fontWeight: 400,
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: "'CenturyGothic', sans-serif",
         }}>
           {product.title}
         </p>
@@ -107,7 +107,7 @@ export default function ProductCard({ product }: { product: Product }) {
           color: 'rgba(0,0,0,0.4)',
           fontSize: '0.72rem',
           letterSpacing: '0.04em',
-          fontFamily: "'DM Sans', sans-serif",
+          fontFamily: "'CenturyGothic', sans-serif",
         }}>
           €{price}
         </p>

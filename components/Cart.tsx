@@ -61,7 +61,7 @@ export default function Cart() {
           letter-spacing: 0.22em;
           text-transform: uppercase;
           font-weight: 500;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           transition: background 0.2s, letter-spacing 0.3s;
           cursor: pointer;
           border: none;
@@ -95,7 +95,7 @@ export default function Cart() {
           justify-content: center;
           font-size: 0.8rem;
           transition: all 0.2s;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
         }
 
         .cart-close-btn:hover {
@@ -113,7 +113,7 @@ export default function Cart() {
           letter-spacing: 0.2em;
           text-transform: uppercase;
           cursor: pointer;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
           transition: all 0.2s;
         }
 
@@ -145,7 +145,7 @@ export default function Cart() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.8rem' }}>
             <span style={{
-              fontFamily: "'Bebas Neue', sans-serif",
+              fontFamily: "'CenturyGothic', sans-serif",
               fontSize: '1.4rem', letterSpacing: '0.1em', color: '#080808',
             }}>
               YOUR BAG
@@ -222,7 +222,7 @@ export default function Cart() {
                 </svg>
               </div>
               <p style={{
-                fontFamily: "'Bebas Neue', sans-serif",
+                fontFamily: "'CenturyGothic', sans-serif",
                 fontSize: '1.6rem', letterSpacing: '0.08em',
                 color: 'rgba(0,0,0,0.15)', marginBottom: '0.5rem',
               }}>
@@ -260,7 +260,7 @@ export default function Cart() {
                         display: 'flex', alignItems: 'center', justifyContent: 'center',
                       }}>
                         <span style={{
-                          fontFamily: "'Bebas Neue', sans-serif",
+                          fontFamily: "'CenturyGothic', sans-serif",
                           fontSize: '1.5rem', color: 'rgba(0,0,0,0.08)',
                         }}>V</span>
                       </div>
@@ -334,7 +334,7 @@ export default function Cart() {
                 Subtotal
               </span>
               <span style={{
-                fontFamily: "'Bebas Neue', sans-serif",
+                fontFamily: "'CenturyGothic', sans-serif",
                 fontSize: '1.6rem', color: '#080808', letterSpacing: '0.05em',
               }}>
                 €{parseFloat(total?.amount ?? '0').toFixed(2)}

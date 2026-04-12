@@ -28,7 +28,7 @@ export default function AddToCartButton({ variantId }: { variantId: string }) {
         border: 'none', cursor: 'pointer',
         fontSize: '0.72rem', letterSpacing: '0.22em',
         textTransform: 'uppercase', fontWeight: 500,
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: "'CenturyGothic', sans-serif",
         transition: 'background 0.2s',
       }}
     >

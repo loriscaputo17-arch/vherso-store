@@ -3,11 +3,13 @@
 import { useCart } from '@/context/CartContext'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import SearchOverlay from './SearchOverlay'
 
 export default function Navbar() {
   const { cartCount, openCart } = useCart()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80)
@@ -53,7 +55,7 @@ export default function Navbar() {
           display: flex;
           align-items: center;
           gap: 0.4rem;
-          font-family: 'DM Sans', sans-serif;
+          font-family: 'CenturyGothic', sans-serif;
         }
         .nav-bag:hover {
           background: #080808;
@@ -102,12 +104,22 @@ export default function Navbar() {
           pointerEvents: scrolled ? 'none' : 'auto',
         }}>
           <Link href="/" style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '1.6rem', letterSpacing: '0.15em',
-            color: '#080808', textDecoration: 'none', flexShrink: 0,
-          }}>
-            VHERSO
-          </Link>
+              display: 'flex', alignItems: 'center', gap: '0.6rem',
+              textDecoration: 'none', flexShrink: 0,
+            }}>
+              <img
+                src="/logo.png"
+                alt="VHERSO"
+                style={{ height: '42px', width: 'auto', display: 'block' }}
+              />
+              <span style={{
+                fontFamily: "'CenturyGothic', sans-serif",
+                fontSize: '1.2rem', letterSpacing: '0.15em',
+                color: '#080808',
+              }}>
+                VHERSO
+              </span>
+            </Link>
 
           <ul className="nav-desktop" style={{
             display: 'flex', gap: '0.2rem',
@@ -123,10 +135,14 @@ export default function Navbar() {
           </ul>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexShrink: 0 }}>
-            <button className="nav-search nav-link" style={{
-              background: 'none', border: 'none', cursor: 'pointer',
-              fontFamily: 'DM Sans, sans-serif',
-            }}>
+            <button
+              className="nav-search nav-link"
+              onClick={() => setSearchOpen(true)}
+              style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontFamily: 'CenturyGothic, sans-serif',
+              }}
+            >
               SEARCH
             </button>
             <div
@@ -183,14 +199,24 @@ export default function Navbar() {
           pointerEvents: scrolled ? 'auto' : 'none',
         }}>
           <Link href="/" style={{
-            fontFamily: "'Bebas Neue', sans-serif",
-            fontSize: '1.4rem', letterSpacing: '0.2em',
-            color: '#080808', textDecoration: 'none',
-            position: 'absolute', left: '50%',
-            transform: 'translateX(-50%)',
-          }}>
-            VHERSO
-          </Link>
+  display: 'flex', alignItems: 'center', gap: '0.5rem',
+  textDecoration: 'none',
+  position: 'absolute', left: '50%',
+  transform: 'translateX(-50%)',
+}}>
+  <img
+    src="/logo.png"
+    alt="VHERSO"
+    style={{ height: '32px', width: 'auto', display: 'block' }}
+  />
+  <span style={{
+    fontFamily: "'CenturyGothic', sans-serif",
+    fontSize: '1.2rem', letterSpacing: '0.2em',
+    color: '#080808',
+  }}>
+    VHERSO
+  </span>
+</Link>
 
           <button
             className="nav-bag"
@@ -203,7 +229,7 @@ export default function Navbar() {
               textTransform: 'uppercase', padding: '0.45rem 1rem',
               transition: 'all 0.15s', display: 'flex',
               alignItems: 'center', gap: '0.4rem',
-              fontFamily: 'DM Sans, sans-serif',
+              fontFamily: 'CenturyGothic, sans-serif',
             }}
           >
             BAG
@@ -245,6 +271,8 @@ export default function Navbar() {
         </div>
       </nav>
 
+      <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+
       {/* MOBILE MENU */}
       <div
         className="mobile-menu"
@@ -270,7 +298,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 style={{
                   display: 'block', padding: '1.2rem 0',
-                  fontFamily: "'Bebas Neue', sans-serif",
+                  fontFamily: "'CenturyGothic', sans-serif",
                   fontSize: '2.2rem', letterSpacing: '0.06em',
                   color: '#080808', textDecoration: 'none',
                 }}
@@ -287,7 +315,7 @@ export default function Navbar() {
             style={{
               width: '100%', justifyContent: 'center',
               padding: '1rem', fontSize: '0.75rem',
-              fontFamily: 'DM Sans, sans-serif',
+              fontFamily: 'CenturyGothic, sans-serif',
               background: '#080808',
               border: 'none',
               cursor: 'pointer', color: '#f5f5f5',

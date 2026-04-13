@@ -10,7 +10,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
-  const [hoveredLink, setHoveredLink] = useState<string | null>(null)
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80)
@@ -29,171 +28,85 @@ export default function Navbar() {
   return (
     <>
       <style>{`
-        .nav-link {
-          display: block;
-          font-size: 0.58rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          color: rgba(0,0,0,0.35);
-          text-decoration: none;
-          padding: 0.5rem 0.9rem;
-          transition: color 0.2s;
-          font-weight: 400;
-          white-space: nowrap;
-          font-family: 'CenturyGothic', sans-serif;
-          position: relative;
-        }
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: 0; left: 0.9rem; right: 0.9rem;
-          height: 1px;
-          background: #080808;
-          transform: scaleX(0);
-          transform-origin: left;
-          transition: transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94);
-        }
-        .nav-link:hover { color: #080808; }
-        .nav-link:hover::after { transform: scaleX(1); }
+        .nl { display:block; font-size:0.58rem; letter-spacing:0.2em; text-transform:uppercase; color:rgba(0,0,0,0.35); text-decoration:none; padding:0.5rem 0.9rem; transition:color 0.2s; font-weight:400; white-space:nowrap; font-family:'CenturyGothic',sans-serif; position:relative; }
+        .nl::after { content:''; position:absolute; bottom:0; left:0.9rem; right:0.9rem; height:1px; background:#080808; transform:scaleX(0); transform-origin:left; transition:transform 0.25s cubic-bezier(0.25,0.46,0.45,0.94); }
+        .nl:hover { color:#080808; }
+        .nl:hover::after { transform:scaleX(1); }
 
-        .nav-bag {
-          background: none;
-          border: none;
-          cursor: pointer;
-          color: rgba(0,0,0,0.5);
-          font-size: 0.58rem;
-          letter-spacing: 0.2em;
-          text-transform: uppercase;
-          padding: 0.5rem 0;
-          transition: color 0.2s;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          font-family: 'CenturyGothic', sans-serif;
-          font-weight: 400;
-        }
-        .nav-bag:hover { color: #080808; }
+        .nb { background:none; border:none; cursor:pointer; color:rgba(0,0,0,0.45); font-size:0.58rem; letter-spacing:0.2em; text-transform:uppercase; padding:0.4rem 0; transition:color 0.2s; display:flex; align-items:center; gap:0.5rem; font-family:'CenturyGothic',sans-serif; font-weight:400; }
+        .nb:hover { color:#080808; }
 
-        nav.scrolled {
-          height: 50px !important;
-          border-bottom-color: rgba(0,0,0,0.08) !important;
-          background: rgba(245,245,245,1) !important;
-        }
+        nav.s { height:50px !important; background:rgba(245,245,245,1) !important; border-bottom-color:rgba(0,0,0,0.08) !important; }
 
-        @media (max-width: 768px) {
-          .nav-desktop { display: none !important; }
-          .nav-search { display: none !important; }
-          .hamburger { display: flex !important; }
+        @media (max-width:768px) {
+          .nd { display:none !important; }
+          .ns { display:none !important; }
+          .hb { display:flex !important; }
+          nav { height:56px !important; }
+          nav.s { height:50px !important; }
         }
-        @media (min-width: 769px) {
-          .hamburger { display: none !important; }
-          .mobile-menu { display: none !important; }
+        @media (min-width:769px) {
+          .hb { display:none !important; }
+          .mm { display:none !important; }
         }
       `}</style>
 
       <nav
-        className={scrolled ? 'scrolled' : ''}
+        className={scrolled ? 's' : ''}
         style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
           height: '68px',
           background: 'rgba(245,245,245,0.96)',
           backdropFilter: 'blur(24px)',
           borderBottom: '1px solid rgba(0,0,0,0.05)',
-          transition: 'all 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
+          transition: 'height 0.4s cubic-bezier(0.25,0.46,0.45,0.94), background 0.4s, border-color 0.4s',
         }}
       >
 
         {/* DEFAULT */}
         <div style={{
-          display: 'flex', alignItems: 'center',
-          justifyContent: 'space-between',
-          height: '100%', padding: '0 2.5rem',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          height: '100%', padding: '0 2rem',
+          position: 'absolute', inset: 0,
           opacity: scrolled ? 0 : 1,
           transform: scrolled ? 'translateY(-6px)' : 'translateY(0)',
           transition: 'opacity 0.3s, transform 0.3s',
-          position: 'absolute', inset: 0,
           pointerEvents: scrolled ? 'none' : 'auto',
         }}>
 
           {/* LOGO */}
-          <Link href="/" style={{
-            display: 'flex', alignItems: 'center', gap: '0.7rem',
-            textDecoration: 'none', flexShrink: 0,
-          }}>
-            <img
-              src="/logo.png"
-              alt="VHERSO"
-              style={{ height: '36px', width: 'auto', display: 'block' }}
-            />
-            <span style={{
-              fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: '0.95rem', letterSpacing: '0.22em',
-              color: '#080808', fontWeight: 600,
-              textTransform: 'uppercase',
-            }}>
-              VHERSO
-            </span>
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }}>
+            <img src="/logo.png" alt="VHERSO" style={{ height: '34px', width: 'auto', display: 'block' }} />
           </Link>
 
           {/* LINKS CENTER */}
-          <ul className="nav-desktop" style={{
-            display: 'flex', gap: '0',
-            listStyle: 'none', margin: 0, padding: 0,
-            position: 'absolute', left: '50%',
-            transform: 'translateX(-50%)',
+          <ul className="nd" style={{
+            display: 'flex', listStyle: 'none', margin: 0, padding: 0,
+            position: 'absolute', left: '50%', transform: 'translateX(-50%)',
           }}>
             {links.map(({ label, href }) => (
-              <li key={href}>
-                <Link href={href} className="nav-link">{label}</Link>
-              </li>
+              <li key={href}><Link href={href} className="nl">{label}</Link></li>
             ))}
           </ul>
 
           {/* RIGHT */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', flexShrink: 0 }}>
-            <button
-              className="nav-search nav-bag"
-              onClick={() => setSearchOpen(true)}
-              style={{ background: 'none', border: 'none', cursor: 'pointer' }}
-            >
-              SEARCH
-            </button>
-            <div className="nav-search" style={{
-              width: '1px', height: '12px', background: 'rgba(0,0,0,0.12)',
-            }} />
-            <button className="nav-bag" onClick={openCart}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', flexShrink: 0 }}>
+            <button className="ns nb" onClick={() => setSearchOpen(true)}>SEARCH</button>
+            <div className="ns" style={{ width: '1px', height: '12px', background: 'rgba(0,0,0,0.1)' }} />
+            <button className="nb" onClick={openCart}>
               BAG
               {cartCount > 0 && (
-                <span style={{
-                  background: '#080808', color: '#f5f5f5',
-                  borderRadius: '50%', width: '16px', height: '16px',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: '0.52rem', fontWeight: 700,
-                }}>
+                <span style={{ background: '#080808', color: '#f5f5f5', borderRadius: '50%', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.5rem', fontWeight: 700 }}>
                   {cartCount}
                 </span>
               )}
             </button>
-
-            {/* HAMBURGER */}
-            <button
-              className="hamburger"
-              onClick={() => setMenuOpen(!menuOpen)}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                display: 'none', flexDirection: 'column',
-                gap: '4px', padding: '4px',
-              }}
-            >
+            <button className="hb" onClick={() => setMenuOpen(!menuOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'none', flexDirection: 'column', gap: '5px', padding: '2px' }}>
               {[0, 1, 2].map(i => (
                 <span key={i} style={{
-                  display: 'block', height: '1px',
-                  background: '#080808', transition: 'all 0.3s',
-                  width: i === 1 ? '16px' : '22px',
-                  transform: menuOpen
-                    ? i === 0 ? 'rotate(45deg) translate(3px, 3px)'
-                    : i === 2 ? 'rotate(-45deg) translate(3px, -3px)'
-                    : 'none' : 'none',
+                  display: 'block', height: '1.5px', background: '#080808',
+                  width: i === 1 ? '14px' : '20px', transition: 'all 0.3s',
+                  transform: menuOpen ? (i === 0 ? 'rotate(45deg) translate(4px,4px)' : i === 2 ? 'rotate(-45deg) translate(4px,-4px)' : 'none') : 'none',
                   opacity: i === 1 ? (menuOpen ? 0 : 1) : 1,
                 }} />
               ))}
@@ -201,74 +114,39 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* SCROLLED — logo centro */}
+        {/* SCROLLED */}
         <div style={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          height: '100%', padding: '0 2.5rem',
+          height: '100%', padding: '0 2rem',
+          position: 'absolute', inset: 0,
           opacity: scrolled ? 1 : 0,
           transform: scrolled ? 'translateY(0)' : 'translateY(6px)',
           transition: 'opacity 0.3s, transform 0.3s',
-          position: 'absolute', inset: 0,
           pointerEvents: scrolled ? 'auto' : 'none',
         }}>
+          {/* LOGO CENTER */}
           <Link href="/" style={{
-            display: 'flex', alignItems: 'center', gap: '0.6rem',
-            textDecoration: 'none',
-            position: 'absolute', left: '50%',
-            transform: 'translateX(-50%)',
+            display: 'flex', alignItems: 'center', textDecoration: 'none',
+            position: 'absolute', left: '50%', transform: 'translateX(-50%)',
           }}>
-            <img
-              src="/logo.png"
-              alt="VHERSO"
-              style={{ height: '28px', width: 'auto', display: 'block' }}
-            />
-            <span style={{
-              fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: '0.85rem', letterSpacing: '0.22em',
-              color: '#080808', fontWeight: 600,
-              textTransform: 'uppercase',
-            }}>
-              VHERSO
-            </span>
+            <img src="/logo.png" alt="VHERSO" style={{ height: '26px', width: 'auto', display: 'block' }} />
           </Link>
 
-          <button
-            className="nav-bag"
-            onClick={openCart}
-            style={{ position: 'absolute', right: '2.5rem' }}
-          >
+          <button className="nb" onClick={openCart} style={{ position: 'absolute', right: '2rem' }}>
             BAG
             {cartCount > 0 && (
-              <span style={{
-                background: '#080808', color: '#f5f5f5',
-                borderRadius: '50%', width: '16px', height: '16px',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '0.52rem', fontWeight: 700,
-              }}>
+              <span style={{ background: '#080808', color: '#f5f5f5', borderRadius: '50%', width: '16px', height: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.5rem', fontWeight: 700 }}>
                 {cartCount}
               </span>
             )}
           </button>
 
-          <button
-            className="hamburger"
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              position: 'absolute', left: '2.5rem',
-              background: 'none', border: 'none', cursor: 'pointer',
-              display: 'none', flexDirection: 'column',
-              gap: '4px', padding: '4px',
-            }}
-          >
+          <button className="hb" onClick={() => setMenuOpen(!menuOpen)} style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'none', flexDirection: 'column', gap: '5px', padding: '2px', position: 'absolute', left: '2rem' }}>
             {[0, 1, 2].map(i => (
               <span key={i} style={{
-                display: 'block', height: '1px',
-                background: '#080808', transition: 'all 0.3s',
-                width: i === 1 ? '16px' : '22px',
-                transform: menuOpen
-                  ? i === 0 ? 'rotate(45deg) translate(3px, 3px)'
-                  : i === 2 ? 'rotate(-45deg) translate(3px, -3px)'
-                  : 'none' : 'none',
+                display: 'block', height: '1.5px', background: '#080808',
+                width: i === 1 ? '14px' : '20px', transition: 'all 0.3s',
+                transform: menuOpen ? (i === 0 ? 'rotate(45deg) translate(4px,4px)' : i === 2 ? 'rotate(-45deg) translate(4px,-4px)' : 'none') : 'none',
                 opacity: i === 1 ? (menuOpen ? 0 : 1) : 1,
               }} />
             ))}
@@ -279,94 +157,75 @@ export default function Navbar() {
       <SearchOverlay isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* MOBILE MENU */}
-      <div
-        className="mobile-menu"
-        style={{
-          position: 'fixed', top: '68px', left: 0, right: 0, bottom: 0,
-          zIndex: 99, background: '#f5f5f5',
-          display: 'flex', flexDirection: 'column',
-          padding: '3rem 2.5rem',
-          transform: menuOpen ? 'translateX(0)' : 'translateX(-100%)',
-          transition: 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
-        }}
-      >
-        {/* MOBILE LOGO */}
+      <div className="mm" style={{
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+        zIndex: 98, background: '#f5f5f5',
+        display: 'flex', flexDirection: 'column',
+        paddingTop: '80px',
+        transform: menuOpen ? 'translateX(0)' : 'translateX(-100%)',
+        transition: 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)',
+        overflowY: 'auto',
+      }}>
+
+        {/* LOGO CENTRATO */}
         <div style={{
-          display: 'flex', alignItems: 'center', gap: '0.6rem',
-          marginBottom: '3rem', paddingBottom: '2rem',
+          display: 'flex', justifyContent: 'center',
+          padding: '0 2rem 2rem',
           borderBottom: '1px solid rgba(0,0,0,0.06)',
+          marginBottom: '2rem',
         }}>
-          <img src="/logo.png" alt="VHERSO" style={{ height: '32px', width: 'auto' }} />
-          <span style={{
-            fontFamily: "'CenturyGothic', sans-serif",
-            fontSize: '0.9rem', letterSpacing: '0.22em',
-            color: '#080808', fontWeight: 600,
-          }}>
-            VHERSO
-          </span>
+          <img src="/logo.png" alt="VHERSO" style={{ height: '40px', width: 'auto' }} />
         </div>
 
-        <ul style={{ listStyle: 'none', margin: 0, padding: 0, flex: 1 }}>
+        {/* LINKS */}
+        <ul style={{ listStyle: 'none', margin: 0, padding: '0 2rem', flex: 1 }}>
           {links.map(({ label, href }, i) => (
             <li key={href} style={{
-              transform: menuOpen ? 'translateX(0)' : 'translateX(-24px)',
               opacity: menuOpen ? 1 : 0,
-              transition: `transform 0.4s ${i * 0.06}s cubic-bezier(0.25,0.46,0.45,0.94), opacity 0.4s ${i * 0.06}s`,
+              transform: menuOpen ? 'translateX(0)' : 'translateX(-20px)',
+              transition: `opacity 0.4s ${i * 0.06}s, transform 0.4s ${i * 0.06}s cubic-bezier(0.25,0.46,0.45,0.94)`,
             }}>
               <Link
                 href={href}
                 onClick={() => setMenuOpen(false)}
                 style={{
-                  display: 'flex', alignItems: 'center',
-                  justifyContent: 'space-between',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                   padding: '1.1rem 0',
                   borderBottom: '1px solid rgba(0,0,0,0.05)',
-                  fontFamily: "'CenturyGothic', sans-serif",
-                  fontSize: '1.6rem', letterSpacing: '0.04em',
-                  fontWeight: 700,
+                  fontFamily: "'CenturyGothic',sans-serif",
+                  fontSize: '1.5rem', fontWeight: 700,
                   color: '#080808', textDecoration: 'none',
+                  transition: 'padding-left 0.2s',
                 }}
                 onMouseEnter={e => (e.currentTarget.style.paddingLeft = '0.5rem')}
                 onMouseLeave={e => (e.currentTarget.style.paddingLeft = '0')}
               >
                 {label}
-                <span style={{ fontSize: '1rem', color: 'rgba(0,0,0,0.2)' }}>→</span>
+                <span style={{ fontSize: '0.9rem', color: 'rgba(0,0,0,0.18)', fontWeight: 300 }}>→</span>
               </Link>
             </li>
           ))}
         </ul>
 
-        <div style={{
-          paddingTop: '2rem',
-          display: 'flex', flexDirection: 'column', gap: '1rem',
-        }}>
-          <button
-            onClick={() => setSearchOpen(true)}
-            style={{
-              width: '100%', padding: '1rem',
-              fontSize: '0.65rem', fontFamily: 'CenturyGothic, sans-serif',
-              background: 'none',
-              border: '1px solid rgba(0,0,0,0.12)',
-              cursor: 'pointer', color: 'rgba(0,0,0,0.5)',
-              letterSpacing: '0.2em', textTransform: 'uppercase',
-            }}
-          >
+        {/* BOTTOM */}
+        <div style={{ padding: '2rem', display: 'flex', flexDirection: 'column', gap: '0.8rem' }}>
+          <button onClick={() => { setSearchOpen(true); setMenuOpen(false) }} style={{
+            padding: '0.9rem', background: 'none',
+            border: '1px solid rgba(0,0,0,0.12)', cursor: 'pointer',
+            color: 'rgba(0,0,0,0.45)', fontSize: '0.62rem',
+            letterSpacing: '0.2em', textTransform: 'uppercase',
+            fontFamily: "'CenturyGothic',sans-serif",
+          }}>
             SEARCH
           </button>
-          <button
-            onClick={() => { openCart(); setMenuOpen(false) }}
-            style={{
-              width: '100%', padding: '1rem',
-              fontSize: '0.65rem', fontFamily: 'CenturyGothic, sans-serif',
-              background: '#080808', border: 'none',
-              cursor: 'pointer', color: '#f5f5f5',
-              letterSpacing: '0.2em', textTransform: 'uppercase',
-              display: 'flex', alignItems: 'center',
-              justifyContent: 'center', gap: '0.5rem',
-            }}
-          >
-            BAG
-            {cartCount > 0 && `(${cartCount})`}
+          <button onClick={() => { openCart(); setMenuOpen(false) }} style={{
+            padding: '0.9rem', background: '#080808', border: 'none',
+            cursor: 'pointer', color: '#f5f5f5', fontSize: '0.62rem',
+            letterSpacing: '0.2em', textTransform: 'uppercase',
+            fontFamily: "'CenturyGothic',sans-serif",
+            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+          }}>
+            BAG {cartCount > 0 && `(${cartCount})`}
           </button>
         </div>
       </div>

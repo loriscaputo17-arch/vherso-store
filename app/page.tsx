@@ -50,7 +50,7 @@ export default async function HomePage() {
             background: '#000',
           }} />
           <span style={{
-            fontSize: '0.65rem', letterSpacing: '0.2em',
+            fontSize: '0.90rem', letterSpacing: '0.2em',
             textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
           }}>
             SS26 Drop — Amour Club
@@ -75,7 +75,7 @@ export default async function HomePage() {
               display: 'flex', alignItems: 'center',
               gap: '1.5rem', marginTop: '2rem',
             }}>
-              <Link href="/collections/amour-club" style={{
+              <Link href="/shop" style={{
                 background: '#080808', color: '#f5f5f5',
                 padding: '0.9rem 2.2rem',
                 fontSize: '0.72rem', letterSpacing: '0.15em',

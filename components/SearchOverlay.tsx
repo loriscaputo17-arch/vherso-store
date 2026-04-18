@@ -137,10 +137,10 @@ export default function SearchOverlay({
               border: 'none',
               cursor: 'pointer',
               fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: '0.62rem',
+              fontSize: '0.8rem',
               letterSpacing: '0.18em',
               textTransform: 'uppercase',
-              color: 'rgba(0,0,0,0.4)',
+              color: 'rgba(0,0,0,0.6)',
               padding: '0.5rem 0.8rem',
               transition: 'color 0.15s',
             }}

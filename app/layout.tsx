@@ -5,6 +5,7 @@ import Footer from '@/components/Footer'
 import Cart from '@/components/Cart'
 import './globals.css'
 import NewsletterPopup from '@/components/NewsletterPopup'
+import PageLoader from '@/components/PageLoader'
 
 export const metadata: Metadata = {
   title: 'VHERSO — Club Lifestyle',
@@ -26,6 +27,7 @@ export default function RootLayout({
         fontWeight: 300,
       }}>
         <CartProvider>
+          <PageLoader />
           <Navbar />
           <Cart />
           <NewsletterPopup />

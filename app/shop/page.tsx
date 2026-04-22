@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { shopifyFetch } from '@/lib/shopify'
 import { GET_PRODUCTS, GET_COLLECTIONS } from '@/lib/queries'
 import ProductCard from '@/components/ProductCard'
+import Cookies from 'js-cookie'
 
 export default function ShopPage() {
   const [products, setProducts] = useState<any[]>([])
@@ -15,9 +16,19 @@ export default function ShopPage() {
   useEffect(() => {
     const load = async () => {
       try {
+        const params = new URLSearchParams(window.location.search)
+        const countryFromUrl = params.get('country')
+        const countryFromCookie = document.cookie
+          .split('; ')
+          .find(row => row.startsWith('x-country='))
+          ?.split('=')[1]
+
+        const country = countryFromUrl ?? countryFromCookie ?? 'IT'
+        console.log('SHOP country:', country)
+
         const [pData, cData] = await Promise.all([
-          shopifyFetch(GET_PRODUCTS, { first: 48 }),
-          shopifyFetch(GET_COLLECTIONS, { first: 10 }),
+          shopifyFetch(GET_PRODUCTS, { first: 48, country }),
+          shopifyFetch(GET_COLLECTIONS, { first: 10, country }),
         ])
         setProducts(pData?.products?.edges ?? [])
         setCollections(cData?.collections?.edges ?? [])

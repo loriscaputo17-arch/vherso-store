@@ -1,18 +1,17 @@
 import { shopifyFetch } from '@/lib/shopify'
 import { GET_PRODUCT_BY_HANDLE } from '@/lib/queries'
 import ProductClient from '@/components/ProductClient'
+import { headers } from 'next/headers'
 
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ handle: string }>
-}) {
+export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
+  const headersList = await headers()
 
   let product = null
   try {
-    const data = await shopifyFetch(GET_PRODUCT_BY_HANDLE, { handle })
+    const data = await shopifyFetch(GET_PRODUCT_BY_HANDLE, { handle }, headersList)
     product = data?.product
+
   } catch (e) {
     console.error('Product load error')
   }

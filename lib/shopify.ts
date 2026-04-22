@@ -1,31 +1,59 @@
+import { ReadonlyHeaders } from 'next/dist/server/web/spec-extension/adapters/headers'
+
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!
 const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!
 
+const COUNTRY_TO_LANGUAGE: Record<string, string> = {
+  IT: 'IT',
+  US: 'EN',
+  GB: 'EN',
+  FR: 'FR',
+  DE: 'DE',
+  ES: 'ES',
+  default: 'EN',
+}
+
+const COUNTRY_TO_CURRENCY: Record<string, string> = {
+  IT: 'EUR',
+  FR: 'EUR',
+  DE: 'EUR',
+  ES: 'EUR',
+  US: 'USD',
+  GB: 'GBP',
+  default: 'EUR',
+}
+
 export async function shopifyFetch(
   query: string,
-  variables: Record<string, any> = {}
+  variables: Record<string, any> = {},
+  reqHeaders?: ReadonlyHeaders
 ) {
-  const res = await fetch(`https://${domain}/api/2024-01/graphql.json`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Shopify-Storefront-Access-Token': token,
-    },
-    body: JSON.stringify({ query, variables }),
-    next: { revalidate: 60 },
-  })
+  // prendi country da: 1) variables dirette, 2) headers server, 3) fallback
+  const country = variables.country ?? reqHeaders?.get('x-country') ?? 'IT'
+  const language = COUNTRY_TO_LANGUAGE[country] ?? COUNTRY_TO_LANGUAGE['default']
 
-  if (!res.ok) {
-    const text = await res.text()
-    console.error(text)
-    throw new Error(`Shopify API error: ${res.status}`)
-  }
+  // rimuovi country dalle variables per non duplicarlo
+  const { country: _c, ...restVariables } = variables
 
-  const json = await res.json()
+  const response = await fetch(
+    `https://${domain}/api/2024-01/graphql.json`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Shopify-Storefront-Access-Token': token,
+      },
+      body: JSON.stringify({
+        query,
+        variables: {
+          ...restVariables,
+          country,
+          language,
+        },
+      }),
+    }
+  )
 
-  if (json.errors) {
-    throw new Error(json.errors[0].message)
-  }
-
-  return json.data
+  const data = await response.json()
+  return data.data
 }

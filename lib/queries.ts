@@ -1,5 +1,6 @@
 export const GET_PRODUCTS = `
-  query GetProducts($first: Int!) {
+query GetProducts($first: Int!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
     products(first: $first) {
       edges {
         node {
@@ -40,7 +41,8 @@ export const GET_PRODUCTS = `
 `
 
 export const GET_PRODUCT_BY_HANDLE = `
-  query GetProduct($handle: String!) {
+  query GetProduct($handle: String!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
     product(handle: $handle) {
       id
       title
@@ -75,7 +77,8 @@ export const GET_PRODUCT_BY_HANDLE = `
 `
 
 export const GET_COLLECTIONS = `
-  query GetCollections($first: Int!) {
+  query GetCollections($first: Int!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
     collections(first: $first) {
       edges {
         node {

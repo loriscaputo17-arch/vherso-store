@@ -12,6 +12,7 @@ export default function ProductClient({ product }: { product: any }) {
   const [selectedVariant, setSelectedVariant] = useState(variants[0])
   const [activeImage, setActiveImage] = useState(0)
   const [hoveredWishlist, setHoveredWishlist] = useState(false)
+  const currencyCode = product.variants.edges[0].node.price.currencyCode
 
   const price = parseFloat(selectedVariant?.price?.amount ?? '0').toFixed(2)
   const isAvailable = selectedVariant?.availableForSale ?? false
@@ -313,7 +314,7 @@ export default function ProductClient({ product }: { product: any }) {
                 fontSize: 'clamp(1.8rem, 3vw, 2.5rem)',
                 fontWeight: 700, color: '#080808',
               }}>
-                €{price}
+                {currencyCode === 'USD' ? '$' : currencyCode === 'GBP' ? '£' : '€'}{price}
               </span>
               <span style={{
                 fontSize: '0.55rem', letterSpacing: '0.18em',

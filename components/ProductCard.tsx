@@ -33,7 +33,8 @@ export default function ProductCard({ product }: { product: Product }) {
   const image2 = product.images.edges[1]?.node.url
   const firstVariant = product.variants.edges[0]?.node
   const price = parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0)
-
+  const currencyCode = product.priceRange.minVariantPrice.currencyCode
+  console.log(currencyCode)
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault()
     if (!firstVariant) return
@@ -109,7 +110,7 @@ export default function ProductCard({ product }: { product: Product }) {
           letterSpacing: '0.04em',
           fontFamily: "'CenturyGothic', sans-serif",
         }}>
-          €{price}
+          {currencyCode === 'USD' ? '$' : currencyCode === 'GBP' ? '£' : '€'}{price}
         </p>
       </div>
     </Link>

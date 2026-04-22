@@ -2,16 +2,19 @@ import { shopifyFetch } from '@/lib/shopify'
 import { GET_PRODUCTS, GET_COLLECTIONS } from '@/lib/queries'
 import ProductCard from '@/components/ProductCard'
 import Link from 'next/link'
+import { headers } from 'next/headers'
 
 export default async function HomePage() {
+  const headersList = await headers()
   let products: any[] = []
   let collections: any[] = []
-
+  
   try {
-    const productsData = await shopifyFetch(GET_PRODUCTS, { first: 8 })
-    const collectionsData = await shopifyFetch(GET_COLLECTIONS, { first: 6 })
+    const productsData = await shopifyFetch(GET_PRODUCTS, { first: 8 }, headersList)
+    const collectionsData = await shopifyFetch(GET_COLLECTIONS, { first: 6 }, headersList)
     products = productsData?.products?.edges ?? []
     collections = collectionsData?.collections?.edges ?? []
+    console.log(products)
   } catch (e) {
     console.error('Shopify not connected yet')
   }

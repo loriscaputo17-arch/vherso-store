@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
 
 interface Product {
@@ -24,17 +24,30 @@ interface Product {
   }
 }
 
+type TFunc = (key: string) => string
+
 export default function ProductCard({ product }: { product: Product }) {
   const { addToCart } = useCart()
   const [hovered, setHovered] = useState(false)
   const [adding, setAdding] = useState(false)
+  const [t, setT] = useState<TFunc>(() => (k: string) => k)
+
+  useEffect(() => {
+    const country = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
+    const locale = ['US', 'GB'].includes(country) ? 'en' : 'it'
+    import(`../messages/${locale}.json`).then(m => {
+      const ns = m.default?.product ?? {}
+      setT(() => (key: string) => ns[key] ?? key)
+    })
+  }, [])
 
   const image1 = product.images.edges[0]?.node.url
   const image2 = product.images.edges[1]?.node.url
   const firstVariant = product.variants.edges[0]?.node
   const price = parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0)
   const currencyCode = product.priceRange.minVariantPrice.currencyCode
-  console.log(currencyCode)
+  const currencySymbol = { EUR: '€', USD: '$', GBP: '£' }[currencyCode] ?? '€'
+
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault()
     if (!firstVariant) return
@@ -50,7 +63,6 @@ export default function ProductCard({ product }: { product: Product }) {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* IMAGE */}
       <div style={{
         position: 'relative', aspectRatio: '3/4',
         background: '#e8e8e8', overflow: 'hidden',
@@ -68,14 +80,12 @@ export default function ProductCard({ product }: { product: Product }) {
           />
         )}
 
-        {/* ADD TO BAG */}
         <button
           onClick={handleAddToCart}
           style={{
             position: 'absolute', bottom: 0, left: 0, right: 0,
             background: '#080808', color: '#f5f5f5',
-            border: 'none', padding: '0.9rem',
-            cursor: 'pointer',
+            border: 'none', padding: '0.9rem', cursor: 'pointer',
             fontSize: '0.62rem', letterSpacing: '0.18em',
             textTransform: 'uppercase',
             fontFamily: "'CenturyGothic', sans-serif",
@@ -84,33 +94,27 @@ export default function ProductCard({ product }: { product: Product }) {
             transition: 'opacity 0.25s, transform 0.25s',
           }}
         >
-          {adding ? 'Adding...' : 'Add to Bag'}
+          {adding ? t('adding') : t('addToBag')}
         </button>
       </div>
 
-      {/* INFO */}
       <div style={{
         padding: '0.9rem 0 1.2rem',
         background: '#f5f5f5',
-        margin: '1rem'
+        margin: '1rem',
       }}>
         <p style={{
-          color: '#080808',
-          fontSize: '0.78rem',
-          letterSpacing: '0.04em',
-          marginBottom: '0.3rem',
-          fontWeight: 400,
-          fontFamily: "'CenturyGothic', sans-serif",
+          color: '#080808', fontSize: '0.78rem',
+          letterSpacing: '0.04em', marginBottom: '0.3rem',
+          fontWeight: 400, fontFamily: "'CenturyGothic', sans-serif",
         }}>
           {product.title}
         </p>
         <p style={{
-          color: 'rgba(0,0,0,0.4)',
-          fontSize: '0.72rem',
-          letterSpacing: '0.04em',
-          fontFamily: "'CenturyGothic', sans-serif",
+          color: 'rgba(0,0,0,0.4)', fontSize: '0.72rem',
+          letterSpacing: '0.04em', fontFamily: "'CenturyGothic', sans-serif",
         }}>
-          {currencyCode === 'USD' ? '$' : currencyCode === 'GBP' ? '£' : '€'}{price}
+          {currencySymbol}{price}
         </p>
       </div>
     </Link>

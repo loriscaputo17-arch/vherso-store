@@ -2,16 +2,17 @@ import { shopifyFetch } from '@/lib/shopify'
 import { GET_PRODUCT_BY_HANDLE } from '@/lib/queries'
 import ProductClient from '@/components/ProductClient'
 import { headers } from 'next/headers'
+import { getT } from '@/lib/i18n.server'
 
 export default async function ProductPage({ params }: { params: Promise<{ handle: string }> }) {
   const { handle } = await params
   const headersList = await headers()
+  const t = await getT('product')
 
   let product = null
   try {
     const data = await shopifyFetch(GET_PRODUCT_BY_HANDLE, { handle }, headersList)
     product = data?.product
-
   } catch (e) {
     console.error('Product load error')
   }
@@ -30,7 +31,9 @@ export default async function ProductPage({ params }: { params: Promise<{ handle
         <p style={{
           fontSize: '0.65rem', letterSpacing: '0.22em',
           textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)',
-        }}>Product not found</p>
+        }}>
+          {t('notFound')}
+        </p>
       </div>
     )
   }

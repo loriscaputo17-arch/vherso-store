@@ -1,12 +1,24 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
+
+type TFunc = (key: string) => string
 
 export default function AddToCartButton({ variantId }: { variantId: string }) {
   const { addToCart } = useCart()
   const [adding, setAdding] = useState(false)
   const [added, setAdded] = useState(false)
+  const [t, setT] = useState<TFunc>(() => (k: string) => k)
+
+  useEffect(() => {
+    const country = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
+    const locale = ['US', 'GB'].includes(country) ? 'en' : 'it'
+    import(`../messages/${locale}.json`).then(m => {
+      const ns = m.default?.product ?? {}
+      setT(() => (key: string) => ns[key] ?? key)
+    })
+  }, [])
 
   const handleClick = async () => {
     if (!variantId) return
@@ -32,7 +44,7 @@ export default function AddToCartButton({ variantId }: { variantId: string }) {
         transition: 'background 0.2s',
       }}
     >
-      {adding ? 'Adding...' : added ? 'Added ✓' : 'Add to Bag'}
+      {adding ? t('adding') : added ? t('added') : t('addToBag')}
     </button>
   )
 }

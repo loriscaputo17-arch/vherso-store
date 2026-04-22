@@ -3,18 +3,22 @@ import { GET_PRODUCTS, GET_COLLECTIONS } from '@/lib/queries'
 import ProductCard from '@/components/ProductCard'
 import Link from 'next/link'
 import { headers } from 'next/headers'
+import { getT } from '@/lib/i18n.server'
 
 export default async function HomePage() {
   const headersList = await headers()
   let products: any[] = []
   let collections: any[] = []
-  
+
+  const t = await getT('home')
+  const tn = await getT('ticker')
+  const th = await getT('hero')
+
   try {
     const productsData = await shopifyFetch(GET_PRODUCTS, { first: 8 }, headersList)
     const collectionsData = await shopifyFetch(GET_COLLECTIONS, { first: 6 }, headersList)
     products = productsData?.products?.edges ?? []
     collections = collectionsData?.collections?.edges ?? []
-    console.log(products)
   } catch (e) {
     console.error('Shopify not connected yet')
   }
@@ -48,15 +52,12 @@ export default async function HomePage() {
           position: 'absolute', top: '6rem', left: '2rem', zIndex: 2,
           display: 'flex', alignItems: 'center', gap: '0.8rem',
         }}>
-          <div style={{
-            width: '6px', height: '6px', borderRadius: '50%',
-            background: '#000',
-          }} />
+          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#000' }} />
           <span style={{
             fontSize: '0.90rem', letterSpacing: '0.2em',
             textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
           }}>
-            SS26 Drop — Amour Club
+            {th('drop')}
           </span>
         </div>
 
@@ -74,10 +75,7 @@ export default async function HomePage() {
             }}>
               AMOUR<br />CLUB
             </h1>
-            <div style={{
-              display: 'flex', alignItems: 'center',
-              gap: '1.5rem', marginTop: '2rem',
-            }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginTop: '2rem' }}>
               <Link href="/shop" style={{
                 background: '#080808', color: '#f5f5f5',
                 padding: '0.9rem 2.2rem',
@@ -85,14 +83,14 @@ export default async function HomePage() {
                 textTransform: 'uppercase', fontWeight: 500,
                 display: 'inline-block',
               }}>
-                SHOP NOW
+                {th('shopNow')}
               </Link>
               <Link href="/shop" style={{
                 fontSize: '0.72rem', letterSpacing: '0.15em',
                 textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
                 display: 'flex', alignItems: 'center', gap: '0.5rem',
               }}>
-                ALL DROPS <span style={{ fontSize: '1rem' }}>→</span>
+                {th('allDrops')} <span style={{ fontSize: '1rem' }}>→</span>
               </Link>
             </div>
           </div>
@@ -101,8 +99,9 @@ export default async function HomePage() {
               fontSize: '0.7rem', letterSpacing: '0.08em',
               color: 'rgba(0,0,0,0.3)', lineHeight: 1.8,
               maxWidth: '180px', marginLeft: 'auto',
+              whiteSpace: 'pre-line',
             }}>
-              Wear the life<br />you want to live.
+              {th('tagline')}
             </p>
           </div>
         </div>
@@ -137,10 +136,10 @@ export default async function HomePage() {
           whiteSpace: 'nowrap',
         }}>
           {Array(4).fill([
-            'FREE SHIPPING +€200', '★',
-            'NEW DROP — AMOUR CLUB', '★',
-            'SKI COLLECTION ALMOST GONE', '★',
-            'FREE RETURNS 14 DAYS', '★',
+            tn('shipping'), '★',
+            tn('newDrop'), '★',
+            tn('skiGone'), '★',
+            tn('returns'), '★',
           ]).flat().map((text, i) => (
             <span key={i} style={{
               fontSize: '0.58rem', letterSpacing: '0.2em',
@@ -165,13 +164,13 @@ export default async function HomePage() {
               fontSize: 'clamp(2.5rem, 5vw, 5rem)',
               fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
             }}>
-              COLLECTIONS
+              {t('collections')}
             </h2>
             <Link href="/shop" style={{
               fontSize: '0.65rem', letterSpacing: '0.18em',
               textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
             }}>
-              ALL →
+              {t('all')}
             </Link>
           </div>
           <div style={{
@@ -207,7 +206,7 @@ export default async function HomePage() {
                     textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
                     marginTop: '0.4rem',
                   }}>
-                    {node.products?.edges?.length ?? 0} styles →
+                    {node.products?.edges?.length ?? 0} {t('styles')}
                   </p>
                 </div>
               </Link>
@@ -226,13 +225,13 @@ export default async function HomePage() {
           display: 'flex', animation: 'ticker 15s linear infinite',
           whiteSpace: 'nowrap',
         }}>
-          {Array(6).fill('VHERSO — CLUB LIFESTYLE — SS26 — ').map((t, i) => (
+          {Array(6).fill('VHERSO — CLUB LIFESTYLE — SS26 — ').map((text, i) => (
             <span key={i} style={{
               fontFamily: "'CenturyGothic', sans-serif",
               fontSize: '4rem', letterSpacing: '0.05em',
               color: 'rgba(0,0,0,0.05)', paddingRight: '2rem',
             }}>
-              {t}
+              {text}
             </span>
           ))}
         </div>
@@ -249,13 +248,13 @@ export default async function HomePage() {
             fontSize: 'clamp(2.5rem, 5vw, 5rem)',
             fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
           }}>
-            BEST SELLERS
+            {t('bestSellers')}
           </h2>
           <Link href="/shop" style={{
             fontSize: '0.65rem', letterSpacing: '0.18em',
             textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
           }}>
-            VIEW ALL →
+            {t('viewAll')}
           </Link>
         </div>
         <div style={{
@@ -279,7 +278,7 @@ export default async function HomePage() {
           fontWeight: 400, letterSpacing: '0.02em',
           marginBottom: '2rem', color: '#080808',
         }}>
-          SHOP BY CATEGORY
+          {t('shopByCategory')}
         </h2>
         <div style={{
           display: 'grid',
@@ -287,12 +286,12 @@ export default async function HomePage() {
           gap: '2px',
         }}>
           {[
-            { label: 'HOODIES', sub: '14 styles', href: '/collections/hoodie' },
-            { label: 'TEES', sub: '8 styles', href: '/collections/tees' },
-            { label: 'PANTS', sub: '10 styles', href: '/collections/pants' },
-            { label: 'ZIP-UPS', sub: '9 styles', href: '/collections/zip-up' },
-            { label: 'CANVAS', sub: '4 pieces', href: '/collections/canvas' },
-          ].map(({ label, sub, href }, i) => (
+            { label: 'HOODIES', count: 14, href: '/collections/hoodie' },
+            { label: 'TEES', count: 8, href: '/collections/tees' },
+            { label: 'PANTS', count: 10, href: '/collections/pants' },
+            { label: 'ZIP-UPS', count: 9, href: '/collections/zip-up' },
+            { label: 'CANVAS', count: 4, href: '/collections/canvas' },
+          ].map(({ label, count, href }, i) => (
             <Link key={label} href={href} style={{
               background: i % 2 === 0 ? '#e8e8e8' : '#ebebeb',
               padding: '2rem 1.2rem',
@@ -313,7 +312,7 @@ export default async function HomePage() {
                 textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)',
                 marginTop: '0.4rem',
               }}>
-                {sub}
+                {count} {t('shopByCategory') === 'SHOP BY CATEGORY' ? 'styles' : 'stili'}
               </p>
             </Link>
           ))}
@@ -334,13 +333,13 @@ export default async function HomePage() {
             fontSize: 'clamp(2.5rem, 5vw, 5rem)',
             fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
           }}>
-            NEW ARRIVALS
+            {t('newArrivals')}
           </h2>
           <Link href="/shop" style={{
             fontSize: '0.65rem', letterSpacing: '0.18em',
             textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
           }}>
-            SEE ALL →
+            {t('seeAll')}
           </Link>
         </div>
         <div style={{
@@ -354,15 +353,12 @@ export default async function HomePage() {
       </section>
 
       {/* ABOUT */}
-      <section style={{
-        borderTop: '1px solid rgba(0,0,0,0.06)',
-      }}>
+      <section style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           minHeight: '80vh',
         }}>
-          {/* VISUAL */}
           <div style={{
             background: '#e8e8e8', position: 'relative',
             minHeight: '400px',
@@ -373,19 +369,17 @@ export default async function HomePage() {
               fontFamily: "'CenturyGothic', sans-serif",
               fontSize: 'clamp(6rem, 18vw, 16rem)',
               color: 'rgba(0,0,0,0.04)',
-              letterSpacing: '0.1em', fontWeight: 900,
-              userSelect: 'none',
+              letterSpacing: '0.1em', fontWeight: 900, userSelect: 'none',
             }}>V</span>
             <div style={{
               position: 'absolute', bottom: '2rem', left: '2rem',
               fontSize: '0.55rem', letterSpacing: '0.22em',
               textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)',
             }}>
-              EST. 2024 — MILAN
+              {t('est')}
             </div>
           </div>
 
-          {/* TEXT */}
           <div style={{
             padding: 'clamp(3rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem)',
             display: 'flex', flexDirection: 'column', justifyContent: 'center',
@@ -396,25 +390,25 @@ export default async function HomePage() {
               textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)',
               marginBottom: '1.5rem',
             }}>
-              The Brand
+              {t('aboutTag')}
             </p>
             <h2 style={{
               fontFamily: "'CenturyGothic', sans-serif",
               fontSize: 'clamp(2.5rem, 5vw, 5.5rem)',
               fontWeight: 900, lineHeight: 0.92,
               letterSpacing: '-0.01em', marginBottom: '2rem', color: '#080808',
+              whiteSpace: 'pre-line',
             }}>
-              BUILT FOR<br />THE<br />CULTURE
+              {t('aboutTitle')}
             </h2>
             <p style={{
               fontSize: '0.8rem', lineHeight: 1.9,
               color: 'rgba(0,0,0,0.45)',
               maxWidth: '360px', marginBottom: '3rem',
             }}>
-              VHERSO nasce dalla strada, dai rifugi ski, dai rooftop — pezzi che si portano con intenzione, non per caso.
+              {t('aboutText')}
             </p>
 
-            {/* STATS */}
             <div style={{
               display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
               gap: '1.5rem', marginBottom: '3rem',
@@ -448,9 +442,8 @@ export default async function HomePage() {
               fontSize: '0.62rem', letterSpacing: '0.2em',
               textTransform: 'uppercase', fontWeight: 400,
               fontFamily: "'CenturyGothic', sans-serif",
-              transition: 'background 0.2s',
             }}>
-              OUR STORY →
+              {t('ourStory')}
             </Link>
           </div>
         </div>

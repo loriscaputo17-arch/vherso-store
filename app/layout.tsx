@@ -6,19 +6,18 @@ import Cart from '@/components/Cart'
 import './globals.css'
 import NewsletterPopup from '@/components/NewsletterPopup'
 import PageLoader from '@/components/PageLoader'
+import { getLocale } from '@/lib/i18n.server'
 
 export const metadata: Metadata = {
   title: 'VHERSO — Club Lifestyle',
   description: 'A lifestyle built around those who wear feeling, not just clothing.',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale()
+
   return (
-    <html lang="it">
+    <html lang={locale}>
       <body style={{
         margin: 0,
         background: '#0a0a0a',

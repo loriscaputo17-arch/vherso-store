@@ -4,7 +4,21 @@ import { useState, useEffect } from 'react'
 import { shopifyFetch } from '@/lib/shopify'
 import { GET_PRODUCTS, GET_COLLECTIONS } from '@/lib/queries'
 import ProductCard from '@/components/ProductCard'
-import Cookies from 'js-cookie'
+
+type TFunc = (key: string) => string
+
+function useTranslations(namespace: string): TFunc {
+  const [t, setT] = useState<TFunc>(() => (k: string) => k)
+  useEffect(() => {
+    const country = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
+    const locale = ['US', 'GB'].includes(country) ? 'en' : 'it'
+    import(`../../messages/${locale}.json`).then(m => {
+      const ns = m.default?.[namespace] ?? {}
+      setT(() => (key: string) => ns[key] ?? key)
+    })
+  }, [namespace])
+  return t
+}
 
 export default function ShopPage() {
   const [products, setProducts] = useState<any[]>([])
@@ -12,6 +26,7 @@ export default function ShopPage() {
   const [activeFilter, setActiveFilter] = useState('ALL')
   const [sortBy, setSortBy] = useState('default')
   const [loading, setLoading] = useState(true)
+  const t = useTranslations('shop')
 
   useEffect(() => {
     const load = async () => {
@@ -22,9 +37,7 @@ export default function ShopPage() {
           .split('; ')
           .find(row => row.startsWith('x-country='))
           ?.split('=')[1]
-
         const country = countryFromUrl ?? countryFromCookie ?? 'IT'
-        console.log('SHOP country:', country)
 
         const [pData, cData] = await Promise.all([
           shopifyFetch(GET_PRODUCTS, { first: 48, country }),
@@ -41,10 +54,10 @@ export default function ShopPage() {
     load()
   }, [])
 
-  const filters = ['ALL', ...collections.map(({ node }: any) => node.title.toUpperCase())]
+  const filters = [t('all'), ...collections.map(({ node }: any) => node.title.toUpperCase())]
 
   const filtered = products.filter(({ node }: any) => {
-    if (activeFilter === 'ALL') return true
+    if (activeFilter === t('all') || activeFilter === 'ALL') return true
     return node.title.toUpperCase().includes(activeFilter.split(' ')[0])
   })
 
@@ -58,180 +71,88 @@ export default function ShopPage() {
     <>
       <style>{`
         .shop-page {
-          background: #f5f5f5;
-          min-height: 100vh;
-          color: #080808;
-          font-family: 'CenturyGothic', sans-serif;
+          background: #f5f5f5; min-height: 100vh;
+          color: #080808; font-family: 'CenturyGothic', sans-serif;
         }
-
         .shop-header {
-          padding: 8rem 2rem 0;
-          position: relative;
-          overflow: hidden;
-          border-bottom: 1px solid rgba(0,0,0,0.06);
+          padding: 8rem 2rem 0; position: relative;
+          overflow: hidden; border-bottom: 1px solid rgba(0,0,0,0.06);
           background: #efefef;
         }
-
         .shop-header-bg {
-          position: absolute;
-          top: 50%; left: 50%;
+          position: absolute; top: 50%; left: 50%;
           transform: translate(-50%, -50%);
           font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(120px, 22vw, 300px);
-          color: rgba(0,0,0,0.03);
-          white-space: nowrap;
-          user-select: none;
-          letter-spacing: 0.05em;
-          pointer-events: none;
+          color: rgba(0,0,0,0.03); white-space: nowrap;
+          user-select: none; letter-spacing: 0.05em; pointer-events: none;
         }
-
         .shop-header-content {
-          position: relative;
-          z-index: 2;
-          display: flex;
-          justify-content: space-between;
-          align-items: flex-end;
-          padding-bottom: 2.5rem;
+          position: relative; z-index: 2;
+          display: flex; justify-content: space-between;
+          align-items: flex-end; padding-bottom: 2.5rem;
         }
-
         .shop-title {
           font-family: 'CenturyGothic', sans-serif;
           font-size: clamp(4rem, 10vw, 10rem);
-          font-weight: 400;
-          line-height: 0.88;
-          letter-spacing: 0.02em;
-          color: #080808;
+          font-weight: 400; line-height: 0.88;
+          letter-spacing: 0.02em; color: #080808;
         }
-
         .shop-meta p {
-          font-size: 0.62rem;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: rgba(0,0,0,0.25);
-          text-align: right;
+          font-size: 0.62rem; letter-spacing: 0.18em;
+          text-transform: uppercase; color: rgba(0,0,0,0.25); text-align: right;
         }
-
         .filters-bar {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 0 2rem;
-          border-bottom: 1px solid rgba(0,0,0,0.06);
-          overflow-x: auto;
-          scrollbar-width: none;
-          gap: 1rem;
-          background: #f5f5f5;
+          display: flex; align-items: center; justify-content: space-between;
+          padding: 0 2rem; border-bottom: 1px solid rgba(0,0,0,0.06);
+          overflow-x: auto; scrollbar-width: none; gap: 1rem; background: #f5f5f5;
         }
-
         .filters-bar::-webkit-scrollbar { display: none; }
-
-        .filters-left {
-          display: flex;
-          gap: 0;
-          flex-shrink: 0;
-        }
-
+        .filters-left { display: flex; gap: 0; flex-shrink: 0; }
         .filter-btn {
-          background: none;
-          border: none;
-          color: rgba(0,0,0,0.3);
-          font-size: 0.6rem;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          padding: 1.2rem 1rem;
-          cursor: pointer;
+          background: none; border: none; color: rgba(0,0,0,0.3);
+          font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase;
+          padding: 1.2rem 1rem; cursor: pointer;
           font-family: 'CenturyGothic', sans-serif;
-          border-bottom: 2px solid transparent;
-          transition: all 0.2s;
-          white-space: nowrap;
+          border-bottom: 2px solid transparent; transition: all 0.2s; white-space: nowrap;
         }
-
-        .filter-btn.active {
-          color: #080808;
-          border-bottom-color: #080808;
-        }
-
+        .filter-btn.active { color: #080808; border-bottom-color: #080808; }
         .filter-btn:hover { color: #080808; }
-
         .sort-select {
-          background: none;
-          border: none;
-          color: rgba(0,0,0,0.35);
-          font-size: 0.6rem;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          cursor: pointer;
-          font-family: 'CenturyGothic', sans-serif;
-          outline: none;
-          padding: 0.5rem 0;
-          flex-shrink: 0;
+          background: none; border: none; color: rgba(0,0,0,0.35);
+          font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+          cursor: pointer; font-family: 'CenturyGothic', sans-serif;
+          outline: none; padding: 0.5rem 0; flex-shrink: 0;
         }
-
-        .sort-select option {
-          background: #f5f5f5;
-          color: #080808;
-        }
-
+        .sort-select option { background: #f5f5f5; color: #080808; }
         .results-bar {
-          padding: 1.2rem 2rem;
-          border-bottom: 1px solid rgba(0,0,0,0.04);
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+          padding: 1.2rem 2rem; border-bottom: 1px solid rgba(0,0,0,0.04);
+          display: flex; align-items: center; justify-content: space-between;
           background: #f5f5f5;
         }
-
         .results-bar p {
-          font-size: 0.6rem;
-          letter-spacing: 0.15em;
-          text-transform: uppercase;
-          color: rgba(0,0,0,0.25);
+          font-size: 0.6rem; letter-spacing: 0.15em;
+          text-transform: uppercase; color: rgba(0,0,0,0.25);
         }
-
         .shop-grid {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 2px;
-          padding: 2px;
-          background: rgba(0,0,0,0.06);
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          gap: 2px; padding: 2px; background: rgba(0,0,0,0.06);
         }
-
         .skeleton {
-          background: #e8e8e8;
-          aspect-ratio: 3/4;
+          background: #e8e8e8; aspect-ratio: 3/4;
           animation: shimmer 1.5s ease infinite;
         }
-
-        @keyframes shimmer {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
-        }
-
+        @keyframes shimmer { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         .shop-empty {
-          grid-column: 1 / -1;
-          padding: 6rem 2rem;
-          text-align: center;
-          background: #f5f5f5;
+          grid-column: 1 / -1; padding: 6rem 2rem;
+          text-align: center; background: #f5f5f5;
         }
-
         .shop-empty h3 {
-          font-family: 'CenturyGothic', sans-serif;
-          font-size: 3rem;
-          color: rgba(0,0,0,0.1);
-          letter-spacing: 0.1em;
-          margin-bottom: 1rem;
+          font-family: 'CenturyGothic', sans-serif; font-size: 3rem;
+          color: rgba(0,0,0,0.1); letter-spacing: 0.1em; margin-bottom: 1rem;
         }
-
-        .shop-empty p {
-          font-size: 0.72rem;
-          color: rgba(0,0,0,0.25);
-          letter-spacing: 0.1em;
-        }
-
-        @media (max-width: 1024px) {
-          .shop-grid { grid-template-columns: repeat(3, 1fr); }
-        }
-
+        .shop-empty p { font-size: 0.72rem; color: rgba(0,0,0,0.25); letter-spacing: 0.1em; }
+        @media (max-width: 1024px) { .shop-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px) {
           .shop-header { padding: 6rem 1.5rem 0; }
           .shop-header-content { flex-direction: column; align-items: flex-start; gap: 1rem; }
@@ -240,7 +161,6 @@ export default function ShopPage() {
           .filters-bar { padding: 0 1.5rem; }
           .results-bar { padding: 1rem 1.5rem; }
         }
-
         @media (max-width: 480px) {
           .shop-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; padding: 1px; }
         }
@@ -257,16 +177,16 @@ export default function ShopPage() {
                 textTransform: 'uppercase', color: 'rgba(0,0,0,0.3)',
                 marginBottom: '1rem',
               }}>
-                VHERSO — All Products
+                VHERSO — {t('title')}
               </p>
               <h1 className="shop-title">
-                SHOP<br />
-                <span style={{ color: 'rgba(0,0,0,0.18)' }}>ALL</span>
+                {t('title')}<br />
+                <span style={{ color: 'rgba(0,0,0,0.18)' }}>{t('all')}</span>
               </h1>
             </div>
             <div className="shop-meta">
-              <p>{loading ? '—' : `${sorted.length} styles`}</p>
-              <p style={{ marginTop: '0.3rem' }}>SS26 Collection</p>
+              <p>{loading ? '—' : `${sorted.length} ${t('styles')}`}</p>
+              <p style={{ marginTop: '0.3rem' }}>{t('collection')}</p>
             </div>
           </div>
         </div>
@@ -283,22 +203,18 @@ export default function ShopPage() {
               </button>
             ))}
           </div>
-          <select
-            className="sort-select"
-            value={sortBy}
-            onChange={e => setSortBy(e.target.value)}
-          >
-            <option value="default">Sort: Default</option>
-            <option value="price-asc">Price: Low → High</option>
-            <option value="price-desc">Price: High → Low</option>
+          <select className="sort-select" value={sortBy} onChange={e => setSortBy(e.target.value)}>
+            <option value="default">{t('sortDefault')}</option>
+            <option value="price-asc">{t('sortPriceAsc')}</option>
+            <option value="price-desc">{t('sortPriceDesc')}</option>
           </select>
         </div>
 
         <div className="results-bar">
-          <p>{loading ? 'Loading...' : `${sorted.length} results`}</p>
-          {activeFilter !== 'ALL' && (
+          <p>{loading ? t('loading') : `${sorted.length} ${t('results')}`}</p>
+          {activeFilter !== t('all') && activeFilter !== 'ALL' && (
             <button
-              onClick={() => setActiveFilter('ALL')}
+              onClick={() => setActiveFilter(t('all'))}
               style={{
                 background: 'none', border: 'none',
                 color: 'rgba(0,0,0,0.35)', cursor: 'pointer',
@@ -307,25 +223,21 @@ export default function ShopPage() {
                 textDecoration: 'underline', textUnderlineOffset: '3px',
               }}
             >
-              Clear filter ✕
+              {t('clearFilter')}
             </button>
           )}
         </div>
 
         <div className="shop-grid">
           {loading ? (
-            Array(8).fill(null).map((_, i) => (
-              <div key={i} className="skeleton" />
-            ))
+            Array(8).fill(null).map((_, i) => <div key={i} className="skeleton" />)
           ) : sorted.length === 0 ? (
             <div className="shop-empty">
-              <h3>NO RESULTS</h3>
-              <p>Try a different filter</p>
+              <h3>{t('noResults')}</h3>
+              <p>{t('tryFilter')}</p>
             </div>
           ) : (
-            sorted.map(({ node }: any) => (
-              <ProductCard key={node.id} product={node} />
-            ))
+            sorted.map(({ node }: any) => <ProductCard key={node.id} product={node} />)
           )}
         </div>
 

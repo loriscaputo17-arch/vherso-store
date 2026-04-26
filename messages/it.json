@@ -62,7 +62,8 @@
     "freeReturns": "Resi gratuiti entro 14 giorni",
     "secureCheckout": "Checkout sicuro via Shopify",
     "shipsWithin": "Spedizione entro 24-48 ore lavorative",
-    "photos": "Foto"
+    "photos": "Foto",
+    "notFound": "Prodotto non trovato"
   },
   "cart": {
     "yourBag": "IL TUO CARRELLO",
@@ -157,6 +158,25 @@
   "legal": "LEGALE",
   "privacy": "Privacy",
   "terms": "Termini",
-  "cookies": "Cookie"
+  "cookies": "Cookie",
+  "newsletter": {
+  "leftTitle": "ENTRA\nNEL\nCLUB",
+  "leftSub": "Est. 2024 — Italy",
+  "tag": "VHERSO Newsletter",
+  "title": "ACCESSO\nANTICIPATO",
+  "description": "Alert drop, offerte esclusive e accesso anticipato alle nuove collezioni.",
+  "emailPlaceholder": "La tua email",
+  "subscribe": "ISCRIVITI",
+  "noSpam": "Niente spam. Cancellati quando vuoi.",
+  "noThanks": "No grazie",
+  "successTitle": "SEI DENTRO",
+  "successText": "Benvenuto nel club.\nControlla la tua email."
+},
+"search": {
+  "placeholder": "Cerca prodotti...",
+  "close": "CHIUDI",
+  "searching": "Ricerca in corso...",
+  "noResults": "Nessun risultato per"
+}
 
 }

@@ -62,7 +62,8 @@
     "freeReturns": "Free returns within 14 days",
     "secureCheckout": "Secure checkout via Shopify",
     "shipsWithin": "Ships within 24–48 hours",
-    "photos": "Photos"
+    "photos": "Photos",
+    "notFound": "Product not found"
   },
   "cart": {
     "yourBag": "YOUR BAG",
@@ -157,5 +158,24 @@
   "legal": "LEGAL",
   "privacy": "Privacy",
   "terms": "Terms",
-  "cookies": "Cookies"
+  "cookies": "Cookies",
+  "newsletter": {
+  "leftTitle": "JOIN\nTHE\nCLUB",
+  "leftSub": "Est. 2024 — Italy",
+  "tag": "VHERSO Newsletter",
+  "title": "GET EARLY\nACCESS",
+  "description": "Drop alerts, exclusive offers and early access to new collections.",
+  "emailPlaceholder": "Your email",
+  "subscribe": "SUBSCRIBE",
+  "noSpam": "No spam. Unsubscribe anytime.",
+  "noThanks": "No thanks",
+  "successTitle": "YOU'RE IN",
+  "successText": "Welcome to the club.\nCheck your inbox."
+},
+"search": {
+  "placeholder": "Search products...",
+  "close": "CLOSE",
+  "searching": "Searching...",
+  "noResults": "No results for"
+}
 }

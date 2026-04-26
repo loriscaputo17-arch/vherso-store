@@ -394,9 +394,9 @@ export default async function HomePage() {
             </p>
             <h2 style={{
               fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(2.5rem, 5vw, 5.5rem)',
-              fontWeight: 900, lineHeight: 0.92,
-              letterSpacing: '-0.01em', marginBottom: '2rem', color: '#080808',
+              fontSize: 'clamp(5rem, 7vw, 14rem)',
+              fontWeight: 700, lineHeight: 0.88,
+              letterSpacing: '0.01em', marginBottom: '2rem', color: '#080808',
               whiteSpace: 'pre-line',
             }}>
               {t('aboutTitle')}
@@ -420,7 +420,7 @@ export default async function HomePage() {
                   <p style={{
                     fontFamily: "'CenturyGothic', sans-serif",
                     fontSize: 'clamp(1.8rem, 3vw, 2.8rem)',
-                    fontWeight: 900, color: '#080808', lineHeight: 1,
+                    fontWeight: 700, color: '#080808', lineHeight: 1,
                     marginBottom: '0.4rem',
                   }}>
                     {num}

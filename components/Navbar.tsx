@@ -77,9 +77,7 @@ export default function Navbar() {
 
   const links = [
     { label: t('shop'), href: '/shop' },
-    { label: 'AMOUR CLUB', href: '/collections/amour-club' },
-    { label: 'SKI', href: '/collections/ski-collection' },
-    { label: 'BASICS', href: '/collections/basics-collection' },
+    { label: 'Summer Capsule', href: '/collections/summer-capsule' },
     { label: 'CANVAS', href: '/canvas' },
   ]
 
@@ -182,8 +180,6 @@ export default function Navbar() {
 
           {/* DESKTOP RIGHT */}
           <div className="desk-right" style={{ display:'flex', alignItems:'center', gap:'1.2rem', flexShrink:0 }}>
-
-            
 
             <a href="https://vhersoclo.com/account" className="ns nb"><IconUser /></a>
             <div className="ns" style={{ width:'1px', height:'12px', background:'rgba(0,0,0,0.1)' }} />

@@ -182,6 +182,12 @@ export default function Navbar() {
 
           {/* DESKTOP RIGHT */}
           <div className="desk-right" style={{ display:'flex', alignItems:'center', gap:'1.2rem', flexShrink:0 }}>
+
+            
+
+            <a href="https://vhersoclo.com/account" className="ns nb"><IconUser /></a>
+            <div className="ns" style={{ width:'1px', height:'12px', background:'rgba(0,0,0,0.1)' }} />
+
             <button className="ns nb" onClick={() => setSearchOpen(true)}>{t('search')}</button>
             <div className="ns" style={{ width:'1px', height:'12px', background:'rgba(0,0,0,0.1)' }} />
             <button className="nb" onClick={openCart}>
@@ -196,9 +202,9 @@ export default function Navbar() {
 
           {/* MOBILE RIGHT — user + bag */}
           <div className="mob-right" style={{ display:'none', alignItems:'center', gap:'4px', flexShrink:0 }}>
-            <Link href="/account" className="icon-btn" style={{ textDecoration:'none' }}>
+            <a href="https://vhersoclo.com/account" className="icon-btn" style={{ textDecoration:'none' }}>
               <IconUser />
-            </Link>
+            </a>
             <button className="icon-btn" onClick={openCart}>
               <IconBag count={cartCount} />
             </button>

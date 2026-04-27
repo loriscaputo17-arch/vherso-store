@@ -77,7 +77,7 @@ export default function PageLoader() {
           textTransform: 'uppercase', color: 'rgba(0,0,0,0.3)',
           animation: 'loaderTagIn 0.6s ease 0.8s both',
         }}>
-          Club Lifestyle — SS26
+          Summer Collection — SS26
         </p>
 
         {/* BG TEXT */}

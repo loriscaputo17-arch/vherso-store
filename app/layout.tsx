@@ -30,7 +30,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <Navbar />
           <Cart />
           <NewsletterPopup />
-          <main style={{ paddingTop: '50px' }}>
+          <main style={{ paddingTop: '20px' }}>
             {children}
           </main>
         </CartProvider>

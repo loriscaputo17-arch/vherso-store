@@ -69,11 +69,11 @@ export default async function HomePage() {
           <div>
             <h1 style={{
               fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(5rem, 14vw, 14rem)',
+              fontSize: 'clamp(3rem, 8vw, 10rem)',
               fontWeight: 700, lineHeight: 0.88,
               letterSpacing: '0.01em', color: '#080808',
             }}>
-              AMOUR<br />CLUB
+              SUMMER<br />COLLECTION
             </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginTop: '2rem' }}>
               <Link href="/shop" style={{
@@ -161,8 +161,8 @@ export default async function HomePage() {
           }}>
             <h2 style={{
               fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(2.5rem, 5vw, 5rem)',
-              fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
+              fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+              fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
             }}>
               {t('collections')}
             </h2>
@@ -245,8 +245,8 @@ export default async function HomePage() {
         }}>
           <h2 style={{
             fontFamily: "'CenturyGothic', sans-serif",
-            fontSize: 'clamp(2.5rem, 5vw, 5rem)',
-            fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
+              fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+              fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
           }}>
             {t('bestSellers')}
           </h2>
@@ -274,8 +274,8 @@ export default async function HomePage() {
       }}>
         <h2 style={{
           fontFamily: "'CenturyGothic', sans-serif",
-          fontSize: 'clamp(2.5rem, 5vw, 5rem)',
-          fontWeight: 400, letterSpacing: '0.02em',
+          fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+          fontWeight: 700, letterSpacing: '0.02em',
           marginBottom: '2rem', color: '#080808',
         }}>
           {t('shopByCategory')}
@@ -330,8 +330,8 @@ export default async function HomePage() {
         }}>
           <h2 style={{
             fontFamily: "'CenturyGothic', sans-serif",
-            fontSize: 'clamp(2.5rem, 5vw, 5rem)',
-            fontWeight: 400, letterSpacing: '0.02em', color: '#080808',
+            fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+            fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
           }}>
             {t('newArrivals')}
           </h2>
@@ -394,7 +394,7 @@ export default async function HomePage() {
             </p>
             <h2 style={{
               fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(5rem, 7vw, 14rem)',
+              fontSize: 'clamp(5rem, 5vw, 10rem)',
               fontWeight: 700, lineHeight: 0.88,
               letterSpacing: '0.01em', marginBottom: '2rem', color: '#080808',
               whiteSpace: 'pre-line',

@@ -21,6 +21,31 @@ function useTranslations(namespace: string): TFunc {
 export default function Footer() {
   const t = useTranslations('footer')
   const [email, setEmail] = useState('')
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+
+  const handleSubscribe = async () => {
+    if (!email || status === 'loading') return
+    setStatus('loading')
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (data.success) {
+        setStatus('success')
+        setEmail('')
+        setTimeout(() => setStatus('idle'), 3000)
+      } else {
+        setStatus('error')
+        setTimeout(() => setStatus('idle'), 3000)
+      }
+    } catch {
+      setStatus('error')
+      setTimeout(() => setStatus('idle'), 3000)
+    }
+  }
 
   const cols = [
     { titleKey: 'shop', links: [
@@ -50,10 +75,17 @@ export default function Footer() {
         .footer-link:hover { color:rgba(255,255,255,0.8); }
         .social-btn { width:36px; height:36px; border:1px solid rgba(255,255,255,0.12); display:flex; align-items:center; justify-content:center; font-size:0.65rem; letter-spacing:0.12em; color:rgba(255,255,255,0.35); text-decoration:none; transition:all 0.2s; font-family:'CenturyGothic',sans-serif; }
         .social-btn:hover { border-color:rgba(255,255,255,0.5); color:rgba(255,255,255,0.8); }
+        .footer-nl-input { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-right:none; color:#fff; padding:0.8rem 1.2rem; font-size:0.78rem; letter-spacing:0.06em; font-family:'CenturyGothic',sans-serif; outline:none; width:240px; transition:border-color 0.2s; }
+        .footer-nl-input:focus { border-color:rgba(255,255,255,0.3); }
+        .footer-nl-input::placeholder { color:rgba(255,255,255,0.2); }
+        .footer-nl-btn { border:none; padding:0.8rem 1.5rem; font-size:0.72rem; letter-spacing:0.2em; text-transform:uppercase; cursor:pointer; font-family:'CenturyGothic',sans-serif; font-weight:700; white-space:nowrap; transition:all 0.2s; }
         @media (max-width:768px) {
           .footer-grid { grid-template-columns:1fr 1fr !important; }
           .footer-brand { grid-column:1/-1 !important; }
           .footer-bottom { flex-direction:column !important; gap:0.5rem !important; align-items:flex-start !important; }
+          .footer-nl-input { width:100% !important; border-right:1px solid rgba(255,255,255,0.1) !important; border-bottom:none !important; }
+          .footer-nl-wrap { flex-direction:column !important; width:100% !important; }
+          .footer-nl-btn { width:100% !important; }
         }
         @media (max-width:480px) { .footer-grid { grid-template-columns:1fr !important; } }
         @keyframes fticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -74,8 +106,6 @@ export default function Footer() {
 
         {/* MAIN */}
         <div className="footer-grid" style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '3rem', padding: '4rem 2rem 3rem' }}>
-
-          {/* BRAND */}
           <div className="footer-brand">
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', marginBottom: '1.2rem' }}>
               <img src="/logo.png" alt="VHERSO" style={{ height: '48px', width: 'auto', opacity: 0.9 }} />
@@ -92,7 +122,6 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* COLS */}
           {cols.map(({ titleKey, links }) => (
             <div key={titleKey}>
               <p style={{ fontFamily: "'CenturyGothic',sans-serif", fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.22em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)', marginBottom: '1.4rem' }}>
@@ -116,21 +145,37 @@ export default function Footer() {
               {t('newsletter')}
             </p>
             <p style={{ fontFamily: "'CenturyGothic',sans-serif", fontSize: '0.8rem', color: 'rgba(255,255,255,0.2)', letterSpacing: '0.06em' }}>
-              {t('newsletterSub')}
+              {status === 'success'
+                ? '✓ ' + t('subscribeSuccess')
+                : status === 'error'
+                ? t('subscribeError')
+                : t('newsletterSub')}
             </p>
           </div>
-          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
-            <input
-              type="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-              placeholder={t('emailPlaceholder')}
-              style={{ background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRight: 'none', color: '#fff', padding: '0.8rem 1.2rem', fontSize: '0.78rem', letterSpacing: '0.06em', fontFamily: "'CenturyGothic',sans-serif", outline: 'none', width: '240px' }}
-            />
-            <button style={{ background: '#f5f5f5', color: '#080808', border: 'none', padding: '0.8rem 1.5rem', fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', cursor: 'pointer', fontFamily: "'CenturyGothic',sans-serif", fontWeight: 700, whiteSpace: 'nowrap' }}>
-              {t('subscribe')}
-            </button>
-          </div>
+
+          {status !== 'success' && (
+            <div className="footer-nl-wrap" style={{ display: 'flex', flexWrap: 'wrap' }}>
+              <input
+                className="footer-nl-input"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder={t('emailPlaceholder')}
+                onKeyDown={e => e.key === 'Enter' && handleSubscribe()}
+              />
+              <button
+                className="footer-nl-btn"
+                onClick={handleSubscribe}
+                disabled={status === 'loading'}
+                style={{
+                  background: status === 'loading' ? 'rgba(245,245,245,0.6)' : '#f5f5f5',
+                  color: '#080808',
+                }}
+              >
+                {status === 'loading' ? '...' : t('subscribe')}
+              </button>
+            </div>
+          )}
         </div>
 
         {/* BOTTOM */}

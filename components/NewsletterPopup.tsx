@@ -40,9 +40,20 @@ export default function NewsletterPopup() {
     }, 400)
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email) return
+
+    try {
+      await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+    } catch {
+      // fail silently — mostra successo comunque
+    }
+
     setSubmitted(true)
     setTimeout(close, 2000)
   }

@@ -49,9 +49,10 @@ export default function Footer() {
 
   const cols = [
     { titleKey: 'shop', links: [
-      { label: 'New Arrivals', href: '/shop' },
-      { label: 'Summer Collection', href: '/collections/summer-capsule' },
-      { label: 'Basics', href: '/collections/basics-collection' },
+      { label: t('shop'), href: '/shop' },
+      { label: 'Summer Capsule', href: '/collections/summer-collection' },
+      { label: 'Man Collection', href: '/collections/allproducts' },
+      { label: 'Women Collection', href: '/collections/women-collection-ss25' },
       { label: 'Canvas', href: '/canvas' },
     ]},
     { titleKey: 'info', links: [

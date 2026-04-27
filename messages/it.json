@@ -1,6 +1,6 @@
 {
   "nav": {
-    "shop": "SHOP",
+    "shop": "Shop",
     "bag": "BAG",
     "search": "CERCA"
   },
@@ -33,7 +33,7 @@
     "est": "EST. 2024 — MILAN"
   },
   "shop": {
-    "title": "SHOP",
+    "title": "Shop",
     "all": "ALL",
     "sortDefault": "Ordina: Default",
     "sortPriceAsc": "Prezzo: Basso → Alto",
@@ -80,7 +80,7 @@
   },
   "footer": {
     "tagline": "Club lifestyle brand. Built for those who move with intention — ski slopes, rooftops, late dinners.",
-    "shop": "SHOP",
+    "shop": "Shop",
     "info": "INFO",
     "legal": "LEGALE",
     "newsletter": "NEWSLETTER",

@@ -77,8 +77,10 @@ export default function Navbar() {
 
   const links = [
     { label: t('shop'), href: '/shop' },
-    { label: 'Summer Capsule', href: '/collections/summer-capsule' },
-    { label: 'CANVAS', href: '/canvas' },
+    { label: 'Summer Capsule', href: '/collections/summer-collection' },
+    { label: 'Man Collection', href: '/collections/allproducts' },
+    { label: 'Women Collection', href: '/collections/women-collection-ss25' },
+    { label: 'Canvas', href: '/canvas' },
   ]
 
   const DesktopHamburger = () => (

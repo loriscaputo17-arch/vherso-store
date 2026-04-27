@@ -125,8 +125,6 @@
   --sans: 'CenturyGothic', sans-serif;
 }
 
-html { scroll-behavior: smooth; }
-
 body {
   background: var(--white);
   color: var(--black);

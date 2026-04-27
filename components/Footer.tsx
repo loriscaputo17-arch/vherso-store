@@ -50,8 +50,7 @@ export default function Footer() {
   const cols = [
     { titleKey: 'shop', links: [
       { label: 'New Arrivals', href: '/shop' },
-      { label: 'Amour Club', href: '/collections/amour-club' },
-      { label: 'Ski Collection', href: '/collections/ski-collection' },
+      { label: 'Summer Collection', href: '/collections/summer-capsule' },
       { label: 'Basics', href: '/collections/basics-collection' },
       { label: 'Canvas', href: '/canvas' },
     ]},

@@ -64,7 +64,7 @@ export default function ProductCard({ product }: { product: Product }) {
       onMouseLeave={() => setHovered(false)}
     >
       <div style={{
-        position: 'relative', aspectRatio: '3/4',
+        position: 'relative', aspectRatio: '4/4',
         background: '#e8e8e8', overflow: 'hidden',
       }}>
         {image1 && (
@@ -72,7 +72,7 @@ export default function ProductCard({ product }: { product: Product }) {
             src={hovered && image2 ? image2 : image1}
             alt={product.title}
             style={{
-              width: '100%', height: '100%', objectFit: 'cover',
+              width: '100%', height: '100%',
               transition: 'transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94)',
               transform: hovered ? 'scale(1.05)' : 'scale(1)',
               display: 'block',

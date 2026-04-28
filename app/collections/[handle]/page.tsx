@@ -112,12 +112,12 @@ export default async function CollectionPage({
                 </p>
                 <h1 style={{
                   fontFamily: "'CenturyGothic', sans-serif",
-                  fontSize: 'clamp(4rem, 4vw, 10rem)',
-                  fontWeight: 900, lineHeight: 0.88,
+                  fontSize: 'clamp(2.5rem, 4vw, 10rem)',
+                  fontWeight: 700, lineHeight: 0.88,
                   letterSpacing: '-0.01em', color: '#080808',
                 }}>
                   {collection.title.toUpperCase()}<br />
-                  <span style={{ fontSize: 'clamp(2rem, 2vw, 5rem)', color: 'rgba(0,0,0,0.18)', fontWeight: 400 }}>SS26</span>
+                  <span style={{ fontSize: 'clamp(1.5rem, 2vw, 5rem)', color: 'rgba(0,0,0,0.18)', fontWeight: 400 }}>SS26</span>
                 </h1>
                 {collection.description && (
                   <p style={{

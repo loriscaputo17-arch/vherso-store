@@ -394,7 +394,7 @@ export default async function HomePage() {
             </p>
             <h2 style={{
               fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(5rem, 5vw, 10rem)',
+              fontSize: 'clamp(3rem, 5vw, 10rem)',
               fontWeight: 700, lineHeight: 0.88,
               letterSpacing: '0.01em', marginBottom: '2rem', color: '#080808',
               whiteSpace: 'pre-line',

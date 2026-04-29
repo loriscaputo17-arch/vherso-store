@@ -299,7 +299,7 @@ export default async function HomePage() {
           display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
           gap: '2px', padding: '0 2rem',
         }}>
-          {products.slice(0, 4).map(({ node }: any) => (
+          {products.slice(0, 8).map(({ node }: any) => (
             <ProductCard key={node.id} product={node} />
           ))}
         </div>

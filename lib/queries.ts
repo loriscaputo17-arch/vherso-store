@@ -118,7 +118,8 @@ export const GET_COLLECTIONS = `
 `
 
 export const GET_COLLECTION_BY_HANDLE = `
-  query GetCollection($handle: String!, $first: Int!) {
+  query GetCollection($handle: String!, $first: Int!, $country: CountryCode, $language: LanguageCode)
+  @inContext(country: $country, language: $language) {
     collection(handle: $handle) {
       id
       title

@@ -1,5 +1,5 @@
 import { shopifyFetch } from '@/lib/shopify'
-import { GET_PRODUCTS, GET_COLLECTIONS } from '@/lib/queries'
+import { GET_PRODUCTS, GET_COLLECTIONS,GET_COLLECTION_BY_HANDLE } from '@/lib/queries'
 import ProductCard from '@/components/ProductCard'
 import Link from 'next/link'
 import { headers } from 'next/headers'
@@ -15,9 +15,9 @@ export default async function HomePage() {
   const th = await getT('hero')
 
   try {
-    const productsData = await shopifyFetch(GET_PRODUCTS, { first: 8 }, headersList)
+    const productsData = await shopifyFetch(GET_COLLECTION_BY_HANDLE, { first: 8, handle: 'summer-collection' }, headersList)
     const collectionsData = await shopifyFetch(GET_COLLECTIONS, { first: 6 }, headersList)
-    products = productsData?.products?.edges ?? []
+    products = productsData?.collection?.products?.edges ?? []
     collections = collectionsData?.collections?.edges ?? []
     console.log(collections)
   } catch (e) {
@@ -188,70 +188,70 @@ export default async function HomePage() {
 
       {/* COLLECTIONS */}
       {collections.length > 0 && (
-  <section style={{ padding: '4rem 0' }}>
-    <div style={{
-      display: 'flex', justifyContent: 'space-between',
-      alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
-    }}>
-      <h2 style={{
-        fontFamily: "'CenturyGothic', sans-serif",
-        fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-        fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
-      }}>
-        {t('collections')}
-      </h2>
-      <Link href="/shop" style={{
-        fontSize: '0.65rem', letterSpacing: '0.18em',
-        textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
-      }}>
-        {t('all')}
-      </Link>
-    </div>
+        <section style={{ padding: '4rem 0' }}>
+          <div style={{
+            display: 'flex', justifyContent: 'space-between',
+            alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
+          }}>
+            <h2 style={{
+              fontFamily: "'CenturyGothic', sans-serif",
+              fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+              fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
+            }}>
+              {t('collections')}
+            </h2>
+            <Link href="/shop" style={{
+              fontSize: '0.65rem', letterSpacing: '0.18em',
+              textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
+            }}>
+              {t('all')}
+            </Link>
+          </div>
 
-<div className="col-collections" style={{ display: 'flex', flexDirection: 'row', gap: '2px', padding: '0 2rem' }}>
-      {collections
-        .filter(({ node }: any) => node.handle !== 'frontpage')
-        .slice(0, 2)
-        .map(({ node }: any, i: number) => (
-          <Link key={node.id} href={`/collections/${node.handle}`} style={{
-  position: 'relative',
-  aspectRatio: '3/4',
-  flex: 1,
-  background: '#ddd', overflow: 'hidden', display: 'block',
-}}>
+      <div className="col-collections" style={{ display: 'flex', flexDirection: 'row', gap: '2px', padding: '0 2rem' }}>
+            {collections
+              .filter(({ node }: any) => node.handle !== 'frontpage')
+              .slice(0, 2)
+              .map(({ node }: any, i: number) => (
+                <Link key={node.id} href={`/collections/${node.handle}`} style={{
+        position: 'relative',
+        aspectRatio: '3/4',
+        flex: 1,
+        background: '#ddd', overflow: 'hidden', display: 'block',
+      }}>
 
-            {/* IMMAGINE CUSTOM da public/images/ */}
-            <img
-              src={`/images/${i + 2}.jpeg`}
-              alt={node.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-            />
-            <div style={{
-              position: 'absolute', inset: 0,
-              background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)',
-            }} />
-            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
-              <p style={{
-                fontFamily: "'CenturyGothic', sans-serif",
-                fontSize: 'clamp(1.8rem, 4vw, 3rem)',
-                fontWeight: 700,
-                color: '#fff', lineHeight: 1, letterSpacing: '0.02em',
-              }}>
-                {node.title.toUpperCase()}
-              </p>
-              <p style={{
-                fontSize: '0.62rem', letterSpacing: '0.18em',
-                textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
-                marginTop: '0.5rem', fontFamily: "'CenturyGothic', sans-serif",
-              }}>
-                {node.products?.edges?.length ?? 0} {t('styles')} →
-              </p>
-            </div>
-          </Link>
-        ))}
-    </div>
-  </section>
-)}
+                  {/* IMMAGINE CUSTOM da public/images/ */}
+                  <img
+                    src={`/images/${i + 2}.jpeg`}
+                    alt={node.title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                  />
+                  <div style={{
+                    position: 'absolute', inset: 0,
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)',
+                  }} />
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
+                    <p style={{
+                      fontFamily: "'CenturyGothic', sans-serif",
+                      fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+                      fontWeight: 700,
+                      color: '#fff', lineHeight: 1, letterSpacing: '0.02em',
+                    }}>
+                      {node.title.toUpperCase()}
+                    </p>
+                    <p style={{
+                      fontSize: '0.62rem', letterSpacing: '0.18em',
+                      textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
+                      marginTop: '0.5rem', fontFamily: "'CenturyGothic', sans-serif",
+                    }}>
+                      {node.products?.edges?.length ?? 0} {t('styles')} →
+                    </p>
+                  </div>
+                </Link>
+              ))}
+          </div>
+        </section>
+      )}
 
       {/* MARQUEE DIVIDER */}
       <div style={{
@@ -277,33 +277,33 @@ export default async function HomePage() {
 
       {/* BEST SELLERS */}
       <section style={{ padding: '4rem 0' }}>
-  <div style={{
-    display: 'flex', justifyContent: 'space-between',
-    alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
-  }}>
-    <h2 style={{
-      fontFamily: "'CenturyGothic', sans-serif",
-      fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-      fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
-    }}>
-      {t('bestSellers')}
-    </h2>
-    <Link href="/collections/summer-collection" style={{
-      fontSize: '0.65rem', letterSpacing: '0.18em',
-      textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
-    }}>
-      {t('viewAll')}
-    </Link>
-  </div>
-  <div className="bs-grid" style={{
-    display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '2px', padding: '0 2rem',
-  }}>
-    {products.slice(0, 4).map(({ node }: any) => (
-      <ProductCard key={node.id} product={node} />
-    ))}
-  </div>
-</section>
+        <div style={{
+          display: 'flex', justifyContent: 'space-between',
+          alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
+        }}>
+          <h2 style={{
+            fontFamily: "'CenturyGothic', sans-serif",
+            fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+            fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
+          }}>
+            {t('bestSellers')}
+          </h2>
+          <Link href="/collections/summer-collection" style={{
+            fontSize: '0.65rem', letterSpacing: '0.18em',
+            textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
+          }}>
+            {t('viewAll')}
+          </Link>
+        </div>
+        <div className="bs-grid" style={{
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+          gap: '2px', padding: '0 2rem',
+        }}>
+          {products.slice(0, 4).map(({ node }: any) => (
+            <ProductCard key={node.id} product={node} />
+          ))}
+        </div>
+      </section>
 
       {/* ABOUT */}
       <section style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
@@ -431,21 +431,22 @@ export default async function HomePage() {
         }
         @media (max-width: 768px) {
           .bs-grid {
-            grid-template-columns: 1fr !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            padding: 0 !important;
             gap: 1px !important;
           }
         }
 
         @media (max-width: 768px) {
-  .col-collections {
-    flex-direction: column !important;
-    padding: 0 2rem !important;
-  }
-  .col-collections a {
-    aspect-ratio: 9/16 !important;
-    flex: 1 !important;
-  }
-}
+          .col-collections {
+            flex-direction: column !important;
+            padding: 0 2rem !important;
+          }
+          .col-collections a {
+            aspect-ratio: 9/16 !important;
+            flex: 1 !important;
+          }
+        }
 
       `}</style>
 

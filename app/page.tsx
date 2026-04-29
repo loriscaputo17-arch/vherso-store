@@ -93,7 +93,7 @@ export default async function HomePage() {
     <h1 style={{
       fontFamily: "'CenturyGothic', sans-serif",
       fontSize: 'clamp(3rem, 12vw, 11rem)',
-      fontWeight: 900, lineHeight: 0.88,
+      fontWeight: 600, lineHeight: 0.88,
       letterSpacing: '-0.02em', color: '#ffffff',
       marginBottom: '0.2rem',
     }}>
@@ -174,7 +174,6 @@ export default async function HomePage() {
           {Array(4).fill([
             tn('shipping'), '★',
             tn('newDrop'), '★',
-            tn('skiGone'), '★',
           ]).flat().map((text, i) => (
             <span key={i} style={{
               fontSize: '0.58rem', letterSpacing: '0.2em',

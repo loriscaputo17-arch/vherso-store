@@ -177,5 +177,23 @@
   "close": "CLOSE",
   "searching": "Searching...",
   "noResults": "No results for"
+},
+"sizeGuide": {
+  "tag": "VHERSO — Fitting Guide",
+  "title": "SIZE",
+  "titleSub": "GUIDE",
+  "measureTitle": "How to measure",
+  "chest": "Chest",
+  "chestDesc": "Measure horizontally under the armpits, around the widest part of your chest.",
+  "waist": "Waist",
+  "waistDesc": "Measure the narrowest part of your torso, usually above the navel.",
+  "hips": "Hips",
+  "hipsDesc": "Measure horizontally around the widest part of your hips.",
+  "note": "Note: Measurements are indicative. If you are between two sizes, we recommend choosing the larger size for a more comfortable fit, or the smaller one for a more fitted look. VHERSO garments are designed with an oversize fit — consider going down one size if you prefer a slimmer look.",
+  "shopNow": "Shop Now →",
+  "contact": "Need help? Contact us",
+  "tshirtsTitle": "T-Shirts & Tops",
+  "hoodiesTitle": "Hoodies & Zip-Ups",
+  "pantsTitle": "Pants & Bottoms"
 }
 }

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import AddToCartButton from '@/components/AddToCartButton'
+import { useWishlist } from '@/hooks/useWishlist'
 
 type TFunc = (key: string) => string
 
@@ -192,6 +193,8 @@ export default function ProductClient({ product }: { product: any }) {
 }
 
 function ProductInfo({ product, variants, selectedVariant, setSelectedVariant, hoveredWishlist, setHoveredWishlist, price, currencySymbol, isAvailable, t }: any) {
+  const { isWished, toggle } = useWishlist(product.handle)
+
   return (
     <>
       {/* BREADCRUMB */}
@@ -245,7 +248,19 @@ function ProductInfo({ product, variants, selectedVariant, setSelectedVariant, h
         <div style={{ marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
             <p style={{ fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>{t('size')}</p>
-            <p style={{ fontSize: '0.55rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: '3px' }}>{t('sizeGuide')}</p>
+            <p style={{ fontSize: '0.55rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+              <a href="/size-guide"
+  target="_blank"
+  rel="noopener noreferrer"
+  style={{
+    fontSize: '0.55rem', letterSpacing: '0.15em',
+    textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)',
+    cursor: 'pointer',
+  }}
+>
+  {t('sizeGuide')}
+</a>
+            </p>
           </div>
           <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
             {variants.map((v: any) => (
@@ -272,21 +287,22 @@ function ProductInfo({ product, variants, selectedVariant, setSelectedVariant, h
       <div style={{ display: 'grid', gridTemplateColumns: '1fr auto', gap: '0.5rem', marginBottom: '2rem' }}>
         <AddToCartButton variantId={selectedVariant?.id} />
         <button
-          onMouseEnter={() => setHoveredWishlist(true)}
-          onMouseLeave={() => setHoveredWishlist(false)}
+          onClick={toggle}
           style={{
             width: '52px', height: '52px', background: 'none',
-            border: `1px solid ${hoveredWishlist ? '#080808' : 'rgba(0,0,0,0.12)'}`,
-            color: hoveredWishlist ? '#080808' : 'rgba(0,0,0,0.35)',
+            border: `1px solid ${isWished ? '#080808' : 'rgba(0,0,0,0.12)'}`,
+            color: isWished ? '#080808' : 'rgba(0,0,0,0.35)',
             cursor: 'pointer', fontSize: '1.1rem',
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             transition: 'all 0.2s', flexShrink: 0,
           }}
-        >♡</button>
+        >
+          {isWished ? '♥' : '♡'}
+        </button>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.7rem', padding: '1.2rem 1.4rem', background: 'rgba(0,0,0,0.02)', border: '1px solid rgba(0,0,0,0.05)', marginBottom: '2rem' }}>
-        {[t('freeShipping'), t('freeReturns'), t('secureCheckout'), t('shipsWithin')].map(text => (
+        {[t('freeReturns'), t('secureCheckout'), t('shipsWithin')].map(text => (
           <div key={text} style={{ display: 'flex', alignItems: 'center', gap: '0.7rem', fontSize: '0.65rem', letterSpacing: '0.04em', color: 'rgba(0,0,0,0.45)', fontFamily: "'CenturyGothic', sans-serif" }}>
             <div style={{ width: '3px', height: '3px', borderRadius: '50%', background: 'rgba(0,0,0,0.2)', flexShrink: 0 }} />
             {text}

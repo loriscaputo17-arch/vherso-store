@@ -177,6 +177,24 @@
   "close": "CHIUDI",
   "searching": "Ricerca in corso...",
   "noResults": "Nessun risultato per"
+},
+"sizeGuide": {
+  "tag": "VHERSO — Guida alle taglie",
+  "title": "GUIDA",
+  "titleSub": "TAGLIE",
+  "measureTitle": "Come prendere le misure",
+  "chest": "Petto",
+  "chestDesc": "Misura orizzontalmente sotto le ascelle, intorno alla parte più larga del petto.",
+  "waist": "Vita",
+  "waistDesc": "Misura la parte più stretta del busto, generalmente sopra l'ombelico.",
+  "hips": "Fianchi",
+  "hipsDesc": "Misura orizzontalmente intorno alla parte più larga dei fianchi.",
+  "note": "Nota: Le misure sono indicative. Se sei tra due taglie, ti consigliamo di scegliere la taglia più grande per un fit più comodo, o la più piccola per un look più fitted. I capi VHERSO sono progettati con un fit oversize — considera di scendere di una taglia se preferisci un look più slim.",
+  "shopNow": "Shop Now →",
+  "contact": "Hai dubbi? Contattaci",
+  "tshirtsTitle": "T-Shirt & Top",
+  "hoodiesTitle": "Felpe & Zip-Up",
+  "pantsTitle": "Pantaloni & Bottoms"
 }
 
 }

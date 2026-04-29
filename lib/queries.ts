@@ -45,9 +45,16 @@ export const GET_PRODUCT_BY_HANDLE = `
   @inContext(country: $country, language: $language) {
     product(handle: $handle) {
       id
+      handle
       title
       description
-      images(first: 25) {
+      priceRange {
+        minVariantPrice {
+          amount
+          currencyCode
+        }
+      }
+      images(first: 20) {
         edges {
           node {
             url
@@ -55,7 +62,7 @@ export const GET_PRODUCT_BY_HANDLE = `
           }
         }
       }
-      variants(first: 25) {
+      variants(first: 20) {
         edges {
           node {
             id

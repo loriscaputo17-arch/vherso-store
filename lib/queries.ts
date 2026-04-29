@@ -47,7 +47,7 @@ export const GET_PRODUCT_BY_HANDLE = `
       id
       title
       description
-      images(first: 6) {
+      images(first: 25) {
         edges {
           node {
             url
@@ -55,7 +55,7 @@ export const GET_PRODUCT_BY_HANDLE = `
           }
         }
       }
-      variants(first: 20) {
+      variants(first: 25) {
         edges {
           node {
             id

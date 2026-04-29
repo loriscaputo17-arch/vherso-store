@@ -51,20 +51,7 @@ export default async function HomePage() {
     zIndex: 1,
   }} />
 
-  {/* WATERMARK */}
-  <div style={{
-    position: 'absolute', top: '50%', left: '50%',
-    transform: 'translate(-50%, -50%)',
-    fontFamily: "'CenturyGothic', sans-serif",
-    fontSize: 'clamp(100px, 22vw, 400px)',
-    fontWeight: 900, lineHeight: 0.85,
-    color: 'rgba(255,255,255,0.04)',
-    whiteSpace: 'nowrap', userSelect: 'none',
-    letterSpacing: '-0.02em', zIndex: 2,
-    pointerEvents: 'none',
-  }}>
-    VHERSO
-  </div>
+  
 
   {/* TOP TAG */}
   <div style={{

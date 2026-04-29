@@ -1,8 +1,39 @@
 'use client'
 
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useState, ReactNode } from 'react'
 import { shopifyFetch } from '@/lib/shopify'
 import { CREATE_CART, ADD_TO_CART } from '@/lib/queries'
+
+const REMOVE_FROM_CART = `
+  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+    cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
+      cart {
+        id
+        checkoutUrl
+        lines(first: 10) {
+          edges {
+            node {
+              id
+              quantity
+              merchandise {
+                ... on ProductVariant {
+                  id
+                  title
+                  price { amount currencyCode }
+                  product {
+                    title
+                    images(first: 1) { edges { node { url } } }
+                  }
+                }
+              }
+            }
+          }
+        }
+        cost { totalAmount { amount currencyCode } }
+      }
+    }
+  }
+`
 
 interface CartLine {
   id: string
@@ -32,6 +63,7 @@ interface CartContextType {
   openCart: () => void
   closeCart: () => void
   addToCart: (variantId: string, quantity?: number) => Promise<void>
+  removeFromCart: (lineId: string) => Promise<void>
 }
 
 const CartContext = createContext<CartContextType | null>(null)
@@ -46,29 +78,32 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addToCart = async (variantId: string, quantity = 1) => {
     const lines = [{ merchandiseId: variantId, quantity }]
-
     if (!cart) {
       const data = await shopifyFetch(CREATE_CART, { lines })
       setCart(data.cartCreate.cart)
     } else {
-      const data = await shopifyFetch(ADD_TO_CART, {
-        cartId: cart.id,
-        lines,
-      })
+      const data = await shopifyFetch(ADD_TO_CART, { cartId: cart.id, lines })
       setCart(data.cartLinesAdd.cart)
     }
-
     setIsOpen(true)
+  }
+
+  const removeFromCart = async (lineId: string) => {
+    if (!cart) return
+    const data = await shopifyFetch(REMOVE_FROM_CART, {
+      cartId: cart.id,
+      lineIds: [lineId],
+    })
+    setCart(data.cartLinesRemove.cart)
   }
 
   return (
     <CartContext.Provider value={{
-      cart,
-      cartCount,
-      isOpen,
+      cart, cartCount, isOpen,
       openCart: () => setIsOpen(true),
       closeCart: () => setIsOpen(false),
       addToCart,
+      removeFromCart,
     }}>
       {children}
     </CartContext.Provider>

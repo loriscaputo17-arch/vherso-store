@@ -8,7 +8,7 @@ type TFunc = (key: string) => string
 const defaultT: TFunc = (k) => k
 
 export default function Cart() {
-  const { cart, isOpen, closeCart, cartCount } = useCart()
+  const { cart, isOpen, closeCart, cartCount, removeFromCart } = useCart()
   const [t, setT] = useState<TFunc>(() => defaultT)
 
   useEffect(() => {
@@ -196,7 +196,22 @@ export default function Cart() {
               {lines.map(({ node }) => {
                 const lineSymbol = { EUR: '€', USD: '$', GBP: '£' }[node.merchandise.price.currencyCode] ?? '€'
                 return (
-                  <div key={node.id} className="cart-line">
+                  <div key={node.id} className="cart-line" style={{ position: 'relative' }}>
+                    <button
+    onClick={() => removeFromCart(node.id)}
+    style={{
+      position: 'absolute', top: '1.5rem', right: 0,
+      background: 'none', border: 'none', cursor: 'pointer',
+      color: 'rgba(0,0,0,0.2)', fontSize: '0.7rem',
+      padding: '2px', lineHeight: 1,
+      transition: 'color 0.2s',
+      fontFamily: "'CenturyGothic', sans-serif",
+    }}
+    onMouseEnter={e => (e.currentTarget.style.color = '#080808')}
+    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(0,0,0,0.2)')}
+  >
+    Elimina
+  </button>
                     <div style={{
                       width: '75px', height: '95px', flexShrink: 0,
                       background: '#e8e8e8', overflow: 'hidden',

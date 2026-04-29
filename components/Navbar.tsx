@@ -146,64 +146,51 @@ export default function Navbar() {
           <img src="/logo.png" alt="VHERSO" style={{ height:'32px', width:'auto' }} />
           <button onClick={() => setMenuOpen(false)} style={{ background:'none', border:'none', cursor:'pointer', color:'rgba(0,0,0,0.3)', fontSize:'1rem', width:'28px', height:'28px', display:'flex', alignItems:'center', justifyContent:'center', fontFamily:"'CenturyGothic',sans-serif" }}>✕</button>
         </div>
-       <div style={{ flex:1 }}>
-          {links.map(({ label, href, dropdown }: any, i) => (
-            <div key={href}>
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}
+       <div style={{ flex:1, overflowY: 'auto' }}>
+        {links.map(({ label, href, dropdown }: any, i) => (
+          <div key={href}>
+            {dropdown ? (
+              <div
                 className="slink"
-                onClick={() => {
-                  if (dropdown) {
-                    setBasicsOpen(!basicsOpen)
-                  } else {
-                    setMenuOpen(false)
-                  }
-                }}
+                style={{ cursor: 'pointer' }}
+                onClick={() => setBasicsOpen(!basicsOpen)}
               >
-                {dropdown ? (
-                  <span style={{ fontFamily:"'CenturyGothic',sans-serif", fontSize:'1.3rem', fontWeight:700, color:'#080808', cursor:'pointer' }}
-                    onClick={() => setBasicsOpen(!basicsOpen)}
-                  >
-                    {label}
-                  </span>
-                ) : (
-                  <Link href={href} className="slink" onClick={() => setMenuOpen(false)}
-                    style={{ opacity: menuOpen ? 1 : 0, transform: menuOpen ? 'translateX(0)' : 'translateX(-16px)', transition: `opacity 0.4s ${i * 0.06}s, transform 0.4s ${i * 0.06}s cubic-bezier(0.25,0.46,0.45,0.94), padding-left 0.2s`, flex: 1 }}
-                  >
-                    {label}
-                  </Link>
-                )}
-                <span style={{ fontSize: dropdown ? '1rem' : '0.8rem', color:'rgba(0,0,0,0.15)', fontWeight:300, transition: 'transform 0.3s', transform: dropdown && basicsOpen ? 'rotate(90deg)' : 'none', display:'inline-block' }}>
-                  →
+                <span style={{ fontFamily:"'CenturyGothic',sans-serif", fontSize:'1.3rem', fontWeight:700, color:'#080808' }}>
+                  {label}
                 </span>
+                <span style={{ fontSize:'0.8rem', color:'rgba(0,0,0,0.15)', transition:'transform 0.3s', transform: basicsOpen ? 'rotate(90deg)' : 'none', display:'inline-block' }}>→</span>
               </div>
+            ) : (
+              <Link href={href} className="slink" onClick={() => setMenuOpen(false)}
+                style={{ fontSize:'1.3rem', opacity: menuOpen ? 1 : 0, transform: menuOpen ? 'translateX(0)' : 'translateX(-16px)', transition: `opacity 0.4s ${i * 0.06}s, transform 0.4s ${i * 0.06}s cubic-bezier(0.25,0.46,0.45,0.94), padding-left 0.2s` }}
+              >
+                {label}
+                <span style={{ fontSize:'0.8rem', color:'rgba(0,0,0,0.15)', fontWeight:300 }}>→</span>
+              </Link>
+            )}
 
-              {/* DROPDOWN */}
-              {dropdown && (
-                <div style={{
-                  overflow: 'hidden',
-                  maxHeight: basicsOpen ? '300px' : '0',
-                  transition: 'max-height 0.35s cubic-bezier(0.25,0.46,0.45,0.94)',
-                }}>
-                  {dropdown.map(({ label: dlabel, href: dhref }: any) => (
-                    <Link key={dhref} href={dhref} onClick={() => setMenuOpen(false)} style={{
-                      display: 'block', padding: '0.6rem 0 0.6rem 1rem',
-                      fontFamily:"'CenturyGothic',sans-serif",
-                      fontSize: '0.9rem', fontWeight: 400,
-                      color: 'rgba(0,0,0,0.45)', textDecoration: 'none',
-                      borderBottom: '1px solid rgba(0,0,0,0.03)',
-                      transition: 'color 0.2s, padding-left 0.2s',
-                    }}
-                      onMouseEnter={e => { e.currentTarget.style.color = '#080808'; e.currentTarget.style.paddingLeft = '1.5rem' }}
-                      onMouseLeave={e => { e.currentTarget.style.color = 'rgba(0,0,0,0.45)'; e.currentTarget.style.paddingLeft = '1rem' }}
-                    >
-                      {dlabel}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+            {dropdown && (
+              <div style={{ overflow:'hidden', maxHeight: basicsOpen ? '300px' : '0', transition:'max-height 0.35s cubic-bezier(0.25,0.46,0.45,0.94)' }}>
+                {dropdown.map(({ label: dlabel, href: dhref }: any) => (
+                  <Link key={dhref} href={dhref} onClick={() => setMenuOpen(false)} style={{
+                    display:'block', padding:'0.5rem 0 0.5rem 1rem',
+                    fontFamily:"'CenturyGothic',sans-serif",
+                    fontSize:'0.85rem', fontWeight:400,
+                    color:'rgba(0,0,0,0.45)', textDecoration:'none',
+                    borderBottom:'1px solid rgba(0,0,0,0.03)',
+                    transition:'color 0.2s, padding-left 0.2s',
+                  }}
+                    onMouseEnter={e => { e.currentTarget.style.color = '#080808'; e.currentTarget.style.paddingLeft = '1.5rem' }}
+                    onMouseLeave={e => { e.currentTarget.style.color = 'rgba(0,0,0,0.45)'; e.currentTarget.style.paddingLeft = '1rem' }}
+                  >
+                    {dlabel}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
         <div style={{ borderTop:'1px solid rgba(0,0,0,0.06)', paddingTop:'1.5rem', display:'flex', flexDirection:'column', gap:'0.8rem' }}>
           <button onClick={() => { setSearchOpen(true); setMenuOpen(false) }} style={{ padding:'0.9rem', background:'none', border:'1px solid rgba(0,0,0,0.12)', cursor:'pointer', color:'rgba(0,0,0,0.45)', fontSize:'0.62rem', letterSpacing:'0.2em', textTransform:'uppercase', fontFamily:"'CenturyGothic',sans-serif" }}>
             {t('search')}

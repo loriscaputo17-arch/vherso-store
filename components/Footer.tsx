@@ -57,8 +57,6 @@ export default function Footer() {
     ]},
     { titleKey: 'info', links: [
       { label: 'About Us', href: '/about' },
-      { label: 'Shipping', href: '/shipping' },
-      { label: 'Returns', href: '/returns' },
       { label: 'Contact', href: '/contact' },
     ]},
     { titleKey: 'legal', links: [

@@ -19,6 +19,7 @@ export default async function HomePage() {
     const collectionsData = await shopifyFetch(GET_COLLECTIONS, { first: 6 }, headersList)
     products = productsData?.products?.edges ?? []
     collections = collectionsData?.collections?.edges ?? []
+    console.log(collections)
   } catch (e) {
     console.error('Shopify not connected yet')
   }
@@ -28,102 +29,137 @@ export default async function HomePage() {
 
       {/* HERO */}
       <section style={{
-        height: '100vh', position: 'relative',
-        display: 'flex', flexDirection: 'column',
-        justifyContent: 'flex-end',
-        padding: '3rem 2rem',
-        background: '#efefef',
-        overflow: 'hidden',
+  height: '100vh', position: 'relative',
+  display: 'flex', flexDirection: 'column',
+  justifyContent: 'flex-end',
+  padding: '2rem',
+  background: '#080808',
+  overflow: 'hidden',
+}}>
+  {/* BG IMAGE */}
+  <img src="/images/1.jpeg" alt="" style={{
+    position: 'absolute', inset: 0,
+    width: '100%', height: '100%',
+    objectFit: 'cover', objectPosition: 'center top',
+    zIndex: 0,
+  }} />
+
+  {/* GRADIENT */}
+  <div style={{
+    position: 'absolute', inset: 0,
+    background: 'linear-gradient(to bottom, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.80) 100%)',
+    zIndex: 1,
+  }} />
+
+  {/* WATERMARK */}
+  <div style={{
+    position: 'absolute', top: '50%', left: '50%',
+    transform: 'translate(-50%, -50%)',
+    fontFamily: "'CenturyGothic', sans-serif",
+    fontSize: 'clamp(100px, 22vw, 400px)',
+    fontWeight: 900, lineHeight: 0.85,
+    color: 'rgba(255,255,255,0.04)',
+    whiteSpace: 'nowrap', userSelect: 'none',
+    letterSpacing: '-0.02em', zIndex: 2,
+    pointerEvents: 'none',
+  }}>
+    VHERSO
+  </div>
+
+  {/* TOP TAG */}
+  <div style={{
+    position: 'absolute', top: '5.5rem', left: '2rem', zIndex: 3,
+    display: 'flex', alignItems: 'center', gap: '0.8rem',
+  }}>
+    <div style={{ width: '5px', height: '5px', borderRadius: '50%', background: '#fff' }} />
+    <span style={{
+      fontSize: '0.65rem', letterSpacing: '0.25em',
+      textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)',
+      fontFamily: "'CenturyGothic', sans-serif",
+    }}>
+      {th('drop')}
+    </span>
+  </div>
+
+  {/* MAIN CONTENT — colonna singola su mobile */}
+  <div style={{ position: 'relative', zIndex: 3 }}>
+    <p style={{
+      fontSize: '0.6rem', letterSpacing: '0.3em',
+      textTransform: 'uppercase', color: 'rgba(255,255,255,0.4)',
+      marginBottom: '0.6rem', fontFamily: "'CenturyGothic', sans-serif",
+    }}>
+      New Drop
+    </p>
+    <h1 style={{
+      fontFamily: "'CenturyGothic', sans-serif",
+      fontSize: 'clamp(3rem, 12vw, 11rem)',
+      fontWeight: 900, lineHeight: 0.88,
+      letterSpacing: '-0.02em', color: '#ffffff',
+      marginBottom: '0.2rem',
+    }}>
+      SUMMER
+    </h1>
+    <h1 style={{
+      fontFamily: "'CenturyGothic', sans-serif",
+      fontSize: 'clamp(3rem, 12vw, 11rem)',
+      fontWeight: 300, lineHeight: 0.88,
+      letterSpacing: '-0.02em',
+      color: 'rgba(255,255,255,0.65)',
+      fontStyle: 'italic',
+      marginBottom: '2rem',
+    }}>
+      Collection
+    </h1>
+
+    {/* BOTTONI */}
+    <div style={{ display: 'flex', alignItems: 'center', gap: '1.2rem', flexWrap: 'wrap' }}>
+      <Link href="/collections/summer-collection" style={{
+        background: '#ffffff', color: '#080808',
+        padding: '0.95rem 2.2rem',
+        fontSize: '0.65rem', letterSpacing: '0.2em',
+        textTransform: 'uppercase', fontWeight: 700,
+        display: 'inline-block', fontFamily: "'CenturyGothic', sans-serif",
+        whiteSpace: 'nowrap',
       }}>
-        <div style={{
-          position: 'absolute', top: '50%', left: '50%',
-          transform: 'translate(-50%, -50%)',
-          fontFamily: "'CenturyGothic', sans-serif",
-          fontSize: 'clamp(160px, 28vw, 400px)',
-          fontWeight: 400, lineHeight: 0.85,
-          color: 'rgba(0,0,0,0.04)',
-          whiteSpace: 'nowrap', userSelect: 'none',
-          letterSpacing: '-0.02em', zIndex: 0,
-        }}>
-          VHERSO
-        </div>
+        {th('shopNow')}
+      </Link>
+      <Link href="/shop" style={{
+        fontSize: '0.65rem', letterSpacing: '0.15em',
+        textTransform: 'uppercase', color: 'rgba(255,255,255,0.55)',
+        display: 'flex', alignItems: 'center', gap: '0.5rem',
+        fontFamily: "'CenturyGothic', sans-serif",
+        whiteSpace: 'nowrap',
+      }}>
+        {th('allDrops')} <span style={{ fontSize: '1rem' }}>→</span>
+      </Link>
+    </div>
+  </div>
 
-        <div style={{
-          position: 'absolute', top: '6rem', left: '2rem', zIndex: 2,
-          display: 'flex', alignItems: 'center', gap: '0.8rem',
-        }}>
-          <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#000' }} />
-          <span style={{
-            fontSize: '0.90rem', letterSpacing: '0.2em',
-            textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
-          }}>
-            {th('drop')}
-          </span>
-        </div>
-
-        <div style={{
-          position: 'relative', zIndex: 2,
-          display: 'grid', gridTemplateColumns: '1fr auto',
-          alignItems: 'flex-end', gap: '2rem',
-        }}>
-          <div>
-            <h1 style={{
-              fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(3rem, 8vw, 10rem)',
-              fontWeight: 700, lineHeight: 0.88,
-              letterSpacing: '0.01em', color: '#080808',
-            }}>
-              SUMMER<br />COLLECTION
-            </h1>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginTop: '2rem' }}>
-              <Link href="/shop" style={{
-                background: '#080808', color: '#f5f5f5',
-                padding: '0.9rem 2.2rem',
-                fontSize: '0.72rem', letterSpacing: '0.15em',
-                textTransform: 'uppercase', fontWeight: 500,
-                display: 'inline-block',
-              }}>
-                {th('shopNow')}
-              </Link>
-              <Link href="/shop" style={{
-                fontSize: '0.72rem', letterSpacing: '0.15em',
-                textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
-                display: 'flex', alignItems: 'center', gap: '0.5rem',
-              }}>
-                {th('allDrops')} <span style={{ fontSize: '1rem' }}>→</span>
-              </Link>
-            </div>
-          </div>
-          <div style={{ textAlign: 'right', paddingBottom: '0.5rem' }}>
-            <p style={{
-              fontSize: '0.7rem', letterSpacing: '0.08em',
-              color: 'rgba(0,0,0,0.3)', lineHeight: 1.8,
-              maxWidth: '180px', marginLeft: 'auto',
-              whiteSpace: 'pre-line',
-            }}>
-              {th('tagline')}
-            </p>
-          </div>
-        </div>
-
-        <div style={{
-          position: 'absolute', bottom: '2rem', right: '2rem',
-          display: 'flex', flexDirection: 'column',
-          alignItems: 'center', gap: '0.5rem', zIndex: 2,
-        }}>
-          <div style={{
-            width: '1px', height: '60px',
-            background: 'rgba(0,0,0,0.15)',
-            position: 'relative', overflow: 'hidden',
-          }}>
-            <div style={{
-              position: 'absolute', top: 0, width: '100%',
-              height: '40%', background: '#080808',
-              animation: 'scrollLine 1.8s ease infinite',
-            }} />
-          </div>
-        </div>
-      </section>
+  {/* SCROLL INDICATOR */}
+  <div style={{
+    position: 'absolute', bottom: '2rem', left: '50%',
+    transform: 'translateX(-50%)',
+    display: 'flex', flexDirection: 'column',
+    alignItems: 'center', gap: '0.4rem', zIndex: 3,
+  }}>
+    <span style={{
+      fontSize: '0.48rem', letterSpacing: '0.3em',
+      textTransform: 'uppercase', color: 'rgba(255,255,255,0.2)',
+      fontFamily: "'CenturyGothic', sans-serif",
+    }}>scroll</span>
+    <div style={{
+      width: '1px', height: '50px',
+      background: 'rgba(255,255,255,0.15)',
+      position: 'relative', overflow: 'hidden',
+    }}>
+      <div style={{
+        position: 'absolute', top: 0, width: '100%',
+        height: '40%', background: 'rgba(255,255,255,0.6)',
+        animation: 'scrollLine 1.8s ease infinite',
+      }} />
+    </div>
+  </div>
+</section>
 
       {/* TICKER */}
       <div style={{
@@ -139,7 +175,6 @@ export default async function HomePage() {
             tn('shipping'), '★',
             tn('newDrop'), '★',
             tn('skiGone'), '★',
-            tn('returns'), '★',
           ]).flat().map((text, i) => (
             <span key={i} style={{
               fontSize: '0.58rem', letterSpacing: '0.2em',
@@ -154,66 +189,70 @@ export default async function HomePage() {
 
       {/* COLLECTIONS */}
       {collections.length > 0 && (
-        <section style={{ padding: '4rem 0' }}>
-          <div style={{
-            display: 'flex', justifyContent: 'space-between',
-            alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
-          }}>
-            <h2 style={{
-              fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-              fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
-            }}>
-              {t('collections')}
-            </h2>
-            <Link href="/shop" style={{
-              fontSize: '0.65rem', letterSpacing: '0.18em',
-              textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
-            }}>
-              {t('all')}
-            </Link>
-          </div>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: collections.length >= 3 ? '1.5fr 1fr 1fr' : `repeat(${Math.min(collections.length, 3)}, 1fr)`,
-            gap: '2px', padding: '0 2rem',
-          }}>
-            {collections.slice(0, 3).map(({ node }: any, i: number) => (
-              <Link key={node.id} href={`/collections/${node.handle}`} style={{
-                position: 'relative',
-                aspectRatio: i === 0 ? '2/3' : '3/4',
-                background: '#ddd', overflow: 'hidden', display: 'block',
+  <section style={{ padding: '4rem 0' }}>
+    <div style={{
+      display: 'flex', justifyContent: 'space-between',
+      alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
+    }}>
+      <h2 style={{
+        fontFamily: "'CenturyGothic', sans-serif",
+        fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+        fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
+      }}>
+        {t('collections')}
+      </h2>
+      <Link href="/shop" style={{
+        fontSize: '0.65rem', letterSpacing: '0.18em',
+        textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
+      }}>
+        {t('all')}
+      </Link>
+    </div>
+
+<div className="col-collections" style={{ display: 'flex', flexDirection: 'row', gap: '2px', padding: '0 2rem' }}>
+      {collections
+        .filter(({ node }: any) => node.handle !== 'frontpage')
+        .slice(0, 2)
+        .map(({ node }: any, i: number) => (
+          <Link key={node.id} href={`/collections/${node.handle}`} style={{
+  position: 'relative',
+  aspectRatio: '3/4',
+  flex: 1,
+  background: '#ddd', overflow: 'hidden', display: 'block',
+}}>
+
+            {/* IMMAGINE CUSTOM da public/images/ */}
+            <img
+              src={`/images/${i + 2}.jpeg`}
+              alt={node.title}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+            />
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)',
+            }} />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
+              <p style={{
+                fontFamily: "'CenturyGothic', sans-serif",
+                fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+                fontWeight: 700,
+                color: '#fff', lineHeight: 1, letterSpacing: '0.02em',
               }}>
-                {node.image && (
-                  <img src={node.image.url} alt={node.title} style={{
-                    width: '100%', height: '100%', objectFit: 'cover',
-                  }} />
-                )}
-                <div style={{
-                  position: 'absolute', inset: 0,
-                  background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 50%)',
-                }} />
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '1.5rem' }}>
-                  <p style={{
-                    fontFamily: "'CenturyGothic', sans-serif",
-                    fontSize: i === 0 ? '3rem' : '2rem',
-                    color: '#fff', lineHeight: 1, letterSpacing: '0.03em',
-                  }}>
-                    {node.title.toUpperCase()}
-                  </p>
-                  <p style={{
-                    fontSize: '0.62rem', letterSpacing: '0.15em',
-                    textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
-                    marginTop: '0.4rem',
-                  }}>
-                    {node.products?.edges?.length ?? 0} {t('styles')}
-                  </p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      )}
+                {node.title.toUpperCase()}
+              </p>
+              <p style={{
+                fontSize: '0.62rem', letterSpacing: '0.18em',
+                textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
+                marginTop: '0.5rem', fontFamily: "'CenturyGothic', sans-serif",
+              }}>
+                {node.products?.edges?.length ?? 0} {t('styles')} →
+              </p>
+            </div>
+          </Link>
+        ))}
+    </div>
+  </section>
+)}
 
       {/* MARQUEE DIVIDER */}
       <div style={{
@@ -239,118 +278,33 @@ export default async function HomePage() {
 
       {/* BEST SELLERS */}
       <section style={{ padding: '4rem 0' }}>
-        <div style={{
-          display: 'flex', justifyContent: 'space-between',
-          alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
-        }}>
-          <h2 style={{
-            fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-              fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
-          }}>
-            {t('bestSellers')}
-          </h2>
-          <Link href="/shop" style={{
-            fontSize: '0.65rem', letterSpacing: '0.18em',
-            textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
-          }}>
-            {t('viewAll')}
-          </Link>
-        </div>
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
-          gap: '2px', padding: '0 2rem',
-        }}>
-          {products.slice(0, 4).map(({ node }: any) => (
-            <ProductCard key={node.id} product={node} />
-          ))}
-        </div>
-      </section>
-
-      {/* SHOP BY CATEGORY */}
-      <section style={{
-        padding: '4rem 2rem',
-        borderTop: '1px solid rgba(0,0,0,0.06)',
-      }}>
-        <h2 style={{
-          fontFamily: "'CenturyGothic', sans-serif",
-          fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-          fontWeight: 700, letterSpacing: '0.02em',
-          marginBottom: '2rem', color: '#080808',
-        }}>
-          {t('shopByCategory')}
-        </h2>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
-          gap: '2px',
-        }}>
-          {[
-            { label: 'HOODIES', count: 14, href: '/collections/hoodie' },
-            { label: 'TEES', count: 8, href: '/collections/tees' },
-            { label: 'PANTS', count: 10, href: '/collections/pants' },
-            { label: 'ZIP-UPS', count: 9, href: '/collections/zip-up' },
-            { label: 'CANVAS', count: 4, href: '/collections/canvas' },
-          ].map(({ label, count, href }, i) => (
-            <Link key={label} href={href} style={{
-              background: i % 2 === 0 ? '#e8e8e8' : '#ebebeb',
-              padding: '2rem 1.2rem',
-              display: 'flex', flexDirection: 'column',
-              justifyContent: 'flex-end', minHeight: '180px',
-            }}>
-              <p style={{
-                fontFamily: "'CenturyGothic', sans-serif",
-                fontSize: 'clamp(1.2rem, 2vw, 2rem)',
-                letterSpacing: '0.04em',
-                color: '#080808', lineHeight: 1,
-                wordBreak: 'break-word',
-              }}>
-                {label}
-              </p>
-              <p style={{
-                fontSize: '0.58rem', letterSpacing: '0.15em',
-                textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)',
-                marginTop: '0.4rem',
-              }}>
-                {count} {t('shopByCategory') === 'SHOP BY CATEGORY' ? 'styles' : 'stili'}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* NEW ARRIVALS */}
-      <section style={{
-        padding: '4rem 0',
-        borderTop: '1px solid rgba(0,0,0,0.06)',
-      }}>
-        <div style={{
-          display: 'flex', justifyContent: 'space-between',
-          alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
-        }}>
-          <h2 style={{
-            fontFamily: "'CenturyGothic', sans-serif",
-            fontSize: 'clamp(2.5rem, 4vw, 4rem)',
-            fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
-          }}>
-            {t('newArrivals')}
-          </h2>
-          <Link href="/shop" style={{
-            fontSize: '0.65rem', letterSpacing: '0.18em',
-            textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
-          }}>
-            {t('seeAll')}
-          </Link>
-        </div>
-        <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',
-          gap: '2px', padding: '0 2rem',
-        }}>
-          {products.slice(4, 7).map(({ node }: any) => (
-            <ProductCard key={node.id} product={node} />
-          ))}
-        </div>
-      </section>
+  <div style={{
+    display: 'flex', justifyContent: 'space-between',
+    alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
+  }}>
+    <h2 style={{
+      fontFamily: "'CenturyGothic', sans-serif",
+      fontSize: 'clamp(2.5rem, 4vw, 4rem)',
+      fontWeight: 700, letterSpacing: '0.02em', color: '#080808',
+    }}>
+      {t('bestSellers')}
+    </h2>
+    <Link href="/collections/summer-collection" style={{
+      fontSize: '0.65rem', letterSpacing: '0.18em',
+      textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)',
+    }}>
+      {t('viewAll')}
+    </Link>
+  </div>
+  <div className="bs-grid" style={{
+    display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)',
+    gap: '2px', padding: '0 2rem',
+  }}>
+    {products.slice(0, 4).map(({ node }: any) => (
+      <ProductCard key={node.id} product={node} />
+    ))}
+  </div>
+</section>
 
       {/* ABOUT */}
       <section style={{ borderTop: '1px solid rgba(0,0,0,0.06)' }}>
@@ -359,26 +313,35 @@ export default async function HomePage() {
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           minHeight: '80vh',
         }}>
-          <div style={{
-            background: '#e8e8e8', position: 'relative',
-            minHeight: '400px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            overflow: 'hidden',
-          }}>
-            <span style={{
-              fontFamily: "'CenturyGothic', sans-serif",
-              fontSize: 'clamp(6rem, 18vw, 16rem)',
-              color: 'rgba(0,0,0,0.04)',
-              letterSpacing: '0.1em', fontWeight: 900, userSelect: 'none',
-            }}>V</span>
-            <div style={{
-              position: 'absolute', bottom: '2rem', left: '2rem',
-              fontSize: '0.55rem', letterSpacing: '0.22em',
-              textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)',
-            }}>
-              {t('est')}
-            </div>
-          </div>
+         <div style={{
+  background: '#e8e8e8', position: 'relative',
+  minHeight: '400px',
+  overflow: 'hidden',
+}}>
+  <img
+    src="/images/4.jpeg"
+    alt="VHERSO"
+    style={{
+      width: '100%', height: '100%',
+      objectFit: 'cover', objectPosition: 'center',
+      display: 'block',
+      position: 'absolute', inset: 0,
+    }}
+  />
+  {/* leggero overlay scuro */}
+  <div style={{
+    position: 'absolute', inset: 0,
+    background: 'linear-gradient(to top, rgba(0,0,0,0.4) 0%, transparent 60%)',
+  }} />
+  <div style={{
+    position: 'absolute', bottom: '2rem', left: '2rem',
+    fontSize: '0.55rem', letterSpacing: '0.22em',
+    textTransform: 'uppercase', color: 'rgba(255,255,255,0.6)',
+    zIndex: 2,
+  }}>
+    {t('est')}
+  </div>
+</div>
 
           <div style={{
             padding: 'clamp(3rem, 6vw, 6rem) clamp(2rem, 5vw, 5rem)',
@@ -458,6 +421,33 @@ export default async function HomePage() {
           0% { top: -100%; }
           100% { top: 200%; }
         }
+
+        @keyframes ticker {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        @keyframes scrollLine {
+          0% { top: -100%; }
+          100% { top: 200%; }
+        }
+        @media (max-width: 768px) {
+          .bs-grid {
+            grid-template-columns: 1fr !important;
+            gap: 1px !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+  .col-collections {
+    flex-direction: column !important;
+    padding: 0 2rem !important;
+  }
+  .col-collections a {
+    aspect-ratio: 9/16 !important;
+    flex: 1 !important;
+  }
+}
+
       `}</style>
 
     </div>

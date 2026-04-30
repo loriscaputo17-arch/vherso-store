@@ -1,26 +1,15 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import { getT } from '@/lib/i18n.client'
 
 type TFunc = (key: string) => string
 
 function useTranslations(namespace: string): TFunc {
   const [t, setT] = useState<TFunc>(() => (k: string) => k)
-useEffect(() => {
-  const countryMap: Record<string, string> = {
-    IT: 'it', US: 'en', GB: 'en', CA: 'en', AU: 'en',
-    FR: 'fr', BE: 'fr', DE: 'de', AT: 'de', ES: 'es', MX: 'es',
-  }
-  const country = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
-  const locale = countryMap[country] ?? 'en'
-  
-  import(`../messages/${locale}.json`)
-    .catch(() => import(`../../messages/en.json`)) // fallback inglese
-    .then(m => {
-      const ns = m.default?.[namespace] ?? {}
-      setT(() => (key: string) => ns[key] ?? key)
-    })
-}, [namespace])
+  useEffect(() => {
+    setT(() => getT(namespace))
+  }, [namespace])
   return t
 }
 

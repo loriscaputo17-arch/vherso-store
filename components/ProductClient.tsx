@@ -4,26 +4,15 @@ import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import AddToCartButton from '@/components/AddToCartButton'
 import { useWishlist } from '@/hooks/useWishlist'
+import { getT } from '@/lib/i18n.client'
 
 type TFunc = (key: string) => string
 
 function useTranslations(namespace: string): TFunc {
   const [t, setT] = useState<TFunc>(() => (k: string) => k)
   useEffect(() => {
-  const countryMap: Record<string, string> = {
-    IT: 'it', US: 'en', GB: 'en', CA: 'en', AU: 'en',
-    FR: 'fr', BE: 'fr', DE: 'de', AT: 'de', ES: 'es', MX: 'es',
-  }
-  const country = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
-  const locale = countryMap[country] ?? 'en'
-  
-  import(`../messages/${locale}.json`)
-    .catch(() => import(`../messages/en.json`)) // fallback inglese
-    .then(m => {
-      const ns = m.default?.[namespace] ?? {}
-      setT(() => (key: string) => ns[key] ?? key)
-    })
-}, [namespace])
+    setT(() => getT(namespace))
+  }, [namespace])
   return t
 }
 
@@ -144,7 +133,7 @@ export default function ProductClient({ product }: { product: any }) {
         {/* ===== MOBILE ===== */}
         <div className="pdp-mobile">
           {/* IMMAGINE PRINCIPALE */}
-          <div style={{ position: 'relative', width: '100%', aspectRatio: '3/4', overflow: 'hidden', background: '#e8e8e8' }}>
+          <div style={{ position: 'relative', width: '100%', aspectRatio: 'auto', overflow: 'hidden', background: '#e8e8e8' }}>
             <img
               src={images[activeImage]?.url}
               alt={images[activeImage]?.altText ?? product.title}
@@ -252,37 +241,79 @@ function ProductInfo({ product, variants, selectedVariant, setSelectedVariant, h
       </div>
 
       {variants.length > 1 && (
-        <div style={{ marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
-            <p style={{ fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>{t('size')}</p>
-            <p style={{ fontSize: '0.55rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)', cursor: 'pointer', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
-              <a href="/size-guide"
-  target="_blank"
-  rel="noopener noreferrer"
-  style={{
-    fontSize: '0.55rem', letterSpacing: '0.15em',
-    textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)',
-    cursor: 'pointer',
-  }}
->
-  {t('sizeGuide')}
-</a>
-            </p>
-          </div>
-          <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-            {variants.map((v: any) => (
-              <button
-                key={v.id}
-                className={`size-btn ${selectedVariant?.id === v.id ? 'selected' : ''} ${!v.availableForSale ? 'unavail' : ''}`}
-                onClick={() => v.availableForSale && setSelectedVariant(v)}
-                disabled={!v.availableForSale}
-              >
-                {v.title}
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+  <div style={{ marginBottom: '1.5rem' }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
+      <p style={{ fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>
+        {t('size')}
+        {selectedVariant?.title && (
+          <span style={{ color: '#080808', marginLeft: '0.5rem' }}>— {selectedVariant.title}</span>
+        )}
+      </p>
+      <a href="/size-guide" target="_blank" rel="noopener noreferrer" style={{ fontSize: '0.55rem', letterSpacing: '0.15em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.25)', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
+        {t('sizeGuide')}
+      </a>
+    </div>
+    <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
+      {variants.map((v: any) => {
+        const isColor = v.selectedOptions?.some((o: any) =>
+          ['color', 'colour', 'colore', 'color'].includes(o.name.toLowerCase())
+        )
+        const colorValue = v.selectedOptions?.find((o: any) =>
+          ['color', 'colour', 'colore'].includes(o.name.toLowerCase())
+        )?.value
+
+        if (isColor && colorValue) {
+          return (
+            <button
+              key={v.id}
+              onClick={() => v.availableForSale && setSelectedVariant(v)}
+              disabled={!v.availableForSale}
+              title={v.title}
+              style={{
+                width: '32px', height: '32px',
+                borderRadius: '50%',
+                background: colorValue.toLowerCase(),
+                border: selectedVariant?.id === v.id
+                  ? '2px solid #080808'
+                  : '2px solid transparent',
+                outline: selectedVariant?.id === v.id
+                  ? '1px solid #080808'
+                  : '1px solid rgba(0,0,0,0.15)',
+                outlineOffset: '2px',
+                cursor: v.availableForSale ? 'pointer' : 'not-allowed',
+                opacity: v.availableForSale ? 1 : 0.3,
+                transition: 'all 0.15s',
+                position: 'relative',
+              }}
+            >
+              {!v.availableForSale && (
+                <span style={{
+                  position: 'absolute', inset: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <svg width="20" height="20" viewBox="0 0 20 20">
+                    <line x1="2" y1="2" x2="18" y2="18" stroke="rgba(0,0,0,0.3)" strokeWidth="1.5"/>
+                  </svg>
+                </span>
+              )}
+            </button>
+          )
+        }
+
+        return (
+          <button
+            key={v.id}
+            className={`size-btn ${selectedVariant?.id === v.id ? 'selected' : ''} ${!v.availableForSale ? 'unavail' : ''}`}
+            onClick={() => v.availableForSale && setSelectedVariant(v)}
+            disabled={!v.availableForSale}
+          >
+            {v.title}
+          </button>
+        )
+      })}
+    </div>
+  </div>
+)}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem' }}>
         <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: isAvailable ? '#16a34a' : '#dc2626', flexShrink: 0 }} />

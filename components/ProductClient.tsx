@@ -240,7 +240,7 @@ function ProductInfo({ product, variants, selectedVariant, setSelectedVariant, h
         </span>
       </div>
 
-      {variants.length > 1 && (
+{variants.length > 1 && (
   <div style={{ marginBottom: '1.5rem' }}>
     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.8rem' }}>
       <p style={{ fontSize: '0.58rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(0,0,0,0.4)' }}>
@@ -254,63 +254,16 @@ function ProductInfo({ product, variants, selectedVariant, setSelectedVariant, h
       </a>
     </div>
     <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
-      {variants.map((v: any) => {
-        const isColor = v.selectedOptions?.some((o: any) =>
-          ['color', 'colour', 'colore', 'color'].includes(o.name.toLowerCase())
-        )
-        const colorValue = v.selectedOptions?.find((o: any) =>
-          ['color', 'colour', 'colore'].includes(o.name.toLowerCase())
-        )?.value
-
-        if (isColor && colorValue) {
-          return (
-            <button
-              key={v.id}
-              onClick={() => v.availableForSale && setSelectedVariant(v)}
-              disabled={!v.availableForSale}
-              title={v.title}
-              style={{
-                width: '32px', height: '32px',
-                borderRadius: '50%',
-                background: colorValue.toLowerCase(),
-                border: selectedVariant?.id === v.id
-                  ? '2px solid #080808'
-                  : '2px solid transparent',
-                outline: selectedVariant?.id === v.id
-                  ? '1px solid #080808'
-                  : '1px solid rgba(0,0,0,0.15)',
-                outlineOffset: '2px',
-                cursor: v.availableForSale ? 'pointer' : 'not-allowed',
-                opacity: v.availableForSale ? 1 : 0.3,
-                transition: 'all 0.15s',
-                position: 'relative',
-              }}
-            >
-              {!v.availableForSale && (
-                <span style={{
-                  position: 'absolute', inset: 0,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                }}>
-                  <svg width="20" height="20" viewBox="0 0 20 20">
-                    <line x1="2" y1="2" x2="18" y2="18" stroke="rgba(0,0,0,0.3)" strokeWidth="1.5"/>
-                  </svg>
-                </span>
-              )}
-            </button>
-          )
-        }
-
-        return (
-          <button
-            key={v.id}
-            className={`size-btn ${selectedVariant?.id === v.id ? 'selected' : ''} ${!v.availableForSale ? 'unavail' : ''}`}
-            onClick={() => v.availableForSale && setSelectedVariant(v)}
-            disabled={!v.availableForSale}
-          >
-            {v.title}
-          </button>
-        )
-      })}
+      {variants.map((v: any) => (
+        <button
+          key={v.id}
+          className={`size-btn ${selectedVariant?.id === v.id ? 'selected' : ''} ${!v.availableForSale ? 'unavail' : ''}`}
+          onClick={() => v.availableForSale && setSelectedVariant(v)}
+          disabled={!v.availableForSale}
+        >
+          {v.title}
+        </button>
+      ))}
     </div>
   </div>
 )}

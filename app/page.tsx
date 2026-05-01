@@ -19,7 +19,6 @@ export default async function HomePage() {
     const collectionsData = await shopifyFetch(GET_COLLECTIONS, { first: 6 }, headersList)
     products = productsData?.collection?.products?.edges ?? []
     collections = collectionsData?.collections?.edges ?? []
-    console.log(collections)
   } catch (e) {
     console.error('Shopify not connected yet')
   }

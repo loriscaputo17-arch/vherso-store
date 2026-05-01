@@ -2,6 +2,7 @@
 
 import { useCart } from '@/context/CartContext'
 import { useState, useEffect } from 'react'
+import { getT } from '@/lib/i18n.client'
 
 type TFunc = (key: string) => string
 
@@ -21,6 +22,10 @@ export default function Cart() {
       const ns = m.default?.cart ?? {}
       setT(() => (key: string) => ns[key] ?? key)
     })
+  }, [])
+
+  useEffect(() => {
+    setT(() => getT('cart'))
   }, [])
 
   const total = cart?.cost.totalAmount
@@ -218,7 +223,7 @@ export default function Cart() {
                     }}>
                       {node.merchandise.product.images.edges[0] ? (
                         <img
-                          src={node.merchandise.product.images.edges[0].node.url}
+                        src={node.merchandise.image?.url ?? node.merchandise.product.images.edges[0]?.node.url}
                           alt={node.merchandise.product.title}
                           style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                         />

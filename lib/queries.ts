@@ -63,22 +63,26 @@ export const GET_PRODUCT_BY_HANDLE = `
         }
       }
       variants(first: 20) {
-        edges {
-          node {
-            id
-            title
-            availableForSale
-            price {
-              amount
-              currencyCode
-            }
-            selectedOptions {
-              name
-              value
-            }
-          }
-        }
+  edges {
+    node {
+      id
+      title
+      availableForSale
+      image {
+        url
+        altText
       }
+      price {
+        amount
+        currencyCode
+      }
+      selectedOptions {
+        name
+        value
+      }
+    }
+  }
+}
     }
   }
 `
@@ -190,6 +194,10 @@ export const CREATE_CART = `
                 ... on ProductVariant {
                   id
                   title
+                  image {
+                    url
+                    altText
+                  }
                   price {
                     amount
                     currencyCode
@@ -235,6 +243,10 @@ export const ADD_TO_CART = `
                 ... on ProductVariant {
                   id
                   title
+                  image {
+                    url
+                    altText
+                  }
                   price {
                     amount
                     currencyCode

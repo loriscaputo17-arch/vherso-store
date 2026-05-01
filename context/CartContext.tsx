@@ -16,16 +16,29 @@ const REMOVE_FROM_CART = `
               id
               quantity
               merchandise {
-                ... on ProductVariant {
-                  id
-                  title
-                  price { amount currencyCode }
-                  product {
-                    title
-                    images(first: 1) { edges { node { url } } }
-                  }
-                }
-              }
+  ... on ProductVariant {
+    id
+    title
+    image {
+      url
+      altText
+    }
+    price {
+      amount
+      currencyCode
+    }
+    product {
+      title
+      images(first: 1) {
+        edges {
+          node {
+            url
+          }
+        }
+      }
+    }
+  }
+}
             }
           }
         }
@@ -41,6 +54,7 @@ interface CartLine {
   merchandise: {
     id: string
     title: string
+    image?: { url: string; altText?: string }
     price: { amount: string; currencyCode: string }
     product: {
       title: string

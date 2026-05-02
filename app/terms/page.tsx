@@ -80,7 +80,7 @@ export default function TermsPage() {
             <li><strong>Europa:</strong> 3–7 giorni lavorativi</li>
             <li><strong>Resto del mondo:</strong> 7–14 giorni lavorativi</li>
           </ul>
-          <p>La spedizione è gratuita per ordini superiori a €200. Per ordini inferiori verrà calcolata al checkout in base alla destinazione.</p>
+          <p>La spedizione è gratuita. Per ordini inferiori verrà calcolata al checkout in base alla destinazione.</p>
 
           <h2>5. Resi e rimborsi</h2>
           <p>Accettiamo resi entro <strong>14 giorni</strong> dalla ricezione dell'ordine. Il prodotto deve essere:</p>

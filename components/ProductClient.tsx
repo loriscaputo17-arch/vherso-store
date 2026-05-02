@@ -312,7 +312,7 @@ function ProductInfo({ product, sizeVariants, selectedVariant, setSelectedVarian
         items={[
           { label: t('description'), content: product.description || 'Premium quality piece from the VHERSO collection. Designed for those who move with intention.' },
           { label: t('materials'), content: 'High-quality fabric. Machine wash cold, tumble dry low. Do not bleach. Iron on low heat.' },
-          { label: t('shipping'), content: 'We ship worldwide within 24–48 business hours. Free shipping on orders over €200. Returns accepted within 14 days.' },
+          { label: t('shipping'), content: 'We ship worldwide within 24–48 business hours. Free shipping. Returns accepted within 14 days.' },
         ]}
       />
     </>

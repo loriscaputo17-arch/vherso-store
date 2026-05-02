@@ -12,7 +12,7 @@
     "tagline": "Wear the life\nyou want to live."
   },
   "ticker": {
-    "shipping": "FREE SHIPPING +€200",
+    "shipping": "FREE SHIPPING",
     "newDrop": "NEW DROP — SUMMER COLLECTION",
     "skiGone": "SKI COLLECTION ALMOST GONE",
     "returns": "FREE RETURNS 14 DAYS"
@@ -58,7 +58,7 @@
     "description": "Description",
     "materials": "Materials & Care",
     "shipping": "Shipping & Returns",
-    "freeShipping": "Free shipping on orders over €200",
+    "freeShipping": "Free shipping",
     "freeReturns": "Free returns within 14 days",
     "secureCheckout": "Secure checkout via Shopify",
     "shipsWithin": "Ships within 24–48 hours",

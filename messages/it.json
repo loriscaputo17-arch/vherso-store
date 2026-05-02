@@ -12,7 +12,7 @@
     "tagline": "Wear the life\nyou want to live."
   },
   "ticker": {
-    "shipping": "SPEDIZIONE GRATUITA +€200",
+    "shipping": "SPEDIZIONE GRATUITA",
     "newDrop": "NUOVO DROP — SUMMER COLLECTION",
     "skiGone": "SKI COLLECTION QUASI ESAURITA",
     "returns": "RESI GRATUITI 14 GIORNI"
@@ -58,7 +58,7 @@
     "description": "Descrizione",
     "materials": "Materiali e cura",
     "shipping": "Spedizioni e resi",
-    "freeShipping": "Spedizione gratuita per ordini sopra €200",
+    "freeShipping": "Spedizione gratuita",
     "freeReturns": "Resi gratuiti entro 14 giorni",
     "secureCheckout": "Checkout sicuro via Shopify",
     "shipsWithin": "Spedizione entro 24-48 ore lavorative",

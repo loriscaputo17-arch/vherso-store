@@ -92,6 +92,18 @@ export default function ProductClient({ product }: { product: any }) {
     if (firstAvailable) setSelectedVariant(firstAvailable)
   }
 
+  useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).fbq && product) {
+      ;(window as any).fbq('track', 'ViewContent', {
+        content_ids: [product.id],
+        content_type: 'product',
+        content_name: product.title,
+        value: parseFloat(selectedVariant?.price?.amount ?? '0'),
+        currency: selectedVariant?.price?.currencyCode ?? 'EUR',
+      })
+    }
+  }, [product.id])
+
   return (
     <>
       <style>{`

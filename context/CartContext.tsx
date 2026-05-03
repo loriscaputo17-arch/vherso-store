@@ -91,16 +91,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
   ) ?? 0
 
   const addToCart = async (variantId: string, quantity = 1) => {
-    const lines = [{ merchandiseId: variantId, quantity }]
-    if (!cart) {
-      const data = await shopifyFetch(CREATE_CART, { lines })
-      setCart(data.cartCreate.cart)
-    } else {
-      const data = await shopifyFetch(ADD_TO_CART, { cartId: cart.id, lines })
-      setCart(data.cartLinesAdd.cart)
-    }
-    setIsOpen(true)
+  const lines = [{ merchandiseId: variantId, quantity }]
+  let newCart: Cart
+  if (!cart) {
+    const data = await shopifyFetch(CREATE_CART, { lines })
+    newCart = data.cartCreate.cart
+  } else {
+    const data = await shopifyFetch(ADD_TO_CART, { cartId: cart.id, lines })
+    newCart = data.cartLinesAdd.cart
   }
+  setCart(newCart)
+  setIsOpen(true)
+
+  // Facebook Pixel — AddToCart
+  if (typeof window !== 'undefined' && (window as any).fbq) {
+    const addedLine = newCart.lines.edges.find(
+      ({ node }) => node.merchandise.id === variantId
+    )
+    ;(window as any).fbq('track', 'AddToCart', {
+      content_ids: [variantId],
+      content_type: 'product',
+      value: parseFloat(addedLine?.node.merchandise.price.amount ?? '0'),
+      currency: addedLine?.node.merchandise.price.currencyCode ?? 'EUR',
+    })
+  }
+}
 
   const removeFromCart = async (lineId: string) => {
     if (!cart) return

@@ -13,20 +13,21 @@ export default function Cart() {
   const [t, setT] = useState<TFunc>(() => defaultT)
 
   useEffect(() => {
-    const locale = document.cookie
-      .split('; ')
-      .find(row => row.startsWith('x-country='))
-      ?.split('=')[1] === 'US' ? 'en' : 'it'
-
-    import(`../messages/${locale}.json`).then(m => {
-      const ns = m.default?.cart ?? {}
-      setT(() => (key: string) => ns[key] ?? key)
-    })
-  }, [])
-
-  useEffect(() => {
     setT(() => getT('cart'))
   }, [])
+
+  const handleCheckout = () => {
+  if (typeof window !== 'undefined' && (window as any).fbq) {
+    (window as any).fbq('track', 'Purchase', {
+      value: parseFloat(cart?.cost.totalAmount.amount ?? '0'),
+      currency: cart?.cost.totalAmount.currencyCode ?? 'EUR',
+      content_ids: cart?.lines.edges.map(({ node }) => node.merchandise.id) ?? [],
+      content_type: 'product',
+      num_items: cartCount,
+    })
+  }
+  window.location.href = cart?.checkoutUrl ?? '#'
+}
 
   const total = cart?.cost.totalAmount
   const lines = cart?.lines.edges ?? []
@@ -305,9 +306,9 @@ export default function Cart() {
               {t('taxShipping')}
             </p>
 
-            <a href={cart?.checkoutUrl} className="checkout-btn">
+            <button onClick={handleCheckout} className="checkout-btn">
               {t('checkout')}
-            </a>
+            </button>
 
             <div style={{
               display: 'flex', alignItems: 'center',

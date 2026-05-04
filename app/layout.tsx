@@ -8,6 +8,7 @@ import NewsletterPopup from '@/components/NewsletterPopup'
 import PageLoader from '@/components/PageLoader'
 import { getLocale } from '@/lib/i18n.server'
 import Script from 'next/script'
+import CookieBanner from '@/components/CookieBanner'
 
 export const metadata: Metadata = {
   title: {
@@ -117,6 +118,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           <main style={{ paddingTop: '20px' }}>
             {children}
           </main>
+          <CookieBanner />
         </CartProvider>
         <Footer />
       </body>

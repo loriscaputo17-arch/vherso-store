@@ -312,7 +312,7 @@ function ProductInfo({ product, sizeVariants, selectedVariant, setSelectedVarian
       </div>
 
       <div style={{ display:'flex', flexDirection:'column', gap:'0.7rem', padding:'1.2rem 1.4rem', background:'rgba(0,0,0,0.02)', border:'1px solid rgba(0,0,0,0.05)', marginBottom:'2rem' }}>
-        {[t('secureCheckout'), t('shipsWithin')].map(text => (
+        {[t('freeShipping'), t('secureCheckout'), t('shipsWithin')].map(text => (
           <div key={text} style={{ display:'flex', alignItems:'center', gap:'0.7rem', fontSize:'0.65rem', letterSpacing:'0.04em', color:'rgba(0,0,0,0.45)', fontFamily:"'CenturyGothic',sans-serif" }}>
             <div style={{ width:'3px', height:'3px', borderRadius:'50%', background:'rgba(0,0,0,0.2)', flexShrink:0 }} />
             {text}

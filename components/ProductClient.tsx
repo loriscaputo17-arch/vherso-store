@@ -166,119 +166,42 @@ export default function ProductClient({ product }: { product: any }) {
         </div>
 
         {/* MOBILE */}
-        {/* MOBILE */}
-<div className="pdp-mobile">
-  {/* IMMAGINE PRINCIPALE CON SWIPE */}
-  <div
-    style={{ position:'relative', width:'100%', background:'#e8e8e8', touchAction:'pan-y' }}
-    onTouchStart={(e) => {
-      const touch = e.touches[0]
-      ;(e.currentTarget as any)._touchStartX = touch.clientX
-    }}
-    onTouchEnd={(e) => {
-      const startX = (e.currentTarget as any)._touchStartX
-      const endX = e.changedTouches[0].clientX
-      const diff = startX - endX
+        <div className="pdp-mobile">
+          <div style={{ position:'relative', width:'100%', background:'#e8e8e8' }}>
+            <img
+              src={filteredImages[activeImage]?.url}
+              alt={filteredImages[activeImage]?.altText ?? product.title}
+              style={{ width:'100%', display:'block', objectFit:'cover' }}
+            />
+            {filteredImages.length > 1 && (
+              <div style={{ position:'absolute', bottom:'0.8rem', right:'0.8rem', background:'rgba(0,0,0,0.5)', padding:'0.25rem 0.6rem', fontSize:'0.55rem', letterSpacing:'0.15em', color:'#fff' }}>
+                {activeImage + 1} / {filteredImages.length}
+              </div>
+            )}
+          </div>
 
-      if (Math.abs(diff) > 50) {
-        if (diff > 0) {
-          // swipe sinistra → immagine successiva
-          setActiveImage(prev => Math.min(prev + 1, filteredImages.length - 1))
-        } else {
-          // swipe destra → immagine precedente
-          setActiveImage(prev => Math.max(prev - 1, 0))
-        }
-      }
-    }}
-  >
-    {/* IMMAGINI — slider orizzontale */}
-    <div style={{
-      display: 'flex',
-      transform: `translateX(-${activeImage * 100}%)`,
-      transition: 'transform 0.35s cubic-bezier(0.25,0.46,0.45,0.94)',
-    }}>
-      {filteredImages.map((img: any, i: number) => (
-        <div key={i} style={{ flexShrink: 0, width: '100%' }}>
-          <img
-            src={img.url}
-            alt={img.altText ?? product.title}
-            style={{ width:'100%', display:'block', objectFit:'cover' }}
-          />
+          {filteredImages.length > 1 && (
+            <div className="pdp-mobile-thumbs-wrap">
+              {filteredImages.map((img: any, i: number) => (
+                <div key={i} onClick={() => setActiveImage(i)} style={{ width:'88px', height:'88px', flexShrink:0, overflow:'hidden', cursor:'pointer', opacity:activeImage===i?1:0.4, transition:'opacity 0.2s', outline:activeImage===i?'2px solid #080808':'none', outlineOffset:'-2px' }}>
+                  <img src={img.url} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div style={{ padding:'2rem 1.2rem 4rem' }}>
+            <ProductInfo
+              product={product} sizeVariants={sizeVariants}
+              selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant}
+              colorNames={colorNames} selectedColor={selectedColor}
+              handleColorChange={handleColorChange}
+              price={price} currencySymbol={currencySymbol}
+              isAvailable={isAvailable} t={t}
+              isWished={isWished} toggle={toggle}
+            />
+          </div>
         </div>
-      ))}
-    </div>
-
-    {/* COUNTER */}
-    {filteredImages.length > 1 && (
-      <div style={{
-        position:'absolute', bottom:'0.8rem', right:'0.8rem',
-        background:'rgba(0,0,0,0.5)', padding:'0.25rem 0.6rem',
-        fontSize:'0.55rem', letterSpacing:'0.15em', color:'#fff',
-      }}>
-        {activeImage + 1} / {filteredImages.length}
-      </div>
-    )}
-
-    {/* DOTS */}
-    {filteredImages.length > 1 && (
-      <div style={{
-        position:'absolute', bottom:'0.8rem', left:'50%',
-        transform:'translateX(-50%)',
-        display:'flex', gap:'5px',
-      }}>
-        {filteredImages.map((_: any, i: number) => (
-          <div
-            key={i}
-            onClick={() => setActiveImage(i)}
-            style={{
-              width: activeImage === i ? '16px' : '6px',
-              height: '6px',
-              borderRadius: '3px',
-              background: activeImage === i ? '#fff' : 'rgba(255,255,255,0.4)',
-              transition: 'all 0.3s',
-              cursor: 'pointer',
-            }}
-          />
-        ))}
-      </div>
-    )}
-  </div>
-
-  {/* THUMBNAILS */}
-  {filteredImages.length > 1 && (
-    <div className="pdp-mobile-thumbs-wrap">
-      {filteredImages.map((img: any, i: number) => (
-        <div
-          key={i}
-          onClick={() => setActiveImage(i)}
-          style={{
-            width:'88px', height:'88px', flexShrink:0,
-            overflow:'hidden', cursor:'pointer',
-            opacity: activeImage===i ? 1 : 0.4,
-            transition:'opacity 0.2s',
-            outline: activeImage===i ? '2px solid #080808' : 'none',
-            outlineOffset:'-2px',
-          }}
-        >
-          <img src={img.url} alt="" style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }} />
-        </div>
-      ))}
-    </div>
-  )}
-
-  {/* INFO */}
-  <div style={{ padding:'2rem 1.2rem 4rem' }}>
-    <ProductInfo
-      product={product} sizeVariants={sizeVariants}
-      selectedVariant={selectedVariant} setSelectedVariant={setSelectedVariant}
-      colorNames={colorNames} selectedColor={selectedColor}
-      handleColorChange={handleColorChange}
-      price={price} currencySymbol={currencySymbol}
-      isAvailable={isAvailable} t={t}
-      isWished={isWished} toggle={toggle}
-    />
-  </div>
-</div>
 
       </div>
     </>
@@ -389,7 +312,7 @@ function ProductInfo({ product, sizeVariants, selectedVariant, setSelectedVarian
       </div>
 
       <div style={{ display:'flex', flexDirection:'column', gap:'0.7rem', padding:'1.2rem 1.4rem', background:'rgba(0,0,0,0.02)', border:'1px solid rgba(0,0,0,0.05)', marginBottom:'2rem' }}>
-        {[t('freeShipping'), t('secureCheckout'), t('shipsWithin')].map(text => (
+        {[t('secureCheckout'), t('shipsWithin')].map(text => (
           <div key={text} style={{ display:'flex', alignItems:'center', gap:'0.7rem', fontSize:'0.65rem', letterSpacing:'0.04em', color:'rgba(0,0,0,0.45)', fontFamily:"'CenturyGothic',sans-serif" }}>
             <div style={{ width:'3px', height:'3px', borderRadius:'50%', background:'rgba(0,0,0,0.2)', flexShrink:0 }} />
             {text}

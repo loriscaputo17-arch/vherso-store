@@ -236,7 +236,7 @@ export const ADD_TO_CART = `
       cart {
         id
         checkoutUrl
-        lines(first: 10) {
+        lines(first: 50) {
           edges {
             node {
               id

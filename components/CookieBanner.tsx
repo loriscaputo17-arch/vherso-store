@@ -24,6 +24,18 @@ export default function CookieBanner() {
     setVisible(false)
   }
 
+  /*const accept = () => {
+      localStorage.setItem('cookie_consent', 'accepted')
+    setVisible(false)
+    // dispatcha evento per caricare i tracking scripts
+    window.dispatchEvent(new Event('cookie_accepted'))
+  }
+
+  const decline = () => {
+    localStorage.setItem('cookie_consent', 'declined')
+    setVisible(false)
+  }*/
+
   if (!visible) return null
 
   return (

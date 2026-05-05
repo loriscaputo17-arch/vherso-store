@@ -11,7 +11,7 @@ const REMOVE_FROM_CART = `
       cart {
         id
         checkoutUrl
-        lines(first: 10) {
+        lines(first: 50) {
           edges {
             node {
               id
@@ -38,6 +38,21 @@ const REMOVE_FROM_CART = `
     }
   }
 `
+
+// Mappa paese → valuta attesa
+const COUNTRY_TO_CURRENCY: Record<string, string> = {
+  IT: 'EUR', FR: 'EUR', DE: 'EUR', ES: 'EUR', NL: 'EUR',
+  AT: 'EUR', BE: 'EUR', PT: 'EUR', FI: 'EUR', GR: 'EUR',
+  US: 'USD', CA: 'CAD', AU: 'AUD', NZ: 'NZD',
+  GB: 'GBP', SE: 'SEK', NO: 'NOK', DK: 'DKK',
+  PL: 'PLN', CH: 'CHF', JP: 'JPY', BR: 'BRL',
+  IN: 'INR', HU: 'HUF', CZ: 'CZK', RO: 'RON',
+}
+
+function getCountry(): string {
+  if (typeof document === 'undefined') return 'IT'
+  return document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
+}
 
 interface CartLine {
   id: string
@@ -83,20 +98,31 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const addToCart = async (variantId: string, quantity = 1) => {
     const lines = [{ merchandiseId: variantId, quantity }]
-  
-    // leggi il paese dal cookie
-    const country = typeof document !== 'undefined'
-      ? document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
-      : 'IT'
+    const country = getCountry()
+    const expectedCurrency = COUNTRY_TO_CURRENCY[country] ?? 'EUR'
+    const cartCurrency = cart?.cost?.totalAmount?.currencyCode
 
     let newCart: Cart
-    if (!cart) {
-      const data = await shopifyFetch(CREATE_CART, { lines, country })
-      newCart = data.cartCreate.cart
-    } else {
+
+    // se il carrello esiste ed è nella valuta giusta → aggiungi
+    // altrimenti → ricrea il carrello con il paese corretto
+    if (cart && cartCurrency === expectedCurrency) {
       const data = await shopifyFetch(ADD_TO_CART, { cartId: cart.id, lines, country })
       newCart = data.cartLinesAdd.cart
+    } else {
+      // ricrea il carrello con tutti gli items esistenti + il nuovo
+      const existingLines = cart?.lines.edges.map(({ node }) => ({
+        merchandiseId: node.merchandise.id,
+        quantity: node.quantity,
+      })) ?? []
+      
+      const data = await shopifyFetch(CREATE_CART, { 
+        lines: [...existingLines, ...lines], 
+        country 
+      })
+      newCart = data.cartCreate.cart
     }
+
     setCart(newCart)
     setIsOpen(true)
 
@@ -116,9 +142,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
   const removeFromCart = async (lineId: string) => {
     if (!cart) return
-    const country = typeof document !== 'undefined'
-      ? document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
-      : 'IT'
+    const country = getCountry()
     const data = await shopifyFetch(REMOVE_FROM_CART, {
       cartId: cart.id,
       lineIds: [lineId],

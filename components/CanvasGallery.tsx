@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useCart } from '@/context/CartContext'
 import { getT } from '@/lib/i18n.client'
+import { formatPrice } from '@/lib/currency'
 
 type TFunc = (key: string) => string
 
@@ -28,18 +29,25 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
   const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 })
   const [cursorVisible, setCursorVisible] = useState(false)
   const t = useTranslations('canvas')
+  const [country, setCountry] = useState('IT')
+
+  useEffect(() => {
+    const c = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
+    setCountry(c)
+  }, [])
 
   const items = canvases.length > 0
-    ? canvases.map(({ node }: any) => ({
-        id: node.id,
-        title: node.title,
-        handle: node.handle,
-        price: node.priceRange?.minVariantPrice?.amount ?? '50.00',
-        image: node.images?.edges?.[0]?.node?.url ?? null,
-        variantId: node.variants?.edges?.[0]?.node?.id ?? null,
-        desc: node.description || 'Original artwork — Limited edition',
-      }))
-    : FALLBACK_CANVASES.map(c => ({ ...c, variantId: null }))
+  ? canvases.map(({ node }: any) => ({
+      id: node.id,
+      title: node.title,
+      handle: node.handle,
+      price: node.priceRange?.minVariantPrice?.amount ?? '50.00',
+      currencyCode: node.priceRange?.minVariantPrice?.currencyCode ?? 'EUR',
+      image: node.images?.edges?.[0]?.node?.url ?? null,
+      variantId: node.variants?.edges?.[0]?.node?.id ?? null,
+      desc: node.description || 'Original artwork — Limited edition',
+    }))
+  : FALLBACK_CANVASES.map(c => ({ ...c, variantId: null, currencyCode: 'EUR' }))
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => setCursorPos({ x: e.clientX, y: e.clientY })
@@ -204,7 +212,8 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
                 </h2>
                 <p className="gallery-desc">{item.desc}</p>
                 <div className="gallery-price">
-                  {t('from')} €{parseFloat(item.price).toFixed(0)}
+                  {t('from')} {formatPrice(item.price, item.currencyCode)}
+
                 </div>
                 <div className="gallery-actions">
                   {item.variantId && (
@@ -259,7 +268,7 @@ export default function CanvasGallery({ canvases }: { canvases: any[] }) {
                   <div className="masonry-overlay">
                     <div className="masonry-label">
                       <p>{item.title}</p>
-                      <span>{t('from')} €{parseFloat(item.price).toFixed(0)} →</span>
+                      <span>{t('from')} {formatPrice(item.price, item.currencyCode)} →</span>
                     </div>
                   </div>
                 </Link>

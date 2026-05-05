@@ -180,12 +180,16 @@ export const GET_COLLECTION_BY_HANDLE = `
 `
 
 export const CREATE_CART = `
-  mutation CartCreate($lines: [CartLineInput!]) {
-    cartCreate(input: { lines: $lines }) {
+  mutation CartCreate($lines: [CartLineInput!], $country: CountryCode) 
+    @inContext(country: $country) {
+    cartCreate(input: { 
+      lines: $lines,
+      buyerIdentity: { countryCode: $country }
+    }) {
       cart {
         id
         checkoutUrl
-        lines(first: 10) {
+        lines(first: 50) {
           edges {
             node {
               id
@@ -218,10 +222,7 @@ export const CREATE_CART = `
           }
         }
         cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
+          totalAmount { amount currencyCode }
         }
       }
     }
@@ -229,7 +230,8 @@ export const CREATE_CART = `
 `
 
 export const ADD_TO_CART = `
-  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
+  mutation CartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!, $country: CountryCode)
+  @inContext(country: $country) {
     cartLinesAdd(cartId: $cartId, lines: $lines) {
       cart {
         id
@@ -243,22 +245,12 @@ export const ADD_TO_CART = `
                 ... on ProductVariant {
                   id
                   title
-                  image {
-                    url
-                    altText
-                  }
-                  price {
-                    amount
-                    currencyCode
-                  }
+                  image { url altText }
+                  price { amount currencyCode }
                   product {
                     title
                     images(first: 1) {
-                      edges {
-                        node {
-                          url
-                        }
-                      }
+                      edges { node { url } }
                     }
                   }
                 }
@@ -267,10 +259,7 @@ export const ADD_TO_CART = `
           }
         }
         cost {
-          totalAmount {
-            amount
-            currencyCode
-          }
+          totalAmount { amount currencyCode }
         }
       }
     }

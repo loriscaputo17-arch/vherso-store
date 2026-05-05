@@ -5,7 +5,8 @@ import { shopifyFetch } from '@/lib/shopify'
 import { CREATE_CART, ADD_TO_CART } from '@/lib/queries'
 
 const REMOVE_FROM_CART = `
-  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {
+  mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!, $country: CountryCode)
+  @inContext(country: $country) {
     cartLinesRemove(cartId: $cartId, lineIds: $lineIds) {
       cart {
         id
@@ -16,29 +17,19 @@ const REMOVE_FROM_CART = `
               id
               quantity
               merchandise {
-  ... on ProductVariant {
-    id
-    title
-    image {
-      url
-      altText
-    }
-    price {
-      amount
-      currencyCode
-    }
-    product {
-      title
-      images(first: 1) {
-        edges {
-          node {
-            url
-          }
-        }
-      }
-    }
-  }
-}
+                ... on ProductVariant {
+                  id
+                  title
+                  image { url altText }
+                  price { amount currencyCode }
+                  product {
+                    title
+                    images(first: 1) {
+                      edges { node { url } }
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -91,37 +82,47 @@ export function CartProvider({ children }: { children: ReactNode }) {
   ) ?? 0
 
   const addToCart = async (variantId: string, quantity = 1) => {
-  const lines = [{ merchandiseId: variantId, quantity }]
-  let newCart: Cart
-  if (!cart) {
-    const data = await shopifyFetch(CREATE_CART, { lines })
-    newCart = data.cartCreate.cart
-  } else {
-    const data = await shopifyFetch(ADD_TO_CART, { cartId: cart.id, lines })
-    newCart = data.cartLinesAdd.cart
-  }
-  setCart(newCart)
-  setIsOpen(true)
+    const lines = [{ merchandiseId: variantId, quantity }]
+  
+    // leggi il paese dal cookie
+    const country = typeof document !== 'undefined'
+      ? document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
+      : 'IT'
 
-  // Facebook Pixel — AddToCart
-  if (typeof window !== 'undefined' && (window as any).fbq) {
-    const addedLine = newCart.lines.edges.find(
-      ({ node }) => node.merchandise.id === variantId
-    )
-    ;(window as any).fbq('track', 'AddToCart', {
-      content_ids: [variantId],
-      content_type: 'product',
-      value: parseFloat(addedLine?.node.merchandise.price.amount ?? '0'),
-      currency: addedLine?.node.merchandise.price.currencyCode ?? 'EUR',
-    })
+    let newCart: Cart
+    if (!cart) {
+      const data = await shopifyFetch(CREATE_CART, { lines, country })
+      newCart = data.cartCreate.cart
+    } else {
+      const data = await shopifyFetch(ADD_TO_CART, { cartId: cart.id, lines, country })
+      newCart = data.cartLinesAdd.cart
+    }
+    setCart(newCart)
+    setIsOpen(true)
+
+    // Facebook Pixel — AddToCart
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      const addedLine = newCart.lines.edges.find(
+        ({ node }) => node.merchandise.id === variantId
+      )
+      ;(window as any).fbq('track', 'AddToCart', {
+        content_ids: [variantId],
+        content_type: 'product',
+        value: parseFloat(addedLine?.node.merchandise.price.amount ?? '0'),
+        currency: addedLine?.node.merchandise.price.currencyCode ?? 'EUR',
+      })
+    }
   }
-}
 
   const removeFromCart = async (lineId: string) => {
     if (!cart) return
+    const country = typeof document !== 'undefined'
+      ? document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
+      : 'IT'
     const data = await shopifyFetch(REMOVE_FROM_CART, {
       cartId: cart.id,
       lineIds: [lineId],
+      country,
     })
     setCart(data.cartLinesRemove.cart)
   }

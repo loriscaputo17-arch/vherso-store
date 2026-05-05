@@ -67,6 +67,7 @@
   },
   "cart": {
     "yourBag": "IL TUO CARRELLO",
+    "remove": "Rimuovi",
     "empty": "IL CARRELLO È VUOTO",
     "addSomething": "Aggiungi qualcosa di bello.",
     "continueShopping": "Continua a fare shopping →",

@@ -67,6 +67,7 @@
   },
   "cart": {
     "yourBag": "YOUR BAG",
+    "remove": "Remove",
     "empty": "YOUR BAG IS EMPTY",
     "addSomething": "Add something good.",
     "continueShopping": "Continue Shopping →",

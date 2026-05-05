@@ -18,7 +18,7 @@ export async function shopifyFetch(
 ) {
   // prendi country da: 1) variables dirette, 2) headers server, 3) fallback
   const country = variables.country ?? reqHeaders?.get('x-country') ?? 'IT'
-  const language = COUNTRY_TO_LANGUAGE[country] ?? COUNTRY_TO_LANGUAGE['default']
+  const language = COUNTRY_TO_LANGUAGE[country] ?? 'EN'
 
   // rimuovi country dalle variables per non duplicarlo
   const { country: _c, ...restVariables } = variables

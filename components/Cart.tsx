@@ -18,22 +18,28 @@ export default function Cart() {
   }, [])
 
   const handleCheckout = () => {
-  if (typeof window !== 'undefined' && (window as any).fbq) {
-    (window as any).fbq('track', 'Purchase', {
-      value: parseFloat(cart?.cost.totalAmount.amount ?? '0'),
-      currency: cart?.cost.totalAmount.currencyCode ?? 'EUR',
-      content_ids: cart?.lines.edges.map(({ node }) => node.merchandise.id) ?? [],
-      content_type: 'product',
-      num_items: cartCount,
-    })
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Purchase', {
+        value: parseFloat(cart?.cost.totalAmount.amount ?? '0'),
+        currency: cart?.cost.totalAmount.currencyCode ?? 'EUR',
+        content_ids: cart?.lines.edges.map(({ node }) => node.merchandise.id) ?? [],
+        content_type: 'product',
+        num_items: cartCount,
+      })
+    }
+    
+    // sostituisci il dominio del checkout URL
+    const checkoutUrl = cart?.checkoutUrl?.replace(
+      'vhersoclo.com',
+      'y0m1fz-g0.myshopify.com'
+    ) ?? '#'
+    
+    window.location.href = checkoutUrl
   }
-  window.location.href = cart?.checkoutUrl ?? '#'
-}
 
   const total = cart?.cost.totalAmount
   const lines = cart?.lines.edges ?? []
   const currencySymbol = getCurrencySymbol(total?.currencyCode ?? 'EUR')
-  const threshold = 200
 
   return (
     <>
@@ -130,43 +136,6 @@ export default function Cart() {
           <button className="cart-close-btn" onClick={closeCart}>✕</button>
         </div>
 
-        {/* FREE SHIPPING BAR */}
-        {cartCount > 0 && (
-          <div style={{
-            padding: '0.8rem 2rem',
-            borderBottom: '1px solid rgba(0,0,0,0.05)',
-            background: 'rgba(0,0,0,0.02)',
-          }}>
-            {parseFloat(total?.amount ?? '0') >= threshold ? (
-              <p style={{
-                fontSize: '0.6rem', letterSpacing: '0.15em',
-                textTransform: 'uppercase', color: 'rgba(0,0,0,0.45)',
-                textAlign: 'center',
-              }}>
-                {t('freeShippingQualified')}
-              </p>
-            ) : (
-              <>
-                <p style={{
-                  fontSize: '0.6rem', letterSpacing: '0.12em',
-                  textTransform: 'uppercase', color: 'rgba(0,0,0,0.35)',
-                  marginBottom: '0.5rem',
-                }}>
-                  {currencySymbol}{(threshold - parseFloat(total?.amount ?? '0')).toFixed(0)} {t('freeShippingAway')}
-                </p>
-                <div style={{ height: '2px', background: 'rgba(0,0,0,0.08)', borderRadius: '2px' }}>
-                  <div style={{
-                    height: '100%',
-                    width: `${Math.min((parseFloat(total?.amount ?? '0') / threshold) * 100, 100)}%`,
-                    background: '#080808', borderRadius: '2px',
-                    transition: 'width 0.5s ease',
-                  }} />
-                </div>
-              </>
-            )}
-          </div>
-        )}
-
         {/* LINES */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '0 2rem' }}>
           {lines.length === 0 ? (
@@ -217,7 +186,7 @@ export default function Cart() {
                       onMouseEnter={e => (e.currentTarget.style.color = '#080808')}
                       onMouseLeave={e => (e.currentTarget.style.color = 'rgba(0,0,0,0.2)')}
                     >
-                      Elimina
+                     {t('remove')}
                     </button>
                     <div style={{
                       width: '75px', height: '95px', flexShrink: 0,

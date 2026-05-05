@@ -10,62 +10,51 @@ import { getLocale } from '@/lib/i18n.server'
 import Script from 'next/script'
 import CookieBanner from '@/components/CookieBanner'
 
-export const metadata: Metadata = {
-  title: {
-    default: 'VHERSO — Club Lifestyle',
-    template: '%s | VHERSO',
-  },
-  description: 'VHERSO is a contemporary club lifestyle brand. Discover limited drops, premium streetwear and art-driven collections — ski slopes, rooftops, late dinners.',
-  keywords: ['VHERSO', 'club lifestyle', 'streetwear', 'limited edition', 'fashion', 'Milan', 'ski collection', 'summer capsule'],
-  authors: [{ name: 'VHERSO', url: 'https://vhersoclo.com' }],
-  creator: 'VHERSO',
-  publisher: 'VHERSO',
-  metadataBase: new URL('https://vhersoclo.com'),
-  alternates: {
-    canonical: '/',
-  },
-  openGraph: {
-    type: 'website',
-    locale: 'it_IT',
-    url: 'https://vhersoclo.com',
-    siteName: 'VHERSO',
-    title: 'VHERSO — Club Lifestyle',
-    description: 'Contemporary club lifestyle brand. Limited drops, premium streetwear and art-driven collections.',
-    images: [
-      {
-        url: '/images/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'VHERSO — Club Lifestyle',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    title: 'VHERSO — Club Lifestyle',
-    description: 'Contemporary club lifestyle brand. Limited drops, premium streetwear and art-driven collections.',
-    images: ['/images/og-image.jpg'],
-    creator: '@vhersoo',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+const OG_LOCALES: Record<string, string> = {
+  it: 'it_IT', en: 'en_US', fr: 'fr_FR',
+  de: 'de_DE', es: 'es_ES', sv: 'sv_SE',
+  nl: 'nl_NL', pt: 'pt_PT', pl: 'pl_PL',
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale()
+  const ogLocale = OG_LOCALES[locale] ?? 'en_US'
+
+  return {
+    title: {
+      default: 'VHERSO — Club Lifestyle',
+      template: '%s | VHERSO',
     },
-  },
-  icons: {
-    icon: '/favicon.ico',
-    shortcut: '/favicon.ico',
-    apple: '/apple-touch-icon.png',
-  },
-  verification: {
-    google: 'JGL1PE8TZY',
-  },
+    description: 'VHERSO is a contemporary club lifestyle brand. Discover limited drops, premium streetwear and art-driven collections — ski slopes, rooftops, late dinners.',
+    keywords: ['VHERSO', 'club lifestyle', 'streetwear', 'limited edition', 'fashion', 'Milan', 'ski collection', 'summer capsule'],
+    authors: [{ name: 'VHERSO', url: 'https://vhersoclo.com' }],
+    creator: 'VHERSO',
+    publisher: 'VHERSO',
+    metadataBase: new URL('https://vhersoclo.com'),
+    alternates: { canonical: '/' },
+    openGraph: {
+      type: 'website',
+      locale: ogLocale,
+      url: 'https://vhersoclo.com',
+      siteName: 'VHERSO',
+      title: 'VHERSO — Club Lifestyle',
+      description: 'Contemporary club lifestyle brand. Limited drops, premium streetwear and art-driven collections.',
+      images: [{ url: '/images/og-image.jpg', width: 1200, height: 630, alt: 'VHERSO — Club Lifestyle' }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'VHERSO — Club Lifestyle',
+      description: 'Contemporary club lifestyle brand. Limited drops, premium streetwear and art-driven collections.',
+      images: ['/images/og-image.jpg'],
+      creator: '@vhersoo',
+    },
+    robots: {
+      index: true, follow: true,
+      googleBot: { index: true, follow: true, 'max-video-preview': -1, 'max-image-preview': 'large', 'max-snippet': -1 },
+    },
+    icons: { icon: '/favicon.ico', shortcut: '/favicon.ico', apple: '/apple-touch-icon.png' },
+    verification: { google: 'JGL1PE8TZY' },
+  }
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {

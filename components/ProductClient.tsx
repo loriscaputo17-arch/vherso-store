@@ -39,12 +39,20 @@ export default function ProductClient({ product }: { product: any }) {
 
   const allImages = product.images?.edges?.map((e: any) => e.node) ?? []
   const variants = product.variants?.edges?.map((e: any) => e.node) ?? []
+console.log('first variant options:', JSON.stringify(variants[0]?.selectedOptions))
 
   // Raggruppa varianti per colore
   const colorOptions = useMemo(() => {
     const colors: Record<string, any[]> = {}
+    const colorKeys = ['color', 'colour', 'colore', 'farbe', 'couleur', 'kleur', 'kolor', 'cor', 'färg']
+    
     variants.forEach((v: any) => {
-      const colorOpt = v.selectedOptions?.find((o: any) => o.name.toLowerCase() === 'color')
+      let colorOpt = v.selectedOptions?.find((o: any) => 
+        colorKeys.includes(o.name.toLowerCase())
+      )
+      if (!colorOpt && v.selectedOptions?.length > 1) {
+        colorOpt = v.selectedOptions[0]
+      }
       const color = colorOpt?.value ?? 'default'
       if (!colors[color]) colors[color] = []
       colors[color].push(v)
@@ -82,7 +90,14 @@ export default function ProductClient({ product }: { product: any }) {
   const price = parseFloat(selectedVariant?.price?.amount ?? '0').toFixed(2)
   const isAvailable = selectedVariant?.availableForSale ?? false
   const currencyCode = selectedVariant?.price?.currencyCode ?? 'EUR'
-  const currencySymbol = ({ EUR: '€', USD: '$', GBP: '£' } as Record<string, string>)[currencyCode] ?? '€'
+  const currencySymbol = ({
+    EUR: '€', USD: '$', GBP: '£',
+    SEK: 'kr', NOK: 'kr', DKK: 'kr',
+    PLN: 'zł', CHF: 'CHF', JPY: '¥',
+    CAD: 'CA$', AUD: 'A$', BRL: 'R$',
+    INR: '₹', HUF: 'Ft', CZK: 'Kč',
+    RON: 'lei', BGN: 'лв',
+  } as Record<string, string>)[currencyCode] ?? currencyCode
   const { isWished, toggle } = useWishlist(product.handle)
 
   const handleColorChange = (color: string) => {
@@ -281,7 +296,13 @@ function ProductInfo({ product, sizeVariants, selectedVariant, setSelectedVarian
           </div>
           <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap' }}>
             {sizeVariants.map((v: any) => {
-              const sizeLabel = v.selectedOptions?.find((o: any) => o.name.toLowerCase() === 'dimensione' || o.name.toLowerCase() === 'size')?.value ?? v.title
+                const sizeKeys = ['size', 'dimensione', 'taglia', 'größe', 'taille', 'maat', 'rozmiar', 'tamanho', 'storlek']
+                selectedVariant?.selectedOptions?.find((o: any) => 
+                  sizeKeys.includes(o.name.toLowerCase())
+                )?.value
+                const sizeLabel = v.selectedOptions?.find((o: any) => 
+                  sizeKeys.includes(o.name.toLowerCase())
+                )?.value ?? v.title
               return (
                 <button
                   key={v.id}

@@ -2,11 +2,16 @@ import { shopifyFetch } from '@/lib/shopify'
 import { GET_PRODUCTS, GET_COLLECTIONS,GET_COLLECTION_BY_HANDLE } from '@/lib/queries'
 import ProductCard from '@/components/ProductCard'
 import Link from 'next/link'
-import { headers } from 'next/headers'
+import { headers, cookies } from 'next/headers'
 import { getT } from '@/lib/i18n.server'
 
 export default async function HomePage() {
   const headersList = await headers()
+  const cookieStore = await cookies()
+  const country = cookieStore.get('x-country')?.value 
+    ?? headersList.get('x-country') 
+    ?? 'IT'
+
   let products: any[] = []
   let collections: any[] = []
 
@@ -15,8 +20,8 @@ export default async function HomePage() {
   const th = await getT('hero')
 
   try {
-    const productsData = await shopifyFetch(GET_COLLECTION_BY_HANDLE, { first: 8, handle: 'summer-collection' }, headersList)
-    const collectionsData = await shopifyFetch(GET_COLLECTIONS, { first: 6 }, headersList)
+    const productsData = await shopifyFetch(GET_COLLECTION_BY_HANDLE, { first: 8, handle: 'summer-collection', country })
+    const collectionsData = await shopifyFetch(GET_COLLECTIONS, { first: 6, country })
     products = productsData?.collection?.products?.edges ?? []
     collections = collectionsData?.collections?.edges ?? []
   } catch (e) {

@@ -2,7 +2,7 @@ import { shopifyFetch } from '@/lib/shopify'
 import { GET_COLLECTION_BY_HANDLE } from '@/lib/queries'
 import ProductCard from '@/components/ProductCard'
 import Link from 'next/link'
-import { headers } from 'next/headers'
+import { headers, cookies } from 'next/headers'
 
 export default async function CollectionPage({
   params,
@@ -11,10 +11,18 @@ export default async function CollectionPage({
 }) {
   const { handle } = await params
   const headersList = await headers()
+  const cookieStore = await cookies()
+  const country = cookieStore.get('x-country')?.value 
+    ?? headersList.get('x-country') 
+    ?? 'IT'
 
   let collection = null
   try {
-    const data = await shopifyFetch(GET_COLLECTION_BY_HANDLE, { handle, first: 48 }, headersList)
+    const data = await shopifyFetch(GET_COLLECTION_BY_HANDLE, { 
+      handle, 
+      first: 48,
+      country,
+    })
     collection = data?.collection
 
   } catch (e) {

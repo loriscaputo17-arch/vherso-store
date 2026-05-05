@@ -2,11 +2,14 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { getT } from '@/lib/i18n.client'
 
 export default function CookieBanner() {
   const [visible, setVisible] = useState(false)
+  const [t, setT] = useState<(k: string) => string>(() => (k: string) => k)
 
   useEffect(() => {
+    setT(() => getT('cookieBanner'))
     const consent = localStorage.getItem('cookie_consent')
     if (!consent) setVisible(true)
   }, [])
@@ -43,37 +46,31 @@ export default function CookieBanner() {
             fontSize: '0.72rem', color: 'rgba(255,255,255,0.6)',
             lineHeight: 1.7, margin: 0,
           }}>
-            Utilizziamo cookie tecnici e analitici per migliorare la tua esperienza.{' '}
+            {t('message')}{' '}
             <Link href="/cookies" style={{ color: 'rgba(255,255,255,0.4)', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
-              Cookie Policy
+              {t('policy')}
             </Link>
           </p>
         </div>
         <div style={{ display: 'flex', gap: '0.8rem', flexShrink: 0 }}>
-          <button
-            onClick={decline}
-            style={{
-              background: 'none', border: '1px solid rgba(255,255,255,0.15)',
-              color: 'rgba(255,255,255,0.4)', padding: '0.7rem 1.5rem',
-              fontSize: '0.62rem', letterSpacing: '0.15em',
-              textTransform: 'uppercase', cursor: 'pointer',
-              fontFamily: "'CenturyGothic',sans-serif", transition: 'all 0.2s',
-            }}
-          >
-            Rifiuta
+          <button onClick={decline} style={{
+            background: 'none', border: '1px solid rgba(255,255,255,0.15)',
+            color: 'rgba(255,255,255,0.4)', padding: '0.7rem 1.5rem',
+            fontSize: '0.62rem', letterSpacing: '0.15em',
+            textTransform: 'uppercase', cursor: 'pointer',
+            fontFamily: "'CenturyGothic',sans-serif", transition: 'all 0.2s',
+          }}>
+            {t('decline')}
           </button>
-          <button
-            onClick={accept}
-            style={{
-              background: '#f5f5f5', border: 'none',
-              color: '#080808', padding: '0.7rem 1.5rem',
-              fontSize: '0.62rem', letterSpacing: '0.15em',
-              textTransform: 'uppercase', cursor: 'pointer',
-              fontFamily: "'CenturyGothic',sans-serif",
-              fontWeight: 700, transition: 'all 0.2s',
-            }}
-          >
-            Accetta
+          <button onClick={accept} style={{
+            background: '#f5f5f5', border: 'none',
+            color: '#080808', padding: '0.7rem 1.5rem',
+            fontSize: '0.62rem', letterSpacing: '0.15em',
+            textTransform: 'uppercase', cursor: 'pointer',
+            fontFamily: "'CenturyGothic',sans-serif",
+            fontWeight: 700, transition: 'all 0.2s',
+          }}>
+            {t('accept')}
           </button>
         </div>
       </div>

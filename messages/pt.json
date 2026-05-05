@@ -16,5 +16,11 @@
   "errorSend": "Erro ao enviar. Tente novamente.",
   "errorNetwork": "Erro de rede. Tente novamente.",
   "notFound": "Produto não encontrado",
-  "info": "INFO", "legal": "LEGAL", "privacy": "Privacidade", "terms": "Termos", "cookies": "Cookies"
+  "info": "INFO", "legal": "LEGAL", "privacy": "Privacidade", "terms": "Termos", "cookies": "Cookies",
+  "cookieBanner": {
+  "message": "Usamos cookies técnicos e analíticos para melhorar sua experiência.",
+  "policy": "Política de cookies",
+  "accept": "ACEITAR",
+  "decline": "RECUSAR"
+}
 }

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
+import { getT } from '@/lib/i18n.client'
 
 type TFunc = (key: string) => string
 
@@ -12,13 +13,9 @@ export default function AddToCartButton({ variantId }: { variantId: string }) {
   const [t, setT] = useState<TFunc>(() => (k: string) => k)
 
   useEffect(() => {
-    const country = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
-    const locale = ['US', 'GB'].includes(country) ? 'en' : 'it'
-    import(`../messages/${locale}.json`).then(m => {
-      const ns = m.default?.product ?? {}
-      setT(() => (key: string) => ns[key] ?? key)
-    })
+    setT(() => getT('product'))
   }, [])
+
 
   const handleClick = async () => {
     if (!variantId) return

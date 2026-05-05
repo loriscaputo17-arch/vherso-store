@@ -195,6 +195,12 @@
   "tshirtsTitle": "T-Shirt & Top",
   "hoodiesTitle": "Felpe & Zip-Up",
   "pantsTitle": "Pantaloni & Bottoms"
+},
+"cookieBanner": {
+  "message": "Utilizziamo cookie tecnici e analitici per migliorare la tua esperienza.",
+  "policy": "Cookie Policy",
+  "accept": "ACCETTA",
+  "decline": "RIFIUTA"
 }
 
 }

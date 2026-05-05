@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { shopifyFetch } from '@/lib/shopify'
 import { SEARCH_PRODUCTS } from '@/lib/queries'
 import { getT } from '@/lib/i18n.client'
+import { getCurrencySymbol } from '@/lib/currency'
 
 type TFunc = (key: string) => string
 
@@ -118,7 +119,7 @@ export default function SearchOverlay({ isOpen, onClose }: { isOpen: boolean; on
             {results.map(p => {
               const img = p.images.edges[0]?.node.url
               const price = parseFloat(p.priceRange.minVariantPrice.amount).toFixed(0)
-              const currencySymbol = ({ EUR: '€', USD: '$', GBP: '£' } as Record<string, string>)[p.priceRange.minVariantPrice.currencyCode] ?? '€'
+              const currencySymbol = getCurrencySymbol(p.priceRange.minVariantPrice.currencyCode)
               return (
                 <Link key={p.id} href={`/products/${p.handle}`} onClick={onClose} style={{ textDecoration: 'none', color: 'inherit' }}>
                   {img && (

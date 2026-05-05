@@ -20,5 +20,11 @@
   "legal": "RECHTLICHES",
   "privacy": "Datenschutz",
   "terms": "AGB",
-  "cookies": "Cookies"
+  "cookies": "Cookies",
+  "cookieBanner": {
+  "message": "Wir verwenden technische und analytische Cookies, um Ihre Erfahrung zu verbessern.",
+  "policy": "Cookie-Richtlinie",
+  "accept": "AKZEPTIEREN",
+  "decline": "ABLEHNEN"
+}
 }

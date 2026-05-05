@@ -4,23 +4,11 @@ const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!
 const token = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_TOKEN!
 
 const COUNTRY_TO_LANGUAGE: Record<string, string> = {
-  IT: 'IT',
-  US: 'EN',
-  GB: 'EN',
-  FR: 'FR',
-  DE: 'DE',
-  ES: 'ES',
-  default: 'EN',
-}
-
-const COUNTRY_TO_CURRENCY: Record<string, string> = {
-  IT: 'EUR',
-  FR: 'EUR',
-  DE: 'EUR',
-  ES: 'EUR',
-  US: 'USD',
-  GB: 'GBP',
-  default: 'EUR',
+  IT: 'IT', US: 'EN', GB: 'EN', CA: 'EN', AU: 'EN', NZ: 'EN', IE: 'EN',
+  FR: 'FR', BE: 'FR',
+  DE: 'DE', AT: 'DE', CH: 'DE',
+  ES: 'ES', MX: 'ES', AR: 'ES', CO: 'ES',
+  NL: 'NL', SE: 'SV', PT: 'PT', BR: 'PT', PL: 'PL',
 }
 
 export async function shopifyFetch(

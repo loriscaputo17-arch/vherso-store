@@ -11,7 +11,6 @@ export function useWishlist(productHandle: string) {
 
   const toggle = () => {
     if (!productHandle) return
-    console.log('toggling handle:', productHandle) // debug
     const wishlist: string[] = JSON.parse(localStorage.getItem('vherso_wishlist') ?? '[]')
     const already = wishlist.includes(productHandle)
     const next = already ? wishlist.filter(h => h !== productHandle) : [...wishlist, productHandle]

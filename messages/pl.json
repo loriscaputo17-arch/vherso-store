@@ -16,5 +16,11 @@
   "errorSend": "Błąd wysyłania. Spróbuj ponownie.",
   "errorNetwork": "Błąd sieci. Spróbuj ponownie.",
   "notFound": "Produkt nie znaleziony",
-  "info": "INFO", "legal": "PRAWNE", "privacy": "Prywatność", "terms": "Warunki", "cookies": "Cookies"
+  "info": "INFO", "legal": "PRAWNE", "privacy": "Prywatność", "terms": "Warunki", "cookies": "Cookies",
+  "cookieBanner": {
+  "message": "Używamy technicznych i analitycznych plików cookie, aby poprawić Twoje wrażenia.",
+  "policy": "Polityka cookies",
+  "accept": "AKCEPTUJ",
+  "decline": "ODRZUĆ"
+}
 }

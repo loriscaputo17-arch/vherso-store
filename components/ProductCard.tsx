@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
 import { getT } from '@/lib/i18n.client'
+import { getCurrencySymbol } from '@/lib/currency'
 
 interface Product {
   id: string
@@ -42,13 +43,8 @@ export default function ProductCard({ product }: { product: Product }) {
   const firstVariant = product.variants.edges[0]?.node
   const price = parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0)
   const currencyCode = product.priceRange.minVariantPrice.currencyCode
-  const currencySymbol = ({
-    EUR: '€', USD: '$', GBP: '£',
-    SEK: 'kr', NOK: 'kr', DKK: 'kr',
-    PLN: 'zł', CHF: 'CHF', JPY: '¥',
-    CAD: 'CA$', AUD: 'A$', BRL: 'R$',
-  } as Record<string, string>)[currencyCode] ?? currencyCode
-
+  const currencySymbol = getCurrencySymbol(currencyCode)
+  
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault()
     if (!firstVariant) return

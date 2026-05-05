@@ -5,6 +5,7 @@ import Link from 'next/link'
 import AddToCartButton from '@/components/AddToCartButton'
 import { useWishlist } from '@/hooks/useWishlist'
 import { getT } from '@/lib/i18n.client'
+import { getCurrencySymbol } from '@/lib/currency'
 
 type TFunc = (key: string) => string
 
@@ -39,7 +40,6 @@ export default function ProductClient({ product }: { product: any }) {
 
   const allImages = product.images?.edges?.map((e: any) => e.node) ?? []
   const variants = product.variants?.edges?.map((e: any) => e.node) ?? []
-console.log('first variant options:', JSON.stringify(variants[0]?.selectedOptions))
 
   // Raggruppa varianti per colore
   const colorOptions = useMemo(() => {
@@ -90,14 +90,8 @@ console.log('first variant options:', JSON.stringify(variants[0]?.selectedOption
   const price = parseFloat(selectedVariant?.price?.amount ?? '0').toFixed(2)
   const isAvailable = selectedVariant?.availableForSale ?? false
   const currencyCode = selectedVariant?.price?.currencyCode ?? 'EUR'
-  const currencySymbol = ({
-    EUR: '€', USD: '$', GBP: '£',
-    SEK: 'kr', NOK: 'kr', DKK: 'kr',
-    PLN: 'zł', CHF: 'CHF', JPY: '¥',
-    CAD: 'CA$', AUD: 'A$', BRL: 'R$',
-    INR: '₹', HUF: 'Ft', CZK: 'Kč',
-    RON: 'lei', BGN: 'лв',
-  } as Record<string, string>)[currencyCode] ?? currencyCode
+  const currencySymbol = getCurrencySymbol(currencyCode)
+
   const { isWished, toggle } = useWishlist(product.handle)
 
   const handleColorChange = (color: string) => {

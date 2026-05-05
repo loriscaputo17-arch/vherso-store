@@ -16,5 +16,11 @@
   "errorSend": "Fel vid sändning. Försök igen.",
   "errorNetwork": "Nätverksfel. Försök igen.",
   "notFound": "Produkt ej hittad",
-  "info": "INFO", "legal": "JURIDISK", "privacy": "Integritet", "terms": "Villkor", "cookies": "Cookies"
+  "info": "INFO", "legal": "JURIDISK", "privacy": "Integritet", "terms": "Villkor", "cookies": "Cookies",
+  "cookieBanner": {
+  "message": "Vi använder tekniska och analytiska cookies för att förbättra din upplevelse.",
+  "policy": "Cookiepolicy",
+  "accept": "ACCEPTERA",
+  "decline": "AVVISA"
+}
 }

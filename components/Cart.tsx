@@ -3,6 +3,7 @@
 import { useCart } from '@/context/CartContext'
 import { useState, useEffect } from 'react'
 import { getT } from '@/lib/i18n.client'
+import { getCurrencySymbol } from '@/lib/currency'
 
 type TFunc = (key: string) => string
 
@@ -31,7 +32,7 @@ export default function Cart() {
 
   const total = cart?.cost.totalAmount
   const lines = cart?.lines.edges ?? []
-  const currencySymbol = { EUR: '€', USD: '$', GBP: '£' }[total?.currencyCode ?? 'EUR'] ?? '€'
+  const currencySymbol = getCurrencySymbol(total?.currencyCode ?? 'EUR')
   const threshold = 200
 
   return (
@@ -200,24 +201,24 @@ export default function Cart() {
           ) : (
             <div style={{ paddingTop: '1rem' }}>
               {lines.map(({ node }) => {
-                const lineSymbol = { EUR: '€', USD: '$', GBP: '£' }[node.merchandise.price.currencyCode] ?? '€'
+                const lineSymbol = getCurrencySymbol(node.merchandise.price.currencyCode)
                 return (
                   <div key={node.id} className="cart-line" style={{ position: 'relative' }}>
                     <button
-    onClick={() => removeFromCart(node.id)}
-    style={{
-      position: 'absolute', top: '1.5rem', right: 0,
-      background: 'none', border: 'none', cursor: 'pointer',
-      color: 'rgba(0,0,0,0.2)', fontSize: '0.7rem',
-      padding: '2px', lineHeight: 1,
-      transition: 'color 0.2s',
-      fontFamily: "'CenturyGothic', sans-serif",
-    }}
-    onMouseEnter={e => (e.currentTarget.style.color = '#080808')}
-    onMouseLeave={e => (e.currentTarget.style.color = 'rgba(0,0,0,0.2)')}
-  >
-    Elimina
-  </button>
+                      onClick={() => removeFromCart(node.id)}
+                      style={{
+                        position: 'absolute', top: '1.5rem', right: 0,
+                        background: 'none', border: 'none', cursor: 'pointer',
+                        color: 'rgba(0,0,0,0.2)', fontSize: '0.7rem',
+                        padding: '2px', lineHeight: 1,
+                        transition: 'color 0.2s',
+                        fontFamily: "'CenturyGothic', sans-serif",
+                      }}
+                      onMouseEnter={e => (e.currentTarget.style.color = '#080808')}
+                      onMouseLeave={e => (e.currentTarget.style.color = 'rgba(0,0,0,0.2)')}
+                    >
+                      Elimina
+                    </button>
                     <div style={{
                       width: '75px', height: '95px', flexShrink: 0,
                       background: '#e8e8e8', overflow: 'hidden',

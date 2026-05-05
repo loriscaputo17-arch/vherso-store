@@ -16,5 +16,11 @@
   "errorSend": "Verzendfout. Probeer opnieuw.",
   "errorNetwork": "Netwerkfout. Probeer opnieuw.",
   "notFound": "Product niet gevonden",
-  "info": "INFO", "legal": "JURIDISCH", "privacy": "Privacy", "terms": "Voorwaarden", "cookies": "Cookies"
+  "info": "INFO", "legal": "JURIDISCH", "privacy": "Privacy", "terms": "Voorwaarden", "cookies": "Cookies",
+  "cookieBanner": {
+  "message": "Wij gebruiken technische en analytische cookies om uw ervaring te verbeteren.",
+  "policy": "Cookiebeleid",
+  "accept": "ACCEPTEREN",
+  "decline": "WEIGEREN"
+}
 }

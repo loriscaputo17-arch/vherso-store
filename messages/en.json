@@ -195,5 +195,11 @@
   "tshirtsTitle": "T-Shirts & Tops",
   "hoodiesTitle": "Hoodies & Zip-Ups",
   "pantsTitle": "Pants & Bottoms"
+},
+"cookieBanner": {
+  "message": "We use technical and analytical cookies to improve your experience.",
+  "policy": "Cookie Policy",
+  "accept": "ACCEPT",
+  "decline": "DECLINE"
 }
 }

@@ -259,7 +259,7 @@ export default async function HomePage() {
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
               <p style={{
                 fontFamily: "'CenturyGothic', sans-serif",
-                fontSize: 'clamp(1.2rem, 4vw, 3rem)',
+                fontSize: 'clamp(1.0rem, 4vw, 3rem)',
                 fontWeight: 700, color: '#fff', lineHeight: 1,
               }}>
                 HATS
@@ -286,7 +286,7 @@ export default async function HomePage() {
             <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
               <p style={{
                 fontFamily: "'CenturyGothic', sans-serif",
-                fontSize: 'clamp(1.2rem, 4vw, 3rem)',
+                fontSize: 'clamp(1.0rem, 4vw, 3rem)',
                 fontWeight: 700, color: '#fff', lineHeight: 1,
               }}>
                 ACCESSORIES

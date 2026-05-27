@@ -6,9 +6,15 @@ import { getT } from '@/lib/i18n.client'
 
 type TFunc = (key: string) => string
 
-export default function AddToCartButton({ variantId }: { variantId: string }) {
+export default function AddToCartButton({ 
+  variantId, 
+  isPreorder = false 
+}: { 
+  variantId: string
+  isPreorder?: boolean 
+}) {
   const { addToCart } = useCart()
-  const [adding, setAdding] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [added, setAdded] = useState(false)
   const [t, setT] = useState<TFunc>(() => (k: string) => k)
 
@@ -16,32 +22,39 @@ export default function AddToCartButton({ variantId }: { variantId: string }) {
     setT(() => getT('product'))
   }, [])
 
-
   const handleClick = async () => {
     if (!variantId) return
-    setAdding(true)
+    setLoading(true)
     await addToCart(variantId)
-    setAdding(false)
+    setLoading(false)
     setAdded(true)
     setTimeout(() => setAdded(false), 2000)
   }
 
+  const bgColor = isPreorder ? '#5a4a8a' : '#080808'
+  const label = loading
+    ? t('adding')
+    : added
+    ? t('added')
+    : isPreorder
+    ? 'PRE-ORDER'
+    : t('addToBag')
+
   return (
     <button
       onClick={handleClick}
-      disabled={adding}
+      disabled={loading}
       style={{
-        width: '100%', padding: '1.2rem',
-        background: added ? '#1a1a1a' : '#080808',
-        color: '#f5f5f5',
-        border: 'none', cursor: 'pointer',
-        fontSize: '0.72rem', letterSpacing: '0.22em',
-        textTransform: 'uppercase', fontWeight: 500,
+        width: '100%', height: '52px',
+        background: bgColor,
+        color: '#f5f5f5', border: 'none',
+        fontSize: '0.65rem', letterSpacing: '0.2em',
+        textTransform: 'uppercase', cursor: loading ? 'wait' : 'pointer',
         fontFamily: "'CenturyGothic', sans-serif",
-        transition: 'background 0.2s',
+        fontWeight: 600, transition: 'background 0.2s',
       }}
     >
-      {adding ? t('adding') : added ? t('added') : t('addToBag')}
+      {label}
     </button>
   )
 }

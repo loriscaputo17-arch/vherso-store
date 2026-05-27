@@ -91,6 +91,7 @@ export default function ProductClient({ product }: { product: any }) {
   const isAvailable = selectedVariant?.availableForSale ?? false
   const currencyCode = selectedVariant?.price?.currencyCode ?? 'EUR'
   const currencySymbol = getCurrencySymbol(currencyCode)
+  const isPreorderProduct = product.tags?.includes('preorder') ?? false
 
   const { isWished, toggle } = useWishlist(product.handle)
 
@@ -170,6 +171,7 @@ export default function ProductClient({ product }: { product: any }) {
               price={price} currencySymbol={currencySymbol}
               isAvailable={isAvailable} t={t}
               isWished={isWished} toggle={toggle}
+              isPreorderProduct={isPreorderProduct}
             />
           </div>
         </div>
@@ -208,6 +210,7 @@ export default function ProductClient({ product }: { product: any }) {
               price={price} currencySymbol={currencySymbol}
               isAvailable={isAvailable} t={t}
               isWished={isWished} toggle={toggle}
+              isPreorderProduct={isPreorderProduct}
             />
           </div>
         </div>
@@ -217,7 +220,7 @@ export default function ProductClient({ product }: { product: any }) {
   )
 }
 
-function ProductInfo({ product, sizeVariants, selectedVariant, setSelectedVariant, colorNames, selectedColor, handleColorChange, price, currencySymbol, isAvailable, t, isWished, toggle }: any) {
+function ProductInfo({ product, sizeVariants, selectedVariant, setSelectedVariant, colorNames, selectedColor, handleColorChange, price, currencySymbol, isAvailable, t, isWished, toggle, isPreorderProduct }: any) {
   return (
     <>
       {/* BREADCRUMB */}
@@ -273,54 +276,72 @@ function ProductInfo({ product, sizeVariants, selectedVariant, setSelectedVarian
       )}
 
       {/* SIZE BUTTONS */}
-      {sizeVariants.length > 0 && (
-        <div style={{ marginBottom:'1.5rem' }}>
-          <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'0.8rem' }}>
-            <p style={{ fontSize:'0.58rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'rgba(0,0,0,0.4)' }}>
-              {t('size')}
-              {selectedVariant?.selectedOptions?.find((o: any) => o.name.toLowerCase() === 'dimensione' || o.name.toLowerCase() === 'size')?.value && (
-                <span style={{ color:'#080808', marginLeft:'0.5rem' }}>
-                  — {selectedVariant.selectedOptions.find((o: any) => o.name.toLowerCase() === 'dimensione' || o.name.toLowerCase() === 'size')?.value}
-                </span>
-              )}
-            </p>
-            <a href="/size-guide" target="_blank" rel="noopener noreferrer" style={{ fontSize:'0.55rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'rgba(0,0,0,0.25)', textDecoration:'underline', textUnderlineOffset:'3px' }}>
-              {t('sizeGuide')}
-            </a>
-          </div>
-          <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap' }}>
-            {sizeVariants.map((v: any) => {
-                const sizeKeys = ['size', 'dimensione', 'taglia', 'größe', 'taille', 'maat', 'rozmiar', 'tamanho', 'storlek']
-                selectedVariant?.selectedOptions?.find((o: any) => 
-                  sizeKeys.includes(o.name.toLowerCase())
-                )?.value
-                const sizeLabel = v.selectedOptions?.find((o: any) => 
-                  sizeKeys.includes(o.name.toLowerCase())
-                )?.value ?? v.title
-              return (
-                <button
-                  key={v.id}
-                  className={`size-btn ${selectedVariant?.id===v.id?'selected':''} ${!v.availableForSale?'unavail':''}`}
-                  onClick={() => v.availableForSale && setSelectedVariant(v)}
-                  disabled={!v.availableForSale}
-                >
-                  {sizeLabel}
-                </button>
-              )
-            })}
-          </div>
-        </div>
-      )}
+{sizeVariants.length > 0 && sizeVariants.some((v: any) => {
+  const sizeKeys = ['size', 'dimensione', 'taglia', 'größe', 'taille', 'maat', 'rozmiar', 'tamanho', 'storlek']
+  const sizeLabel = v.selectedOptions?.find((o: any) => sizeKeys.includes(o.name.toLowerCase()))?.value ?? v.title
+  return sizeLabel !== 'Default Title'
+}) && (
+  <div style={{ marginBottom:'1.5rem' }}>
+    <div style={{ display:'flex', justifyContent:'space-between', marginBottom:'0.8rem' }}>
+      <p style={{ fontSize:'0.58rem', letterSpacing:'0.2em', textTransform:'uppercase', color:'rgba(0,0,0,0.4)' }}>
+        {t('size')}
+        {selectedVariant?.selectedOptions?.find((o: any) => o.name.toLowerCase() === 'dimensione' || o.name.toLowerCase() === 'size')?.value && (
+          <span style={{ color:'#080808', marginLeft:'0.5rem' }}>
+            — {selectedVariant.selectedOptions.find((o: any) => o.name.toLowerCase() === 'dimensione' || o.name.toLowerCase() === 'size')?.value}
+          </span>
+        )}
+      </p>
+      <a href="/size-guide" target="_blank" rel="noopener noreferrer" style={{ fontSize:'0.55rem', letterSpacing:'0.15em', textTransform:'uppercase', color:'rgba(0,0,0,0.25)', textDecoration:'underline', textUnderlineOffset:'3px' }}>
+        {t('sizeGuide')}
+      </a>
+    </div>
+    <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap' }}>
+      {sizeVariants.map((v: any) => {
+        const sizeKeys = ['size', 'dimensione', 'taglia', 'größe', 'taille', 'maat', 'rozmiar', 'tamanho', 'storlek']
+        const sizeLabel = v.selectedOptions?.find((o: any) => 
+          sizeKeys.includes(o.name.toLowerCase())
+        )?.value ?? v.title
+
+        if (sizeLabel === 'Default Title') return null
+        
+        const isUnavailable = !v.availableForSale && !isPreorderProduct
+
+        return (
+          <button
+            key={v.id}
+            className={`size-btn ${selectedVariant?.id===v.id?'selected':''} ${isUnavailable?'unavail':''}`}
+            onClick={() => !isUnavailable && setSelectedVariant(v)}
+            disabled={isUnavailable}
+            style={!v.availableForSale && isPreorderProduct ? { 
+              borderColor: '#8b5cf6', 
+              color: '#8b5cf6' 
+            } : {}}
+          >
+            {sizeLabel}
+          </button>
+        )
+      })}
+    </div>
+  </div>
+)}
 
       <div style={{ display:'flex', alignItems:'center', gap:'0.5rem', marginBottom:'1.5rem' }}>
-        <div style={{ width:'6px', height:'6px', borderRadius:'50%', background:isAvailable?'#16a34a':'#dc2626', flexShrink:0 }} />
-        <span style={{ fontSize:'0.58rem', letterSpacing:'0.15em', textTransform:'uppercase', color:isAvailable?'rgba(22,163,74,0.8)':'rgba(220,38,38,0.8)' }}>
-          {isAvailable ? t('inStock') : t('outOfStock')}
+        <div style={{ 
+          width:'6px', height:'6px', borderRadius:'50%', 
+          background: isAvailable ? '#16a34a' : isPreorderProduct ? '#8b5cf6' : '#dc2626', 
+          flexShrink:0 
+        }} />
+        <span style={{ 
+          fontSize:'0.58rem', letterSpacing:'0.15em', textTransform:'uppercase', 
+          color: isAvailable ? 'rgba(22,163,74,0.8)' : isPreorderProduct ? 'rgba(139,92,246,0.8)' : 'rgba(220,38,38,0.8)'
+        }}>
+          {isAvailable ? t('inStock') : isPreorderProduct ? 'PRE-ORDER — Ships in 2-3 weeks' : t('outOfStock')}
         </span>
       </div>
 
       <div style={{ display:'grid', gridTemplateColumns:'1fr auto', gap:'0.5rem', marginBottom:'2rem' }}>
-        <AddToCartButton variantId={selectedVariant?.id} />
+        <AddToCartButton variantId={selectedVariant?.id} isPreorder={isPreorderProduct && !isAvailable} />
+
         <button onClick={toggle} style={{ width:'52px', height:'52px', background:'none', border:`1px solid ${isWished?'#080808':'rgba(0,0,0,0.12)'}`, color:isWished?'#080808':'rgba(0,0,0,0.35)', cursor:'pointer', fontSize:'1.1rem', display:'flex', alignItems:'center', justifyContent:'center', transition:'all 0.2s', flexShrink:0 }}>
           {isWished ? '♥' : '♡'}
         </button>

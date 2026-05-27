@@ -179,7 +179,7 @@ export default async function HomePage() {
 
       {/* COLLECTIONS */}
       {collections.length > 0 && (
-        <section style={{ padding: '4rem 0' }}>
+        <section style={{ paddingTop: '4rem' }}>
           <div style={{
             display: 'flex', justifyContent: 'space-between',
             alignItems: 'center', padding: '0 2rem', marginBottom: '2rem',
@@ -224,7 +224,7 @@ export default async function HomePage() {
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
                     <p style={{
                       fontFamily: "'CenturyGothic', sans-serif",
-                      fontSize: 'clamp(1.8rem, 4vw, 3rem)',
+                      fontSize: 'clamp(1.2rem, 4vw, 3rem)',
                       fontWeight: 700,
                       color: '#fff', lineHeight: 1, letterSpacing: '0.02em',
                     }}>
@@ -235,7 +235,7 @@ export default async function HomePage() {
                       textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
                       marginTop: '0.5rem', fontFamily: "'CenturyGothic', sans-serif",
                     }}>
-                      {node.products?.edges?.length ?? 0} {t('styles')} →
+                      {node.products?.edges?.length ?? 0} {t('styles')}
                     </p>
                   </div>
                 </Link>
@@ -243,6 +243,65 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* HATS & ACCESSORIES */}
+      <section style={{ padding: '0rem 0' }}>
+        <div style={{ display: 'flex', gap: '2px', padding: '0 2rem' }}>
+          <Link href="/collections/hats" style={{
+            flex: 1, position: 'relative', aspectRatio: '3/4',
+            background: '#e8e8e8', overflow: 'hidden', display: 'block',
+          }}>
+            <img src="/images/hats.png" alt="Hats" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)',
+            }} />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
+              <p style={{
+                fontFamily: "'CenturyGothic', sans-serif",
+                fontSize: 'clamp(1.2rem, 4vw, 3rem)',
+                fontWeight: 700, color: '#fff', lineHeight: 1,
+              }}>
+                HATS
+              </p>
+              <p style={{
+                fontSize: '0.62rem', letterSpacing: '0.18em',
+                textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
+                marginTop: '0.5rem', fontFamily: "'CenturyGothic', sans-serif",
+              }}>
+                {t('all')}
+              </p>
+            </div>
+          </Link>
+
+          <Link href="/collections/accessories" style={{
+            flex: 1, position: 'relative', aspectRatio: '3/4',
+            background: '#e8e8e8', overflow: 'hidden', display: 'block',
+          }}>
+            <img src="/images/accessories.png" alt="Accessories" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+            <div style={{
+              position: 'absolute', inset: 0,
+              background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 55%)',
+            }} />
+            <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '2rem' }}>
+              <p style={{
+                fontFamily: "'CenturyGothic', sans-serif",
+                fontSize: 'clamp(1.2rem, 4vw, 3rem)',
+                fontWeight: 700, color: '#fff', lineHeight: 1,
+              }}>
+                ACCESSORIES
+              </p>
+              <p style={{
+                fontSize: '0.62rem', letterSpacing: '0.18em',
+                textTransform: 'uppercase', color: 'rgba(255,255,255,0.5)',
+                marginTop: '0.5rem', fontFamily: "'CenturyGothic', sans-serif",
+              }}>
+                {t('all')}
+              </p>
+            </div>
+          </Link>
+        </div>
+      </section>
 
       {/* MARQUEE DIVIDER */}
       <div style={{

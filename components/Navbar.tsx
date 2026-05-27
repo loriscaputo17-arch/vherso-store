@@ -64,6 +64,8 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const t = useTranslations('nav')
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 80)
@@ -71,12 +73,10 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const [basicsOpen, setBasicsOpen] = useState(false)
-
   const links = [
     { label: 'Summer Capsule', href: '/collections/summer-collection' },
-    { label: 'Man Collection', href: '/collections/allproducts' },
-    { label: 'Women Collection', href: '/collections/women-collection-ss25' },
+    { label: 'Man Collection', href: '/collections/allproducts'},
+    { label: 'Women Collection', href: '/collections/women-collection-ss25'},
     { label: 'Basics Collection', href: '/collections/basics-collection', dropdown: [
       { label: 'All', href: '/collections/basics-collection' },
       { label: 'Hoodies', href: '/collections/hoodie' },
@@ -84,7 +84,10 @@ export default function Navbar() {
       { label: 'Zip-Up', href: '/collections/zip-up' },
       { label: 'Pants', href: '/collections/pants' },
     ]},
+    { label: 'Hats', href: '/collections/hats' },
+    { label: 'Accessories', href: '/collections/accessories' },
     { label: 'Canvas', href: '/canvas' },
+
     { label: 'Wishlist', href: '/wishlist' },
   ]
 
@@ -150,12 +153,12 @@ export default function Navbar() {
               <div
                 className="slink"
                 style={{ cursor: 'pointer' }}
-                onClick={() => setBasicsOpen(!basicsOpen)}
+                onClick={() => setOpenDropdown(openDropdown === label ? null : label)}
               >
                 <span style={{ fontFamily:"'CenturyGothic',sans-serif", fontSize:'1.3rem', fontWeight:700, color:'#080808' }}>
                   {label}
                 </span>
-                <span style={{ fontSize:'0.8rem', color:'rgba(0,0,0,0.15)', transition:'transform 0.3s', transform: basicsOpen ? 'rotate(90deg)' : 'none', display:'inline-block' }}>→</span>
+                <span style={{ fontSize:'0.8rem', color:'rgba(0,0,0,0.15)', transition:'transform 0.3s', transform: openDropdown === label ? 'rotate(90deg)' : 'none', display:'inline-block' }}>→</span>
               </div>
             ) : (
               <Link href={href} className="slink" onClick={() => setMenuOpen(false)}
@@ -167,7 +170,7 @@ export default function Navbar() {
             )}
 
             {dropdown && (
-              <div style={{ overflow:'hidden', maxHeight: basicsOpen ? '300px' : '0', transition:'max-height 0.35s cubic-bezier(0.25,0.46,0.45,0.94)' }}>
+              <div style={{ overflow:'hidden', maxHeight: openDropdown === label ? '300px' : '0', transition:'max-height 0.35s cubic-bezier(0.25,0.46,0.45,0.94)' }}>
                 {dropdown.map(({ label: dlabel, href: dhref }: any) => (
                   <Link key={dhref} href={dhref} onClick={() => setMenuOpen(false)} style={{
                     display:'block', padding:'0.5rem 0 0.5rem 1rem',
@@ -261,7 +264,7 @@ export default function Navbar() {
       <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', padding:'1.1rem 0', borderBottom:'1px solid rgba(0,0,0,0.05)', opacity: menuOpen ? 1 : 0, transform: menuOpen ? 'translateX(0)' : 'translateX(-20px)', transition: `opacity 0.4s ${i * 0.06}s, transform 0.4s ${i * 0.06}s cubic-bezier(0.25,0.46,0.45,0.94)` }}>
         {dropdown ? (
           <span
-            onClick={() => setBasicsOpen(!basicsOpen)}
+            onClick={() => setOpenDropdown(openDropdown === label ? null : label)}
             style={{ fontFamily:"'CenturyGothic',sans-serif", fontSize:'1.5rem', fontWeight:700, color:'#080808', cursor:'pointer', flex:1 }}
           >
             {label}
@@ -274,11 +277,11 @@ export default function Navbar() {
             {label}
           </Link>
         )}
-        <span style={{ fontSize:'0.9rem', color:'rgba(0,0,0,0.18)', fontWeight:300, transition:'transform 0.3s', transform: dropdown && basicsOpen ? 'rotate(90deg)' : 'none', display:'inline-block' }}>→</span>
+        <span style={{ fontSize:'0.9rem', color:'rgba(0,0,0,0.18)', fontWeight:300, transition:'transform 0.3s', transform: dropdown && openDropdown === label ? 'rotate(90deg)' : 'none', display:'inline-block' }}>→</span>
       </div>
 
       {dropdown && (
-        <div style={{ overflow:'hidden', maxHeight: basicsOpen ? '300px' : '0', transition:'max-height 0.35s cubic-bezier(0.25,0.46,0.45,0.94)' }}>
+        <div style={{ overflow:'hidden', maxHeight: openDropdown === label ? '300px' : '0', transition:'max-height 0.35s cubic-bezier(0.25,0.46,0.45,0.94)' }}>
           {dropdown.map(({ label: dlabel, href: dhref }: any) => (
             <Link key={dhref} href={dhref} onClick={() => setMenuOpen(false)} style={{
               display:'block', padding:'0.7rem 0 0.7rem 1rem',

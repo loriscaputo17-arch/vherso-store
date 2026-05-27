@@ -48,6 +48,7 @@ export const GET_PRODUCT_BY_HANDLE = `
       handle
       title
       description
+      tags
       priceRange {
         minVariantPrice {
           amount

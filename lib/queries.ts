@@ -7,6 +7,7 @@ query GetProducts($first: Int!, $country: CountryCode, $language: LanguageCode)
           id
           title
           handle
+          tags
           priceRange {
             minVariantPrice {
               amount
@@ -27,6 +28,7 @@ query GetProducts($first: Int!, $country: CountryCode, $language: LanguageCode)
                 id
                 title
                 availableForSale
+                quantityAvailable
                 price {
                   amount
                   currencyCode
@@ -69,6 +71,7 @@ export const GET_PRODUCT_BY_HANDLE = `
       id
       title
       availableForSale
+      quantityAvailable
       image {
         url
         altText
@@ -146,6 +149,7 @@ export const GET_COLLECTION_BY_HANDLE = `
             id
             title
             handle
+            tags
             priceRange {
               minVariantPrice {
                 amount
@@ -166,6 +170,7 @@ export const GET_COLLECTION_BY_HANDLE = `
                   id
                   title
                   availableForSale
+                  quantityAvailable
                   price {
                     amount
                     currencyCode

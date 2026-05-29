@@ -5,11 +5,13 @@ import { useState, useEffect } from 'react'
 import { useCart } from '@/context/CartContext'
 import { getT } from '@/lib/i18n.client'
 import { getCurrencySymbol } from '@/lib/currency'
+import { formatPrice } from '@/lib/currency'
 
 interface Product {
   id: string
   title: string
   handle: string
+  tags?: string[]
   priceRange: {
     minVariantPrice: { amount: string; currencyCode: string }
   }
@@ -20,6 +22,7 @@ interface Product {
         id: string
         title: string
         availableForSale: boolean
+        quantityAvailable?: number
         price: { amount: string; currencyCode: string }
       }
     }[]
@@ -41,10 +44,13 @@ export default function ProductCard({ product }: { product: Product }) {
   const image1 = product.images.edges[0]?.node.url
   const image2 = product.images.edges[1]?.node.url
   const firstVariant = product.variants.edges[0]?.node
-  const price = parseFloat(product.priceRange.minVariantPrice.amount).toFixed(0)
   const currencyCode = product.priceRange.minVariantPrice.currencyCode
-  const currencySymbol = getCurrencySymbol(currencyCode)
-  
+  const formattedPrice = formatPrice(product.priceRange.minVariantPrice.amount, currencyCode)
+
+  const isPreorder = product.tags?.includes('preorder') ?? false
+  const qty = firstVariant?.quantityAvailable ?? 0
+  const isOutOfStock = qty === 0
+
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault()
     if (!firstVariant) return
@@ -77,11 +83,26 @@ export default function ProductCard({ product }: { product: Product }) {
           />
         )}
 
+        {/* PRE-ORDER BADGE */}
+        {isPreorder && isOutOfStock && (
+          <div style={{
+            position: 'absolute', top: '0.8rem', left: '0.8rem',
+            background: '#000', color: '#fff',
+            padding: '0.3rem 0.7rem',
+            fontSize: '0.52rem', letterSpacing: '0.18em',
+            textTransform: 'uppercase',
+            fontFamily: "'CenturyGothic', sans-serif",
+          }}>
+            PRE-ORDER
+          </div>
+        )}
+
         <button
           onClick={handleAddToCart}
           style={{
             position: 'absolute', bottom: 0, left: 0, right: 0,
-            background: '#080808', color: '#f5f5f5',
+            background: isPreorder && isOutOfStock ? '#000' : '#080808',
+            color: '#f5f5f5',
             border: 'none', padding: '0.9rem', cursor: 'pointer',
             fontSize: '0.62rem', letterSpacing: '0.18em',
             textTransform: 'uppercase',
@@ -91,7 +112,7 @@ export default function ProductCard({ product }: { product: Product }) {
             transition: 'opacity 0.25s, transform 0.25s',
           }}
         >
-          {adding ? t('adding') : t('addToBag')}
+          {adding ? t('adding') : isPreorder && isOutOfStock ? 'PRE-ORDER' : t('addToBag')}
         </button>
       </div>
 
@@ -111,7 +132,7 @@ export default function ProductCard({ product }: { product: Product }) {
           color: 'rgba(0,0,0,0.4)', fontSize: '0.72rem',
           letterSpacing: '0.04em', fontFamily: "'CenturyGothic', sans-serif",
         }}>
-          {currencySymbol}{price}
+          {formattedPrice}
         </p>
       </div>
     </Link>

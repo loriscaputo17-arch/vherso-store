@@ -31,7 +31,7 @@ export default function AddToCartButton({
     setTimeout(() => setAdded(false), 2000)
   }
 
-  const bgColor = isPreorder ? '#5a4a8a' : '#080808'
+  const bgColor = isPreorder ? '#000' : '#080808'
   const label = loading
     ? t('adding')
     : added

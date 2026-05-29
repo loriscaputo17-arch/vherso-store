@@ -88,7 +88,7 @@ export default function ProductClient({ product }: { product: any }) {
   const sizeVariants = colorOptions[selectedColor] ?? []
 
   const price = parseFloat(selectedVariant?.price?.amount ?? '0').toFixed(2)
-  const isAvailable = selectedVariant?.availableForSale ?? false
+  const isAvailable = (selectedVariant?.quantityAvailable ?? 0) > 0
   const currencyCode = selectedVariant?.price?.currencyCode ?? 'EUR'
   const currencySymbol = getCurrencySymbol(currencyCode)
   const isPreorderProduct = product.tags?.includes('preorder') ?? false
@@ -98,7 +98,7 @@ export default function ProductClient({ product }: { product: any }) {
   const handleColorChange = (color: string) => {
     setSelectedColor(color)
     // Seleziona automaticamente la prima taglia disponibile del nuovo colore
-    const firstAvailable = colorOptions[color]?.find((v: any) => v.availableForSale)
+    const firstAvailable = colorOptions[color]?.find((v: any) => (v.quantityAvailable ?? 0) > 0)
     if (firstAvailable) setSelectedVariant(firstAvailable)
   }
 

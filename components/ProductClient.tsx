@@ -97,9 +97,12 @@ export default function ProductClient({ product }: { product: any }) {
 
   const handleColorChange = (color: string) => {
     setSelectedColor(color)
-    // Seleziona automaticamente la prima taglia disponibile del nuovo colore
+    setActiveImage(0)
+    // prendi sempre la prima variante del colore, disponibile o no
+    const firstAny = colorOptions[color]?.[0]
     const firstAvailable = colorOptions[color]?.find((v: any) => (v.quantityAvailable ?? 0) > 0)
-    if (firstAvailable) setSelectedVariant(firstAvailable)
+    // se preorder product, prendi prima qualsiasi; altrimenti prendi disponibile
+    setSelectedVariant(isPreorderProduct ? (firstAny ?? firstAvailable) : (firstAvailable ?? firstAny))
   }
 
   useEffect(() => {
@@ -113,6 +116,10 @@ export default function ProductClient({ product }: { product: any }) {
       })
     }
   }, [product.id])
+
+  console.log('quantityAvailable:', selectedVariant?.quantityAvailable)
+console.log('isAvailable:', isAvailable)
+console.log('isPreorderProduct:', isPreorderProduct)
 
   return (
     <>

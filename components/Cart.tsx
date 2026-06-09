@@ -27,14 +27,26 @@ export default function Cart() {
         num_items: cartCount,
       })
     }
-    
-    // sostituisci il dominio del checkout URL
-    const checkoutUrl = cart?.checkoutUrl?.replace(
-      'vhersoclo.com',
-      'y0m1fz-g0.myshopify.com'
-    ) ?? '#'
-    
-    window.location.href = checkoutUrl
+
+    if (cart?.checkoutUrl) {
+      // leggi il paese dal cookie e mappa alla lingua
+      const country = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
+      
+      const COUNTRY_TO_LOCALE: Record<string, string> = {
+        IT: 'it', FR: 'fr', DE: 'de', ES: 'es',
+        US: 'en', GB: 'en', CA: 'en', AU: 'en',
+        NL: 'nl', SE: 'sv', PT: 'pt', BR: 'pt', PL: 'pl',
+        AT: 'de', CH: 'de', BE: 'fr', MX: 'es',
+      }
+      
+      const locale = COUNTRY_TO_LOCALE[country] ?? 'en'
+      
+      // aggiungi il parametro locale all'URL del checkout
+      const checkoutUrl = new URL(cart.checkoutUrl)
+      checkoutUrl.searchParams.set('locale', locale)
+      
+      window.location.href = checkoutUrl.toString()
+    }
   }
 
   const total = cart?.cost.totalAmount

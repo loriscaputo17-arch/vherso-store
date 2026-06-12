@@ -92,6 +92,7 @@ export default function ProductClient({ product }: { product: any }) {
   const currencyCode = selectedVariant?.price?.currencyCode ?? 'EUR'
   const currencySymbol = getCurrencySymbol(currencyCode)
   const isPreorderProduct = product.tags?.includes('preorder') ?? false
+  const isWorldCup = product.tags?.includes('worldcup') ?? false
 
   const { isWished, toggle } = useWishlist(product.handle)
 
@@ -116,10 +117,6 @@ export default function ProductClient({ product }: { product: any }) {
       })
     }
   }, [product.id])
-
-  console.log('quantityAvailable:', selectedVariant?.quantityAvailable)
-console.log('isAvailable:', isAvailable)
-console.log('isPreorderProduct:', isPreorderProduct)
 
   return (
     <>
@@ -163,6 +160,18 @@ console.log('isPreorderProduct:', isPreorderProduct)
                 {i === 0 && filteredImages.length > 1 && (
                   <div style={{ position:'absolute', bottom:'1rem', right:'1rem', background:'rgba(255,255,255,0.8)', backdropFilter:'blur(4px)', padding:'0.3rem 0.7rem', fontSize:'0.55rem', letterSpacing:'0.15em', color:'rgba(0,0,0,0.5)', textTransform:'uppercase' }}>
                     {filteredImages.length} {t('photos')}
+                  </div>
+                )}
+                {i === 0 && isWorldCup && (
+                  <div style={{
+                    position: 'absolute', top: '1rem', left: '1rem', zIndex: 2,
+                    background: '#cc0000', color: '#fff',
+                    padding: '0.4rem 0.9rem',
+                    fontSize: '0.55rem', letterSpacing: '0.18em',
+                    textTransform: 'uppercase',
+                    fontFamily: "'CenturyGothic', sans-serif",
+                  }}>
+                    WORLD CUP LIMITED
                   </div>
                 )}
               </div>

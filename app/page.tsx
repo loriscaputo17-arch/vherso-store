@@ -165,6 +165,8 @@ export default async function HomePage() {
           {Array(4).fill([
             tn('shipping'), '★',
             tn('newDrop'), '★',
+            'WORLD CUP LIMITED EDITION', '★',
+
           ]).flat().map((text, i) => (
             <span key={i} style={{
               fontSize: '0.58rem', letterSpacing: '0.2em',

@@ -74,7 +74,10 @@ export default function Navbar() {
   }, [])
 
   const links = [
-    { label: 'Summer Capsule', href: '/collections/summer-collection' },
+    { label: 'Limited Capsule', href: '/collections/summer-collection', dropdown: [
+      { label: 'Summer Capsule', href: '/collections/summer-collection' },
+      { label: 'World Cup Edition', href: '/collections/world-cup-edition' },
+    ]},
     { label: 'Man Collection', href: '/collections/allproducts'},
     { label: 'Women Collection', href: '/collections/women-collection-ss25'},
     { label: 'Basics Collection', href: '/collections/basics-collection', dropdown: [

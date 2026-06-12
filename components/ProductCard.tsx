@@ -48,6 +48,8 @@ export default function ProductCard({ product }: { product: Product }) {
   const formattedPrice = formatPrice(product.priceRange.minVariantPrice.amount, currencyCode)
 
   const isPreorder = product.tags?.includes('preorder') ?? false
+  const isWorldCup = product.tags?.includes('worldcup') ?? false
+
   const qty = firstVariant?.quantityAvailable ?? 0
   const isOutOfStock = qty === 0
 
@@ -96,6 +98,19 @@ export default function ProductCard({ product }: { product: Product }) {
             PRE-ORDER
           </div>
         )}
+
+      {isWorldCup && (
+        <div style={{
+          position: 'absolute', top: '0.8rem', left: '0.8rem',
+          background: '#cc0000', color: '#fff',
+          padding: '0.3rem 0.7rem',
+          fontSize: '0.52rem', letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+          fontFamily: "'CenturyGothic', sans-serif",
+        }}>
+          WORLD CUP LIMITED
+        </div>
+      )}
 
         <button
           onClick={handleAddToCart}

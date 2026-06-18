@@ -51,7 +51,7 @@ export default function ProductCard({ product }: { product: Product }) {
   const isWorldCup = product.tags?.includes('worldcup') ?? false
 
   const qty = firstVariant?.quantityAvailable ?? 0
-  const isOutOfStock = qty === 0
+  const isOutOfStock = qty <= 0
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault()

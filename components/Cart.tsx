@@ -19,7 +19,7 @@ export default function Cart() {
 
   const handleCheckout = () => {
     if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Purchase', {
+      (window as any).fbq('track', 'InitiateCheckout', {
         value: parseFloat(cart?.cost.totalAmount.amount ?? '0'),
         currency: cart?.cost.totalAmount.currencyCode ?? 'EUR',
         content_ids: cart?.lines.edges.map(({ node }) => node.merchandise.id) ?? [],

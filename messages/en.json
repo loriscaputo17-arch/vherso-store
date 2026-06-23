@@ -12,7 +12,7 @@
     "tagline": "Wear the life\nyou want to live."
   },
   "ticker": {
-    "shipping": "FREE SHIPPING",
+    "shipping": "FREE SHIPPING 55£+",
     "newDrop": "NEW DROP — SUMMER COLLECTION",
     "skiGone": "SKI COLLECTION ALMOST GONE",
     "returns": "FREE RETURNS 14 DAYS"
@@ -58,7 +58,7 @@
     "description": "Description",
     "materials": "Materials & Care",
     "shipping": "Shipping & Returns",
-    "freeShipping": "Free shipping for a limited time",
+    "freeShipping": "Free shipping on orders 55$+",
     "freeReturns": "Free returns within 14 days",
     "secureCheckout": "Secure checkout via Shopify",
     "shipsWithin": "Ships within 24–48 hours",
@@ -75,9 +75,14 @@
     "taxShipping": "Taxes and shipping calculated at checkout",
     "checkout": "Checkout →",
     "secure": "Secure checkout via Shopify",
-    "freeShippingAway": "away from free shipping",
     "freeShippingQualified": "✓ You qualify for free shipping",
-    "qty": "QTY"
+    "qty": "QTY",
+    "recommendTitle": "Complete the look",
+    "add": "Add",
+    "adding": "Adding...",
+    "select": "Select",
+    "freeShippingBefore": "Only",
+    "freeShippingAfter": "away from free shipping"
   },
   "footer": {
     "tagline": "Club lifestyle brand. Built for those who move with intention — ski slopes, rooftops, late dinners.",
@@ -155,52 +160,52 @@
   "errorSend": "Send error. Please try again.",
   "errorNetwork": "Network error. Please try again.",
   "notFound": "Product not found",
-  "info": "INFO", 
+  "info": "INFO",
   "legal": "LEGAL",
   "privacy": "Privacy",
   "terms": "Terms",
   "cookies": "Cookies",
   "newsletter": {
-  "leftTitle": "JOIN\nTHE\nCLUB",
-  "leftSub": "Est. 2024 — Italy",
-  "tag": "VHERSO Newsletter",
-  "title": "NEWSLETTER\nVHERSO",
-  "description": "Drop alerts, exclusive offers and early access to new collections.",
-  "emailPlaceholder": "Your email",
-  "subscribe": "SUBSCRIBE",
-  "noSpam": "No spam. Unsubscribe anytime.",
-  "noThanks": "No thanks",
-  "successTitle": "YOU'RE IN",
-  "successText": "Welcome to the club.\nCheck your inbox."
-},
-"search": {
-  "placeholder": "Search products...",
-  "close": "CLOSE",
-  "searching": "Searching...",
-  "noResults": "No results for"
-},
-"sizeGuide": {
-  "tag": "VHERSO — Fitting Guide",
-  "title": "SIZE",
-  "titleSub": "GUIDE",
-  "measureTitle": "How to measure",
-  "chest": "Chest",
-  "chestDesc": "Measure horizontally under the armpits, around the widest part of your chest.",
-  "waist": "Waist",
-  "waistDesc": "Measure the narrowest part of your torso, usually above the navel.",
-  "hips": "Hips",
-  "hipsDesc": "Measure horizontally around the widest part of your hips.",
-  "note": "Note: Measurements are indicative. If you are between two sizes, we recommend choosing the larger size for a more comfortable fit, or the smaller one for a more fitted look. VHERSO garments are designed with an oversize fit — consider going down one size if you prefer a slimmer look.",
-  "shopNow": "Shop Now →",
-  "contact": "Need help? Contact us",
-  "tshirtsTitle": "T-Shirts & Tops",
-  "hoodiesTitle": "Hoodies & Zip-Ups",
-  "pantsTitle": "Pants & Bottoms"
-},
-"cookieBanner": {
-  "message": "We use technical and analytical cookies to improve your experience.",
-  "policy": "Cookie Policy",
-  "accept": "ACCEPT",
-  "decline": "DECLINE"
-}
+    "leftTitle": "JOIN\nTHE\nCLUB",
+    "leftSub": "Est. 2024 — Italy",
+    "tag": "VHERSO Newsletter",
+    "title": "NEWSLETTER\nVHERSO",
+    "description": "Drop alerts, exclusive offers and early access to new collections.",
+    "emailPlaceholder": "Your email",
+    "subscribe": "SUBSCRIBE",
+    "noSpam": "No spam. Unsubscribe anytime.",
+    "noThanks": "No thanks",
+    "successTitle": "YOU'RE IN",
+    "successText": "Welcome to the club.\nCheck your inbox."
+  },
+  "search": {
+    "placeholder": "Search products...",
+    "close": "CLOSE",
+    "searching": "Searching...",
+    "noResults": "No results for"
+  },
+  "sizeGuide": {
+    "tag": "VHERSO — Fitting Guide",
+    "title": "SIZE",
+    "titleSub": "GUIDE",
+    "measureTitle": "How to measure",
+    "chest": "Chest",
+    "chestDesc": "Measure horizontally under the armpits, around the widest part of your chest.",
+    "waist": "Waist",
+    "waistDesc": "Measure the narrowest part of your torso, usually above the navel.",
+    "hips": "Hips",
+    "hipsDesc": "Measure horizontally around the widest part of your hips.",
+    "note": "Note: Measurements are indicative. If you are between two sizes, we recommend choosing the larger size for a more comfortable fit, or the smaller one for a more fitted look. VHERSO garments are designed with an oversize fit — consider going down one size if you prefer a slimmer look.",
+    "shopNow": "Shop Now →",
+    "contact": "Need help? Contact us",
+    "tshirtsTitle": "T-Shirts & Tops",
+    "hoodiesTitle": "Hoodies & Zip-Ups",
+    "pantsTitle": "Pants & Bottoms"
+  },
+  "cookieBanner": {
+    "message": "We use technical and analytical cookies to improve your experience.",
+    "policy": "Cookie Policy",
+    "accept": "ACCEPT",
+    "decline": "DECLINE"
+  }
 }

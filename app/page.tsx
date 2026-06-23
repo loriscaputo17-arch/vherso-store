@@ -166,6 +166,8 @@ export default async function HomePage() {
             tn('shipping'), '★',
             tn('newDrop'), '★',
             'WORLD CUP LIMITED EDITION', '★',
+            'WORLD CUP LIMITED EDITION', '★',
+            
 
           ]).flat().map((text, i) => (
             <span key={i} style={{

@@ -4,6 +4,7 @@ import { useCart } from '@/context/CartContext'
 import { useState, useEffect } from 'react'
 import { getT } from '@/lib/i18n.client'
 import { getCurrencySymbol } from '@/lib/currency'
+import CartRecommendations from './CartRecommendations'
 
 type TFunc = (key: string) => string
 
@@ -72,6 +73,13 @@ export default function Cart() {
   const total = cart?.cost.totalAmount
   const lines = cart?.lines.edges ?? []
   const currencySymbol = getCurrencySymbol(total?.currencyCode ?? 'EUR')
+
+  // Free shipping progress — threshold in the cart's currency
+  const FREE_SHIPPING_THRESHOLD = 55
+  const totalAmount = parseFloat(total?.amount ?? '0')
+  const remaining = Math.max(0, FREE_SHIPPING_THRESHOLD - totalAmount)
+  const shippingProgress = Math.min(100, (totalAmount / FREE_SHIPPING_THRESHOLD) * 100)
+  const qualifiesFreeShipping = remaining <= 0
 
   return (
     <>
@@ -167,6 +175,43 @@ export default function Cart() {
           </div>
           <button className="cart-close-btn" onClick={closeCart}>✕</button>
         </div>
+
+        {/* FREE SHIPPING PROGRESS */}
+        {lines.length > 0 && (
+          <div style={{
+            padding: '0.9rem 2rem 1rem',
+            borderBottom: '1px solid rgba(0,0,0,0.06)',
+            background: '#efefef',
+          }}>
+            <p style={{
+              fontSize: '0.62rem', letterSpacing: '0.1em',
+              color: qualifiesFreeShipping ? '#1c7a3f' : 'rgba(0,0,0,0.55)',
+              textAlign: 'center', marginBottom: '0.55rem',
+            }}>
+              {qualifiesFreeShipping ? (
+                t('freeShippingQualified')
+              ) : (
+                <>
+                  {t('freeShippingBefore') && <>{t('freeShippingBefore')} </>}
+                  <span style={{ color: '#080808', fontWeight: 600 }}>
+                    {currencySymbol}{remaining.toFixed(2)}
+                  </span>{' '}
+                  {t('freeShippingAfter')}
+                </>
+              )}
+            </p>
+            <div style={{
+              height: '3px', background: 'rgba(0,0,0,0.1)',
+              borderRadius: '2px', overflow: 'hidden',
+            }}>
+              <div style={{
+                height: '100%', width: `${shippingProgress}%`,
+                background: qualifiesFreeShipping ? '#1c7a3f' : '#080808',
+                transition: 'width 0.4s ease',
+              }} />
+            </div>
+          </div>
+        )}
 
         {/* LINES */}
         <div style={{ flex: 1, overflowY: 'auto', padding: '0 2rem' }}>
@@ -273,6 +318,8 @@ export default function Cart() {
                   </div>
                 )
               })}
+
+              <CartRecommendations t={t} />
             </div>
           )}
         </div>

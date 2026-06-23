@@ -29,7 +29,6 @@ export default function Cart() {
     }
 
     if (cart?.checkoutUrl) {
-      // leggi il paese dal cookie e mappa alla lingua
       const country = document.cookie.split('; ').find(r => r.startsWith('x-country='))?.split('=')[1] ?? 'IT'
       
       const COUNTRY_TO_LOCALE: Record<string, string> = {
@@ -41,9 +40,30 @@ export default function Cart() {
       
       const locale = COUNTRY_TO_LOCALE[country] ?? 'en'
       
-      // aggiungi il parametro locale all'URL del checkout
+      // leggi fbp e fbc dai cookie
+      const getCookie = (name: string) => 
+        document.cookie.split('; ').find(r => r.startsWith(`${name}=`))?.split('=')[1] ?? ''
+      
+      const fbp = getCookie('_fbp')
+      const fbc = getCookie('_fbc')
+      
+      // leggi URL params (UTM e fbclid)
+      const urlParams = new URLSearchParams(window.location.search)
+      const fbclid = urlParams.get('fbclid')
+      const utm_source = urlParams.get('utm_source')
+      const utm_medium = urlParams.get('utm_medium')
+      const utm_campaign = urlParams.get('utm_campaign')
+      
       const checkoutUrl = new URL(cart.checkoutUrl)
       checkoutUrl.searchParams.set('locale', locale)
+      
+      // passa fbp/fbc/utm a Shopify per Conversion API
+      if (fbp) checkoutUrl.searchParams.set('fbp', fbp)
+      if (fbc) checkoutUrl.searchParams.set('fbc', fbc)
+      if (fbclid) checkoutUrl.searchParams.set('fbclid', fbclid)
+      if (utm_source) checkoutUrl.searchParams.set('utm_source', utm_source)
+      if (utm_medium) checkoutUrl.searchParams.set('utm_medium', utm_medium)
+      if (utm_campaign) checkoutUrl.searchParams.set('utm_campaign', utm_campaign)
       
       window.location.href = checkoutUrl.toString()
     }

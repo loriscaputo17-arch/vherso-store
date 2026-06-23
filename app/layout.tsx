@@ -9,7 +9,6 @@ import PageLoader from '@/components/PageLoader'
 import { getLocale } from '@/lib/i18n.server'
 import Script from 'next/script'
 import CookieBanner from '@/components/CookieBanner'
-//import TrackingScripts from '@/components/TrackingScripts'
 
 const OG_LOCALES: Record<string, string> = {
   it: 'it_IT', en: 'en_US', fr: 'fr_FR',
@@ -112,7 +111,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         fontWeight: 300,
       }}>
         <CartProvider>
-          {/*<TrackingScripts />*/}
           <PageLoader />
           <Navbar />
           <Cart />
